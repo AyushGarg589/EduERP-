@@ -1,0 +1,923 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}
+    Update Faculty | EduERP
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/admin/faculty/update_faculty.css' %}"
+>
+
+<link
+    href="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/css/tom-select.css"
+    rel="stylesheet"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="faculty-add-page">
+
+    <!-- Page Header -->
+    <div class="faculty-add-header">
+
+        <div>
+            <h1>Update Faculty</h1>
+
+            <p>
+                Update information of {{ faculty.full_name }}.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'faculty_detail' faculty.faculty_id %}"
+            class="faculty-back-btn"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Faculty
+        </a>
+
+    </div>
+
+
+    <!-- Faculty Update Form -->
+    <form
+        method="post"
+        enctype="multipart/form-data"
+        class="faculty-form"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- ================================= -->
+        <!-- Personal Information -->
+        <!-- ================================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+                    <h2>Personal Information</h2>
+
+                    <p>
+                        Update basic faculty information.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Employee ID -->
+                <div class="faculty-form-group">
+
+                    <label for="emp_id">
+                        Employee ID
+                    </label>
+
+                    <input
+                        type="text"
+                        name="emp_id"
+                        id="emp_id"
+                        value="{{ faculty.emp_id }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Full Name -->
+                <div class="faculty-form-group">
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="full_name"
+                        id="full_name"
+                        value="{{ faculty.full_name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Campus -->
+                <div class="faculty-form-group">
+
+                    <label for="campus">
+                        Campus
+                    </label>
+
+                    <select
+                        name="campus"
+                        id="campus"
+                        required
+                    >
+                        <option value="">
+                            Select Campus
+                        </option>
+
+                        {% for campus in campuses %}
+                            <option
+                                value="{{ campus.campus_id }}"
+                                {% if faculty.campus_id == campus.campus_id %}selected{% endif %}
+                            >
+                                {{ campus.campus_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+
+
+                <!-- Date of Birth -->
+                <div class="faculty-form-group">
+
+                    <label for="date_of_birth">
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        name="date_of_birth"
+                        id="date_of_birth"
+                        value="{{ faculty.date_of_birth|date:'Y-m-d' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Gender -->
+                <div class="faculty-form-group">
+
+                    <label for="gender">
+                        Gender
+                    </label>
+
+                    <select
+                        name="gender"
+                        id="gender"
+                        required
+                    >
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option
+                            value="Male"
+                            {% if faculty.gender == "Male" %}selected{% endif %}
+                        >
+                            Male
+                        </option>
+
+                        <option
+                            value="Female"
+                            {% if faculty.gender == "Female" %}selected{% endif %}
+                        >
+                            Female
+                        </option>
+
+                        <option
+                            value="Other"
+                            {% if faculty.gender == "Other" %}selected{% endif %}
+                        >
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Blood Group -->
+                <div class="faculty-form-group">
+
+                    <label for="blood_group">
+                        Blood Group
+                    </label>
+
+                    <select
+                        name="blood_group"
+                        id="blood_group"
+                    >
+
+                        <option value="">
+                            Select Blood Group
+                        </option>
+
+                        <option value="A+" {% if faculty.blood_group == "A+" %}selected{% endif %}>
+                            A+
+                        </option>
+
+                        <option value="A-" {% if faculty.blood_group == "A-" %}selected{% endif %}>
+                            A-
+                        </option>
+
+                        <option value="B+" {% if faculty.blood_group == "B+" %}selected{% endif %}>
+                            B+
+                        </option>
+
+                        <option value="B-" {% if faculty.blood_group == "B-" %}selected{% endif %}>
+                            B-
+                        </option>
+
+                        <option value="AB+" {% if faculty.blood_group == "AB+" %}selected{% endif %}>
+                            AB+
+                        </option>
+
+                        <option value="AB-" {% if faculty.blood_group == "AB-" %}selected{% endif %}>
+                            AB-
+                        </option>
+
+                        <option value="O+" {% if faculty.blood_group == "O+" %}selected{% endif %}>
+                            O+
+                        </option>
+
+                        <option value="O-" {% if faculty.blood_group == "O-" %}selected{% endif %}>
+                            O-
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Profile Photo -->
+                <div class="faculty-form-group">
+
+                    <label for="profile_photo">
+                        Profile Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        name="profile_photo"
+                        id="profile_photo"
+                        accept="image/*"
+                    >
+
+                    <div class="faculty-photo-preview">
+                        {% if faculty.profile_photo %}
+                            <img
+                                src="{{ faculty.profile_photo.url }}"
+                                alt="Current profile photo of {{ faculty.full_name }}"
+                                onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+                            >
+                            <span hidden>
+                                {{ faculty.full_name|first|upper }}
+                            </span>
+                            <small class="faculty-current-file">
+                                Choose a new image to replace the current photo.
+                            </small>
+                        {% else %}
+                            <span>
+                                {{ faculty.full_name|first|upper }}
+                            </span>
+                            <small class="faculty-current-file">
+                                No profile photo uploaded.
+                            </small>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+
+                <!-- Joining Date -->
+                <div class="faculty-form-group">
+
+                    <label for="joining_date">
+                        Joining Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="joining_date"
+                        id="joining_date"
+                        value="{{ faculty.joining_date|date:'Y-m-d' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Employment -->
+                <div class="faculty-form-group">
+
+                    <label for="employment">
+                        Employment Type
+                    </label>
+
+                    <select
+                        name="employment"
+                        id="employment"
+                        required
+                    >
+
+                        <option value="">
+                            Select Employment Type
+                        </option>
+
+                        <option
+                            value="Full Time"
+                            {% if faculty.employment == "Full Time" %}selected{% endif %}
+                        >
+                            Full Time
+                        </option>
+
+                        <option
+                            value="Part Time"
+                            {% if faculty.employment == "Part Time" %}selected{% endif %}
+                        >
+                            Part Time
+                        </option>
+
+                        <option
+                            value="Contract"
+                            {% if faculty.employment == "Contract" %}selected{% endif %}
+                        >
+                            Contract
+                        </option>
+
+                        <option
+                            value="Guest"
+                            {% if faculty.employment == "Guest" %}selected{% endif %}
+                        >
+                            Guest
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Status -->
+                <div class="faculty-form-group">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select
+                        name="status"
+                        id="status"
+                        required
+                    >
+
+                        <option
+                            value="1"
+                            {% if faculty.status %}selected{% endif %}
+                        >
+                            Active
+                        </option>
+
+                        <option
+                            value="0"
+                            {% if not faculty.status %}selected{% endif %}
+                        >
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- Contact Information -->
+        <!-- ================================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+
+                <div>
+                    <h2>Contact Information</h2>
+
+                    <p>
+                        Update faculty contact details.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Email -->
+                <div class="faculty-form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value="{{ faculty.contact.email }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Phone -->
+                <div class="faculty-form-group">
+
+                    <label for="phone_number">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="phone_number"
+                        id="phone_number"
+                        value="{{ faculty.contact.phone_number }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Alternate -->
+                <div class="faculty-form-group">
+
+                    <label for="alternate">
+                        Alternate Phone
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="alternate"
+                        id="alternate"
+                        value="{{ faculty.contact.alternate }}"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- Address -->
+        <!-- ================================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <div>
+                    <h2>Address</h2>
+
+                    <p>
+                        Update faculty residential address.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Address -->
+                <div class="faculty-form-group faculty-form-full">
+
+                    <label for="address">
+                        Address
+                    </label>
+
+                    <textarea
+                        name="address"
+                        id="address"
+                        rows="3"
+                        required
+                    >{{ faculty.address.address }}</textarea>
+
+                </div>
+
+
+                <!-- City -->
+                <div class="faculty-form-group">
+
+                    <label for="city">
+                        City
+                    </label>
+
+                    <input
+                        type="text"
+                        name="city"
+                        id="city"
+                        value="{{ faculty.address.city }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Country -->
+                <div class="faculty-form-group">
+
+                    <label for="country">
+                        Country
+                    </label>
+
+                    <select
+                        name="country"
+                        id="country"
+                        data-states-url="{% url 'faculty:faculty_states_api' %}"
+                        data-current-country="{{ faculty.address.country }}"
+                        required
+                    >
+                        <option value="">
+                            Select Country
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <!-- State -->
+                <div class="faculty-form-group">
+
+                    <label for="state">
+                        State
+                    </label>
+
+                    <select
+                        name="state"
+                        id="state"
+                        data-current-state="{{ faculty.address.state }}"
+                        required
+                        disabled
+                    >
+                        <option value="">
+                            Select Country First
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <!-- Pincode -->
+                <div class="faculty-form-group">
+
+                    <label for="pincode">
+                        Pincode
+                    </label>
+
+                    <input
+                        type="text"
+                        name="pincode"
+                        id="pincode"
+                        value="{{ faculty.address.pincode }}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- Qualification -->
+        <!-- ================================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div>
+                    <h2>Qualification & Department</h2>
+
+                    <p>
+                        Update professional information.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Department -->
+                <div class="faculty-form-group">
+
+                    <label for="department">
+                        Department
+                    </label>
+
+                    <select
+                        name="department"
+                        id="department"
+                        required
+                    >
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        {% for department in departments %}
+
+                            <option
+                                value="{{ department.department_id }}"
+                                {% if faculty.qualification_details and faculty.qualification_details.department_id == department.department_id %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ department.department_name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Designation -->
+                <div class="faculty-form-group">
+
+                    <label for="designation">
+                        Designation
+                    </label>
+
+                    <select
+                        name="designation"
+                        id="designation"
+                        required
+                    >
+
+                        <option value="">
+                            Select Designation
+                        </option>
+
+                        <option
+                            value="Professor"
+                            {% if faculty.qualification_details and faculty.qualification_details.designation == "Professor" %}selected{% endif %}
+                        >
+                            Professor
+                        </option>
+
+                        <option
+                            value="Associate Professor"
+                            {% if faculty.qualification_details and faculty.qualification_details.designation == "Associate Professor" %}selected{% endif %}
+                        >
+                            Associate Professor
+                        </option>
+
+                        <option
+                            value="Assistant Professor"
+                            {% if faculty.qualification_details and faculty.qualification_details.designation == "Assistant Professor" %}selected{% endif %}
+                        >
+                            Assistant Professor
+                        </option>
+
+                        <option
+                            value="Lecturer"
+                            {% if faculty.qualification_details and faculty.qualification_details.designation == "Lecturer" %}selected{% endif %}
+                        >
+                            Lecturer
+                        </option>
+
+                        <option
+                            value="Lab Assistant"
+                            {% if faculty.qualification_details and faculty.qualification_details.designation == "Lab Assistant" %}selected{% endif %}
+                        >
+                            Lab Assistant
+                        </option>
+
+                        <option
+                            value="Visiting Faculty"
+                            {% if faculty.qualification_details and faculty.qualification_details.designation == "Visiting Faculty" %}selected{% endif %}
+                        >
+                            Visiting Faculty
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Qualification -->
+                <div class="faculty-form-group">
+
+                    <label for="qualification">
+                        Highest Qualification
+                    </label>
+
+                    <select
+                        name="qualification"
+                        id="qualification"
+                        required
+                    >
+
+                        <option value="">
+                            Select Qualification
+                        </option>
+
+                        <option value="PhD" {% if faculty.qualification_details and faculty.qualification_details.qualification == "PhD" %}selected{% endif %}>
+                            PhD
+                        </option>
+
+                        <option value="M.Tech" {% if faculty.qualification_details and faculty.qualification_details.qualification == "M.Tech" %}selected{% endif %}>
+                            M.Tech
+                        </option>
+
+                        <option value="MCA" {% if faculty.qualification_details and faculty.qualification_details.qualification == "MCA" %}selected{% endif %}>
+                            MCA
+                        </option>
+
+                        <option value="MBA" {% if faculty.qualification_details and faculty.qualification_details.qualification == "MBA" %}selected{% endif %}>
+                            MBA
+                        </option>
+
+                        <option value="M.Sc" {% if faculty.qualification_details and faculty.qualification_details.qualification == "M.Sc" %}selected{% endif %}>
+                            M.Sc
+                        </option>
+
+                        <option value="M.Com" {% if faculty.qualification_details and faculty.qualification_details.qualification == "M.Com" %}selected{% endif %}>
+                            M.Com
+                        </option>
+
+                        <option value="B.Tech" {% if faculty.qualification_details and faculty.qualification_details.qualification == "B.Tech" %}selected{% endif %}>
+                            B.Tech
+                        </option>
+
+                        <option value="BCA" {% if faculty.qualification_details and faculty.qualification_details.qualification == "BCA" %}selected{% endif %}>
+                            BCA
+                        </option>
+
+                        <option value="B.Sc" {% if faculty.qualification_details and faculty.qualification_details.qualification == "B.Sc" %}selected{% endif %}>
+                            B.Sc
+                        </option>
+
+                        <option value="Other" {% if faculty.qualification_details and faculty.qualification_details.qualification == "Other" %}selected{% endif %}>
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Specialization -->
+                <div class="faculty-form-group">
+
+                    <label for="specialization">
+                        Specialization
+                    </label>
+
+                    <input
+                        type="text"
+                        name="specialization"
+                        id="specialization"
+                        value="{{ faculty.qualification_details.specialization|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Experience -->
+                <div class="faculty-form-group">
+
+                    <label for="experience">
+                        Experience
+                    </label>
+
+                    <input
+                        type="number"
+                        name="experience"
+                        id="experience"
+                        min="0"
+                        step="0.1"
+                        value="{{ faculty.qualification_details.experience|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- Bio -->
+        <!-- ================================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-align-left"></i>
+                </div>
+
+                <div>
+                    <h2>Professional Bio</h2>
+
+                    <p>
+                        Update professional description.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-group faculty-form-full">
+
+                
+                <label for="bio">
+                    Bio
+                </label>
+
+                <textarea
+                    name="bio"
+                    id="bio"
+                    rows="5"
+                    placeholder="Write a short professional bio..."
+                >{{ faculty.bio }}</textarea>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- Form Actions -->
+        <!-- ================================= -->
+
+        <div class="faculty-form-actions">
+
+            <a
+                href="{% url 'faculty_detail' faculty.faculty_id %}"
+                class="faculty-cancel-btn"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="faculty-submit-btn"
+            >
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Changes
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
+
+<script src="{% static 'data/countries.js' %}"></script>
+
+<script src="{% static 'js/faculty/location.js' %}"></script>
+
+{% endblock %}

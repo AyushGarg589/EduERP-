@@ -1,0 +1,337 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/admin/faculty/faculty_detail.css' %}?v=4"
+>
+
+{% endblock %}
+
+{% block title %}Faculty Details | EduERP{% endblock %}
+
+{% block content %}
+
+<div class="faculty-detail-page">
+
+    <!-- Page Header -->
+    <div class="faculty-detail-header">
+
+        <div>
+            <h1>Faculty Details</h1>
+            <p>View complete information about this faculty member.</p>
+        </div>
+
+        <div class="faculty-detail-actions">
+
+            <a
+                href="{% url 'faculty_update' faculty.faculty_id %}"
+                class="faculty-edit-btn"
+            >
+                <i class="fa-solid fa-pen"></i>
+                Edit Faculty
+            </a>
+
+            <a
+                href="{% url 'faculty_list' %}"
+                class="faculty-back-btn"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Faculty Profile -->
+    <div class="faculty-profile-card">
+
+        <div class="faculty-profile-image">
+
+            {% if faculty.profile_photo %}
+
+                <img
+                    src="{{ faculty.profile_photo.url }}"
+                    alt="{{ faculty.full_name }}"
+                    target="blank"
+                >
+
+            {% else %}
+
+                <span>
+                    {{ faculty.full_name|first|upper }}
+                </span>
+
+            {% endif %}
+
+        </div>
+
+        <div class="faculty-profile-info">
+
+            <h2>{{ faculty.full_name }}</h2>
+
+            <p>
+                <strong>Employee ID:</strong>
+                {{ faculty.emp_id }}
+            </p>
+
+            <span
+                class="faculty-status
+                {% if faculty.status %}
+                    active
+                {% else %}
+                    inactive
+                {% endif %}"
+            >
+                {% if faculty.status %}
+                    Active
+                {% else %}
+                    Inactive
+                {% endif %}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Personal Information -->
+    <div class="faculty-detail-section">
+
+        <div class="faculty-section-header">
+            <i class="fa-solid fa-user"></i>
+            <h3>Personal Information</h3>
+        </div>
+
+        <div class="faculty-info-grid">
+
+            <div class="faculty-info-item">
+                <span>Full Name</span>
+                <strong>{{ faculty.full_name }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Date of Birth</span>
+                <strong>{{ faculty.date_of_birth }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Gender</span>
+                <strong>{{ faculty.gender }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Blood Group</span>
+                <strong>
+                    {{ faculty.blood_group|default:"Not provided" }}
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Employment Information -->
+    <div class="faculty-detail-section">
+
+        <div class="faculty-section-header">
+            <i class="fa-solid fa-briefcase"></i>
+            <h3>Employment Information</h3>
+        </div>
+
+        <div class="faculty-info-grid">
+
+            <div class="faculty-info-item">
+                <span>Employee ID</span>
+                <strong>{{ faculty.emp_id }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Joining Date</span>
+                <strong>{{ faculty.joining_date }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Employment Type</span>
+                <strong>{{ faculty.employment }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Campus</span>
+                <strong>{{ faculty.campus.campus_name }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Contact Information -->
+    <div class="faculty-detail-section">
+
+        <div class="faculty-section-header">
+            <i class="fa-solid fa-address-book"></i>
+            <h3>Contact Information</h3>
+        </div>
+
+        {% if faculty.contact %}
+
+        <div class="faculty-info-grid">
+
+            <div class="faculty-info-item">
+                <span>Email</span>
+                <strong>{{ faculty.contact.email }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Phone Number</span>
+                <strong>{{ faculty.contact.phone_number }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Alternate Number</span>
+                <strong>
+                    {{ faculty.contact.alternate|default:"Not provided" }}
+                </strong>
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <p>No contact information available.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Address -->
+    <div class="faculty-detail-section">
+
+        <div class="faculty-section-header">
+            <i class="fa-solid fa-location-dot"></i>
+            <h3>Address</h3>
+        </div>
+
+        {% if faculty.address %}
+
+        <div class="faculty-info-grid">
+
+            <div class="faculty-info-item">
+                <span>Address</span>
+                <strong>{{ faculty.address.address }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>City</span>
+                <strong>{{ faculty.address.city }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>State</span>
+                <strong>{{ faculty.address.state }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Country</span>
+                <strong>{{ faculty.address.country }}</strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Pincode</span>
+                <strong>{{ faculty.address.pincode }}</strong>
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <p>No address information available.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Qualification -->
+    <div class="faculty-detail-section">
+
+        <div class="faculty-section-header">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h3>Qualification</h3>
+        </div>
+
+        {% if faculty.qualification_details %}
+
+        <div class="faculty-info-grid">
+
+            <div class="faculty-info-item">
+                <span>Qualification</span>
+                <strong>
+                    {{ faculty.qualification_details.qualification }}
+                </strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Specialization</span>
+                <strong>
+                    {{ faculty.qualification_details.specialization }}
+                </strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Department</span>
+                <strong>
+                    {{ faculty.qualification_details.department.department_name }}
+                </strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Experience</span>
+                <strong>
+                    {{ faculty.qualification_details.experience }}
+                </strong>
+            </div>
+
+            <div class="faculty-info-item">
+                <span>Designation</span>
+                <strong>
+                    {{ faculty.qualification_details.designation }}
+                </strong>
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <p>No qualification information available.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Bio -->
+    <div class="faculty-detail-section">
+
+        <div class="faculty-section-header">
+            <i class="fa-solid fa-circle-info"></i>
+            <h3>About Faculty</h3>
+        </div>
+
+        <div class="faculty-bio">
+            {{ faculty.bio|default:"No bio available." }}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

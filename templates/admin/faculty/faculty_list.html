@@ -1,0 +1,193 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/faculty/faculty_list.css' %}?v=3">
+{% endblock %}
+
+{% block title %}Faculty | EduERP {% endblock %}
+
+{% block content %}
+
+<div class="faculty-page">
+
+    <!-- Page Header -->
+    <div class="faculty-page-header">
+
+        <div>
+            <h1>Faculty</h1>
+            <p>Manage and view all faculty members.</p>
+        </div>
+
+        <a href="{% url 'faculty_add' %}" class="faculty-add-btn">
+            <i class="fa-solid fa-plus"></i>
+            Add Faculty
+        </a>
+
+    </div>
+
+
+    <!-- Filters -->
+    <div class="faculty-filter-card">
+
+        <form
+            id="facultyFilters"
+            method="get"
+        >
+
+            <!-- Search -->
+            <div class="faculty-search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="search"
+                    name="search"
+                    id="facultySearch"
+                    placeholder="Search by name, employee ID or email"
+                    autocomplete="off"
+                    value="{{ request.GET.search }}"
+                    hx-get="{% url 'faculty_table' %}"
+                    hx-trigger="keyup changed delay:400ms"
+                    hx-target="#faculty-table"
+                    hx-swap="innerHTML"
+                    hx-include="#facultyFilters"
+                >
+
+            </div>
+
+
+            <!-- Filters -->
+            <div class="faculty-filter-row">
+
+                <div class="faculty-filter-group">
+
+                    <label for="facultyDepartment">
+                        Department
+                    </label>
+
+                    <select
+                        name="department"
+                        id="facultyDepartment"
+                        hx-get="{% url 'faculty_table' %}"
+                        hx-trigger="change"
+                        hx-target="#faculty-table"
+                        hx-swap="innerHTML"
+                        hx-include="#facultyFilters"
+                    >
+                        <option value="">All Departments</option>
+
+                        {% for department in departments %}
+                            <option
+                                value="{{ department.department_id }}"
+                                {% if request.GET.department == department.department_id|stringformat:"s" %}selected{% endif %}
+                            >
+                                {{ department.department_name }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="faculty-filter-group">
+
+                    <label for="facultyCampus">
+                        Campus
+                    </label>
+
+                    <select
+                        name="campus"
+                        id="facultyCampus"
+                        hx-get="{% url 'faculty_table' %}"
+                        hx-trigger="change"
+                        hx-target="#faculty-table"
+                        hx-swap="innerHTML"
+                        hx-include="#facultyFilters"
+                    >
+                        <option value="">All Campuses</option>
+
+                        {% for campus in campuses %}
+                            <option
+                                value="{{ campus.campus_id }}"
+                                {% if request.GET.campus == campus.campus_id|stringformat:"s" %}selected{% endif %}
+                            >
+                                {{ campus.campus_name }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="faculty-filter-group">
+
+                    <label for="facultyStatus">
+                        Status
+                    </label>
+
+                    <select
+                        name="status"
+                        id="facultyStatus"
+                        hx-get="{% url 'faculty_table' %}"
+                        hx-trigger="change"
+                        hx-target="#faculty-table"
+                        hx-swap="innerHTML"
+                        hx-include="#facultyFilters"
+                    >
+                        <option value="">All Status</option>
+                        <option value="active" {% if request.GET.status == "active" %}selected{% endif %}>Active</option>
+                        <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="reset"
+                    id="clearFacultyFilters"
+                    class="faculty-clear-btn"
+                >
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Clear
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="record-data-region">
+        <div class="record-data-loading" aria-hidden="true">
+            <span class="record-loading-spinner"></span>
+            <span>Loading faculty data...</span>
+        </div>
+        <div id="faculty-table">
+            {% include "admin/faculty/partials/faculty_table.html" %}
+        </div>
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+<script>
+    document.querySelector("#clearFacultyFilters").addEventListener("click", function () {
+
+        document.querySelector("#facultyFilters").reset();
+
+        htmx.ajax(
+            "GET",
+            "{% url 'faculty_table' %}",
+            {
+                target: "#faculty-table",
+                swap: "innerHTML"
+            }
+        );
+    });
+</script>
+
+{% endblock %}

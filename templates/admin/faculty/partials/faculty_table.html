@@ -1,0 +1,300 @@
+{% with faculty_count=faculties|length %}
+
+<div class="faculty-table-card">
+
+    <div class="faculty-table-header">
+
+        <div>
+            <h2>Faculty Members</h2>
+            <p>List of registered faculty members.</p>
+        </div>
+
+        <span class="faculty-count">
+            {{ faculty_count }} Faculty
+        </span>
+
+    </div>
+
+
+    <div class="faculty-table-wrapper">
+
+        <table class="faculty-table">
+
+            <thead>
+                <tr>
+
+                    <th>Faculty</th>
+
+                    <th>Employee ID</th>
+
+                    <th>Department</th>
+
+                    <th>Employment</th>
+
+                    <th>Campus</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                {% for faculty in faculties %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="faculty-profile">
+
+                            <div class="faculty-avatar">
+
+                                {% if faculty.profile_photo %}
+                                    <img
+                                        src="{{ faculty.profile_photo.url }}"
+                                        alt="{{ faculty.full_name }}"
+                                        onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+                                    >
+                                    <span hidden>
+                                        {{ faculty.full_name|first|upper }}
+                                    </span>
+                                {% else %}
+                                    <span>
+                                        {{ faculty.full_name|first|upper }}
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="faculty-profile-info">
+
+                                <strong>
+                                    {{ faculty.full_name }}
+                                </strong>
+
+                                {% if faculty.contact %}
+                                    <span>
+                                        {{ faculty.contact.email }}
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <span class="faculty-emp-id">
+                            {{ faculty.emp_id }}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        {% if faculty.qualification_details %}
+                            {{ faculty.qualification_details.department.department_name }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ faculty.employment }}
+                    </td>
+
+                    <td>
+                        {{ faculty.campus.campus_name }}
+                    </td>
+
+                    <td>
+
+                        {% if faculty.status %}
+
+                            <span class="faculty-status active">
+                                <span></span>
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="faculty-status inactive">
+                                <span></span>
+                                Inactive
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% url 'faculty_detail' faculty.faculty_id as faculty_detail_url %}
+                        {% url 'faculty_update' faculty.faculty_id as faculty_update_url %}
+                        {% url 'faculty_delete' faculty.faculty_id as faculty_delete_url %}
+
+                        {% if faculty_detail_url or faculty_update_url or faculty_delete_url %}
+                        <div class="faculty-actions">
+
+                            {% if faculty_detail_url %}
+                            <a
+                                href="{{ faculty_detail_url }}"
+                                class="faculty-action-btn view"
+                                title="View Faculty"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            {% endif %}
+
+
+                            {% if faculty_update_url %}
+                            <a
+                                href="{{ faculty_update_url }}"
+                                class="faculty-action-btn edit"
+                                title="Edit Faculty"
+                            >
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            {% endif %}
+
+
+                            {% if faculty_delete_url %}
+                            <a
+                                href="{{ faculty_delete_url }}"
+                                class="faculty-action-btn delete"
+                                title="Delete Faculty"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                            {% endif %}
+
+                        </div>
+                        {% else %}
+                            <span>No actions available</span>
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="faculty-empty-state"
+                    >
+
+                        <div>
+
+                            <i class="fa-solid fa-user-tie"></i>
+
+                            <h3>No Faculty Found</h3>
+
+                            <p>
+                                There are no faculty members
+                                matching your current filters.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <nav
+        class="faculty-pagination"
+        aria-label="Faculty pagination"
+    >
+
+        <button
+            type="button"
+            class="faculty-page-btn"
+            {% if page_obj.has_previous %}
+                hx-get="{% url 'faculty_table' %}?page={{ page_obj.previous_page_number }}"
+                hx-target="#faculty-table"
+                hx-swap="innerHTML"
+                hx-include="#facultyFilters"
+            {% else %}
+                disabled
+                aria-disabled="true"
+            {% endif %}
+        >
+
+            <i
+                class="fa-solid fa-chevron-left"
+                aria-hidden="true"
+            ></i>
+
+            Previous
+
+        </button>
+
+        <span class="faculty-page-info" aria-current="page">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        <button
+            type="button"
+            class="faculty-page-btn"
+            {% if page_obj.has_next %}
+                hx-get="{% url 'faculty_table' %}?page={{ page_obj.next_page_number }}"
+                hx-target="#faculty-table"
+                hx-swap="innerHTML"
+                hx-include="#facultyFilters"
+            {% else %}
+                disabled
+                aria-disabled="true"
+            {% endif %}
+        >
+
+            Next
+
+            <i
+                class="fa-solid fa-chevron-right"
+                aria-hidden="true"
+            ></i>
+
+        </button>
+
+    </nav>
+
+    <footer class="faculty-table-footer">
+
+        Showing
+
+        <strong>
+            {{ faculty_count }}
+        </strong>
+
+        of
+
+        <strong>
+            {% if page_obj %}
+                {{ page_obj.paginator.count }}
+            {% else %}
+                {{ faculty_count }}
+            {% endif %}
+        </strong>
+
+        faculty member{{ page_obj.paginator.count|default:faculty_count|pluralize }}
+
+    </footer>
+
+</div>
+
+{% endwith %}

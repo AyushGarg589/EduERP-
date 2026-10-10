@@ -1,0 +1,820 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}
+    Add Faculty | EduERP
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    href="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/css/tom-select.css"
+    rel="stylesheet"
+>
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/admin/faculty/add_faculty.css' %}?v=3"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="faculty-add-page">
+
+    <!-- Page Header -->
+    <div class="faculty-add-header">
+
+        <div>
+            <h1>Add Faculty</h1>
+
+            <p>
+                Add a new faculty member to the institute.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'faculty_list' %}"
+            class="faculty-back-btn"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Faculty
+        </a>
+
+    </div>
+
+    {% if messages %}
+        <div class="messages-container" aria-live="polite">
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Faculty Form -->
+    <form
+        method="post"
+        enctype="multipart/form-data"
+        class="faculty-form"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- ============================= -->
+        <!-- Personal Information -->
+        <!-- ============================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+                    <h2>Personal Information</h2>
+
+                    <p>
+                        Basic information about the faculty member.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Employee ID -->
+                <div class="faculty-form-group">
+
+                    <label for="emp_id">
+                        Employee ID
+                    </label>
+
+                    <input
+                        type="text"
+                        name="emp_id"
+                        id="emp_id"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Full Name -->
+                <div class="faculty-form-group">
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="full_name"
+                        id="full_name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Campus -->
+                <div class="faculty-form-group">
+
+                    <label for="campus">
+                        Campus
+                    </label>
+
+                    <select
+                        name="campus"
+                        id="campus"
+                        required
+                    >
+                        <option value="">
+                            Select Campus
+                        </option>
+
+                        {% for campus in campuses %}
+                            <option value="{{ campus.campus_id }}">
+                                {{ campus.campus_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+
+
+                <!-- Date of Birth -->
+                <div class="faculty-form-group">
+
+                    <label for="date_of_birth">
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        name="date_of_birth"
+                        id="date_of_birth"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Gender -->
+                <div class="faculty-form-group">
+
+                    <label for="gender">
+                        Gender
+                    </label>
+
+                    <select
+                        name="gender"
+                        id="gender"
+                        required
+                    >
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Blood Group -->
+                <div class="faculty-form-group">
+
+                    <label for="blood_group">
+                        Blood Group
+                    </label>
+
+                    <select
+                        name="blood_group"
+                        id="blood_group"
+                    >
+                        <option value="">
+                            Select Blood Group
+                        </option>
+
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Profile Photo -->
+                <div class="faculty-form-group">
+
+                    <label for="profile_photo">
+                        Profile Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        name="profile_photo"
+                        id="profile_photo"
+                        accept="image/*"
+                    >
+
+                </div>
+
+
+                <!-- Joining Date -->
+                <div class="faculty-form-group">
+
+                    <label for="joining_date">
+                        Joining Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="joining_date"
+                        id="joining_date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Employment -->
+                <div class="faculty-form-group">
+
+                    <label for="employment">
+                        Employment Type
+                    </label>
+
+                    <select
+                        name="employment"
+                        id="employment"
+                        required
+                    >
+                        <option value="">
+                            Select Employment Type
+                        </option>
+
+                        <option value="Full Time">
+                            Full Time
+                        </option>
+
+                        <option value="Part Time">
+                            Part Time
+                        </option>
+
+                        <option value="Contract">
+                            Contract
+                        </option>
+
+                        <option value="Guest">
+                            Guest
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Status -->
+                <div class="faculty-form-group">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select
+                        name="status"
+                        id="status"
+                        required
+                    >
+                        <option value="1" selected>
+                            Active
+                        </option>
+
+                        <option value="0">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Contact Information -->
+        <!-- ============================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+
+                <div>
+                    <h2>Contact Information</h2>
+
+                    <p>
+                        Contact details of the faculty member.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Email -->
+                <div class="faculty-form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Phone -->
+                <div class="faculty-form-group">
+
+                    <label for="phone_number">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="phone_number"
+                        id="phone_number"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Alternate -->
+                <div class="faculty-form-group">
+
+                    <label for="alternate">
+                        Alternate Phone
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="alternate"
+                        id="alternate"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Address -->
+        <!-- ============================= -->
+
+        <div class="faculty-form-card faculty-location-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <div>
+                    <h2>Address</h2>
+
+                    <p>
+                        Residential address of the faculty member.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Address -->
+                <div class="faculty-form-group faculty-form-full">
+
+                    <label for="address">
+                        Address
+                    </label>
+
+                    <textarea
+                        name="address"
+                        id="address"
+                        rows="3"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- City -->
+                <div class="faculty-form-group">
+
+                    <label for="city">
+                        City
+                    </label>
+
+                    <select
+                        name="city"
+                        id="city"
+                        required
+                        disabled
+                    >
+                        <option value="">
+                            Select State First
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <!-- Country -->
+                <div class="faculty-form-group">
+
+                    <label for="country">
+                        Country
+                    </label>
+
+                    <select
+                        name="country"
+                        id="country"
+                        required
+                    >
+                        <option value="">
+                            Select Country
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <!-- State -->
+                <div class="faculty-form-group">
+
+                    <label for="state">
+                        State
+                    </label>
+
+                    <select
+                        name="state"
+                        id="state"
+                        required
+                        disabled
+                    >
+                        <option value="">
+                            Select Country First
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <!-- Pincode -->
+                <div class="faculty-form-group">
+
+                    <label for="pincode">
+                        Pincode
+                    </label>
+
+                    <input
+                        type="text"
+                        name="pincode"
+                        id="pincode"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Qualification -->
+        <!-- ============================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div>
+                    <h2>Qualification & Department</h2>
+
+                    <p>
+                        Professional and academic information.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-grid">
+
+                <!-- Department -->
+                <div class="faculty-form-group">
+
+                    <label for="department">
+                        Department
+                    </label>
+
+                    <select
+                        name="department"
+                        id="department"
+                        required
+                    >
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        {% for department in departments %}
+
+                            <option
+                                value="{{ department.department_id }}"
+                            >
+                                {{ department.department_name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Designation -->
+                <div class="faculty-form-group">
+
+                    <label for="designation">
+                        Designation
+                    </label>
+
+                    <select
+                        name="designation"
+                        id="designation"
+                        required
+                    >
+                        <option value="">
+                            Select Designation
+                        </option>
+
+                        <option value="Professor">
+                            Professor
+                        </option>
+
+                        <option value="Associate Professor">
+                            Associate Professor
+                        </option>
+
+                        <option value="Assistant Professor">
+                            Assistant Professor
+                        </option>
+
+                        <option value="Lecturer">
+                            Lecturer
+                        </option>
+
+                        <option value="Lab Assistant">
+                            Lab Assistant
+                        </option>
+
+                        <option value="Visiting Faculty">
+                            Visiting Faculty
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Qualification -->
+                <div class="faculty-form-group">
+
+                    <label for="qualification">
+                        Highest Qualification
+                    </label>
+
+                    <select
+                        name="qualification"
+                        id="qualification"
+                        required
+                    >
+                        <option value="">
+                            Select Qualification
+                        </option>
+
+                        <option value="PhD">
+                            PhD
+                        </option>
+
+                        <option value="M.Tech">
+                            M.Tech
+                        </option>
+
+                        <option value="MCA">
+                            MCA
+                        </option>
+
+                        <option value="MBA">
+                            MBA
+                        </option>
+
+                        <option value="M.Sc">
+                            M.Sc
+                        </option>
+
+                        <option value="M.Com">
+                            M.Com
+                        </option>
+
+                        <option value="B.Tech">
+                            B.Tech
+                        </option>
+
+                        <option value="BCA">
+                            BCA
+                        </option>
+
+                        <option value="B.Sc">
+                            B.Sc
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Specialization -->
+                <div class="faculty-form-group">
+
+                    <label for="specialization">
+                        Specialization
+                    </label>
+
+                    <input
+                        type="text"
+                        name="specialization"
+                        id="specialization"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Experience -->
+                <div class="faculty-form-group">
+
+                    <label for="experience">
+                        Experience
+                    </label>
+
+                    <input
+                        type="number"
+                        name="experience"
+                        id="experience"
+                        min="0"
+                        step="0.1"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Bio -->
+        <!-- ============================= -->
+
+        <div class="faculty-form-card">
+
+            <div class="faculty-form-card-header">
+
+                <div class="faculty-section-icon">
+                    <i class="fa-solid fa-align-left"></i>
+                </div>
+
+                <div>
+                    <h2>Professional Bio</h2>
+
+                    <p>
+                        Short description about the faculty member.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faculty-form-group faculty-form-full">
+
+                <label for="bio">
+                    Bio
+                </label>
+
+                <textarea
+                    name="bio"
+                    id="bio"
+                    rows="5"
+                    placeholder="Write a short professional bio..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Form Actions -->
+        <!-- ============================= -->
+
+        <div class="faculty-form-actions">
+
+            <a
+                href="{% url 'faculty_list' %}"
+                class="faculty-cancel-btn"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="faculty-submit-btn"
+            >
+                <i class="fa-solid fa-user-plus"></i>
+                Add Faculty
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<!-- Tom Select JS -->
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
+
+<!-- Country dataset -->
+<script src="{% static 'data/countries.js' %}"></script>
+
+<!-- Country + State logic -->
+<script src="{% static 'js/faculty/location.js' %}?v=2"></script>
+
+{% endblock %}
