@@ -1,0 +1,165 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Update Student | EduERP{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/students/student_update.css' %}?v=3">
+{% endblock %}
+
+{% block content %}
+<main class="student-update-page">
+    <header class="student-update-header">
+        <div>
+            <a href="{% url 'student_detail' student.student_id %}" class="student-update-back">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                Back to student details
+            </a>
+            <h1>Update student</h1>
+            <p>Edit personal, contact, and enrollment information.</p>
+        </div>
+    </header>
+
+    <form method="post" enctype="multipart/form-data" class="student-update-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="student-form-errors" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <section class="student-update-section">
+            <div class="student-update-section-heading">
+                <h2>Personal information</h2>
+                <p>Basic details and student status.</p>
+            </div>
+
+            <div class="student-update-grid">
+                <div class="student-update-field">
+                    <label for="{{ form.full_name.id_for_label }}">Full name</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
+                </div>
+
+                <div class="student-update-field">
+                    <label for="{{ form.date_of_birth.id_for_label }}">Date of birth</label>
+                    {{ form.date_of_birth }}
+                    {{ form.date_of_birth.errors }}
+                </div>
+
+                <div class="student-update-field">
+                    <label for="{{ form.gender.id_for_label }}">Gender</label>
+                    {{ form.gender }}
+                    {{ form.gender.errors }}
+                </div>
+
+                <div class="student-update-field">
+                    <label for="{{ form.blood_group.id_for_label }}">Blood group</label>
+                    {{ form.blood_group }}
+                    {{ form.blood_group.errors }}
+                </div>
+
+                <div class="student-update-field student-photo-field">
+                    <label for="{{ form.profile_photo.id_for_label }}">Profile photo</label>
+                    <div class="student-photo-control">
+                        <div class="student-photo-preview">
+                            {% if student.profile_photo %}
+                                <img
+                                    src="{{ student.profile_photo.url }}"
+                                    alt="{{ student.full_name }}"
+                                >
+                            {% else %}
+                                <span aria-hidden="true">{{ student.full_name|first|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="student-photo-input">
+                            {{ form.profile_photo }}
+                            {{ form.profile_photo.errors }}
+                            <small>
+                                Choose a photo to replace the current image, or check “Clear” to remove it.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="student-update-field">
+                    <label for="{{ form.campus.id_for_label }}">Campus</label>
+                    {{ form.campus }}
+                    {{ form.campus.errors }}
+                </div>
+
+                <div class="student-update-field student-update-status">
+                    <label for="{{ form.status.id_for_label }}">Student status</label>
+                    <div class="student-status-control">
+                        {{ form.status }}
+                        <span>Active</span>
+                    </div>
+                    {{ form.status.errors }}
+                </div>
+            </div>
+        </section>
+
+        <section class="student-update-section">
+            <div class="student-update-section-heading">
+                <h2>Contact information</h2>
+                <p>Student email and phone numbers.</p>
+            </div>
+
+            <div class="student-update-grid">
+                <div class="student-update-field">
+                    <label for="studentEmail">Email</label>
+                    <input id="studentEmail" type="email" name="email" value="{{ contact.email|default:'' }}">
+                </div>
+
+                <div class="student-update-field">
+                    <label for="studentPhone">Phone number</label>
+                    <input id="studentPhone" type="text" name="phone_number" value="{{ contact.phone_number|default:'' }}">
+                </div>
+
+                <div class="student-update-field">
+                    <label for="studentAlternatePhone">Alternate number</label>
+                    <input id="studentAlternatePhone" type="text" name="alternate" value="{{ contact.alternate|default:'' }}">
+                </div>
+            </div>
+        </section>
+
+        <section class="student-update-section">
+            <div class="student-update-section-heading">
+                <h2>Enrollment information</h2>
+                <p>Current academic year and class details.</p>
+            </div>
+
+            <div class="student-update-grid">
+                <div class="student-update-field">
+                    <label for="studentAcademicYear">Academic year</label>
+                    <input id="studentAcademicYear" type="text" name="academic_year" value="{{ enrollment.academic_year|default:'' }}">
+                </div>
+
+                <div class="student-update-field">
+                    <label for="studentSemester">Semester</label>
+                    <input id="studentSemester" type="text" name="semester" value="{{ enrollment.semester|default:'' }}">
+                </div>
+
+                <div class="student-update-field">
+                    <label for="studentSection">Section</label>
+                    <input id="studentSection" type="text" name="section" value="{{ enrollment.section|default:'' }}">
+                </div>
+
+                <div class="student-update-field">
+                    <label for="studentRollNumber">Roll number</label>
+                    <input id="studentRollNumber" type="text" name="roll_no" value="{{ enrollment.roll_no|default:'' }}">
+                </div>
+            </div>
+        </section>
+
+        <footer class="student-update-actions">
+            <a href="{% url 'student_detail' student.student_id %}" class="student-update-cancel">Cancel</a>
+            <button type="submit" class="student-update-submit">
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                Save changes
+            </button>
+        </footer>
+    </form>
+</main>
+{% endblock %}

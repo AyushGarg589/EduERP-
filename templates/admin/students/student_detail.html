@@ -1,0 +1,287 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Student Details | EduERP{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/students/student_detail.css' %}?v=5">
+{% endblock %}
+
+{% block content %}
+
+<div class="student-detail-page">
+
+    <!-- Page Header -->
+    <div class="student-detail-header">
+
+        <div>
+            <a href="{% url 'student_list' %}" class="student-back-link">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Students
+            </a>
+
+            <h1>Student Details</h1>
+            <p>View complete information about the student.</p>
+        </div>
+
+        <div class="student-detail-actions">
+
+            <a href="{% url 'student_update' student.student_id %}" class="student-edit-button">
+                <i class="fa-solid fa-pen"></i>
+                Edit Student
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Student Overview -->
+    <section class="student-detail-card">
+
+        <div class="student-profile">
+
+            <div class="student-large-avatar">
+                {% if student.profile_photo %}
+                    <img
+                        src="{{ student.profile_photo.url }}"
+                        alt="{{ student.full_name }}"
+                        onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+                    >
+                    <span hidden>{{ student.full_name|first|upper }}</span>
+                {% else %}
+                    <span>{{ student.full_name|first|upper }}</span>
+                {% endif %}
+            </div>
+
+            <div class="student-profile-info">
+
+                <h2>{{ student.full_name }}</h2>
+
+                <span class="student-detail-id">
+                    Student ID: {{ student.student_id }}
+                </span>
+
+                {% if student.status %}
+                    <span class="student-status is-active">
+                        Active
+                    </span>
+                {% else %}
+                    <span class="student-status is-inactive">
+                        Inactive
+                    </span>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Personal Information -->
+    <section class="student-detail-card">
+
+        <div class="student-section-header">
+            <div>
+                <h2>Personal Information</h2>
+                <p>Basic information of the student.</p>
+            </div>
+        </div>
+
+        <div class="student-detail-grid">
+
+            <div class="student-detail-field">
+                <span>Full Name</span>
+                <strong>{{ student.full_name }}</strong>
+            </div>
+
+            <div class="student-detail-field">
+                <span>Date of Birth</span>
+                <strong>{{ student.date_of_birth|date:"d M Y" }}</strong>
+            </div>
+
+            <div class="student-detail-field">
+                <span>Gender</span>
+                <strong>{{ student.gender|default:"—" }}</strong>
+            </div>
+
+            <div class="student-detail-field">
+                <span>Blood Group</span>
+                <strong>{{ student.blood_group|default:"—" }}</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Academic Information -->
+    <section class="student-detail-card">
+
+        <div class="student-section-header">
+            <div>
+                <h2>Academic Information</h2>
+                <p>Current enrollment information.</p>
+            </div>
+        </div>
+
+        {% with enrollment=student.enrollments.first %}
+
+        <div class="student-detail-grid">
+
+            <div class="student-detail-field">
+                <span>Course</span>
+
+                <strong>
+                    {% if enrollment %}
+                        {{ enrollment.course.course_name }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+
+            <div class="student-detail-field">
+                <span>Department</span>
+
+                <strong>
+                    {% if enrollment %}
+                        {{ enrollment.branch.department_name }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+
+            <div class="student-detail-field">
+                <span>Semester</span>
+
+                <strong>
+                    {% if enrollment %}
+                        {{ enrollment.semester }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+
+            <div class="student-detail-field">
+                <span>Section</span>
+
+                <strong>
+                    {% if enrollment %}
+                        {{ enrollment.section|default:"—" }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+
+            <div class="student-detail-field">
+                <span>Roll Number</span>
+
+                <strong>
+                    {% if enrollment %}
+                        {{ enrollment.roll_no|default:"—" }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+
+            <div class="student-detail-field">
+                <span>Academic Year</span>
+
+                <strong>
+                    {% if enrollment %}
+                        {{ enrollment.academic_year|default:"—" }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+        </div>
+
+        {% endwith %}
+
+    </section>
+
+
+    <!-- Contact Information -->
+    <section class="student-detail-card">
+
+        <div class="student-section-header">
+            <div>
+                <h2>Contact Information</h2>
+                <p>Student contact details.</p>
+            </div>
+        </div>
+
+        <div class="student-detail-grid">
+
+            {% if student.contact %}
+
+                <div class="student-detail-field">
+                    <span>Email</span>
+                    <strong>{{ student.contact.email|default:"—" }}</strong>
+                </div>
+
+                <div class="student-detail-field">
+                    <span>Phone Number</span>
+                    <strong>{{ student.contact.phone_number|default:"—" }}</strong>
+                </div>
+
+                <div class="student-detail-field">
+                    <span>Alternate Number</span>
+                    <strong>{{ student.contact.alternate|default:"—" }}</strong>
+                </div>
+
+            {% else %}
+
+                <div class="student-detail-empty">
+                    No contact information available.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- Campus Information -->
+    <section class="student-detail-card">
+
+        <div class="student-section-header">
+            <div>
+                <h2>Campus</h2>
+                <p>Student's assigned campus.</p>
+            </div>
+        </div>
+
+        <div class="student-detail-grid">
+
+            <div class="student-detail-field">
+                <span>Campus Name</span>
+                <strong>{{ student.campus.campus_name|default:"—" }}</strong>
+            </div>
+
+            <div class="student-detail-field">
+                <span>Campus Code</span>
+                <strong>{{ student.campus.campus_code|default:"—" }}</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

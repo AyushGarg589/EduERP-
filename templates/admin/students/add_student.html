@@ -1,0 +1,742 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link
+    href="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/css/tom-select.css"
+    rel="stylesheet"
+>
+<link
+    rel="stylesheet"
+    href="{% static 'css/admin/students/add_student.css' %}?v=2"
+>
+{% endblock %}
+
+{% block content %}
+
+<div class="student-form-page">
+
+    <!-- Page Header -->
+    <div class="student-form-header">
+        <div>
+            <a
+                href="{% url 'student_list' %}"
+                class="student-back-link"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Students
+            </a>
+
+            <h1>Add Student</h1>
+
+            <p>
+                Add a new student and their academic information.
+            </p>
+        </div>
+    </div>
+
+
+    <form
+        method="post"
+        enctype="multipart/form-data"
+        class="student-form"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- =====================================================
+             PERSONAL INFORMATION
+        ====================================================== -->
+        <section class="student-form-card">
+
+            <div class="student-section-header">
+                <div>
+                    <h2>Personal Information</h2>
+                    <p>Enter the student's basic information.</p>
+                </div>
+            </div>
+
+            <div class="student-form-grid">
+
+                <!-- Full Name -->
+                <div class="student-form-field">
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        placeholder="Enter full name"
+                        required
+                    >
+                </div>
+
+
+                <!-- Date of Birth -->
+                <div class="student-form-field">
+                    <label for="date_of_birth">
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date_of_birth"
+                        name="date_of_birth"
+                        required
+                    >
+                </div>
+
+
+                <!-- Gender -->
+                <div class="student-form-field">
+                    <label for="gender">
+                        Gender
+                    </label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required
+                    >
+                        <option value="" selected disabled>
+                            Select gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- Blood Group -->
+                <div class="student-form-field">
+                    <label for="blood_group">
+                        Blood Group
+                    </label>
+
+                    <select
+                        id="blood_group"
+                        name="blood_group"
+                    >
+                        <option value="" selected>
+                            Select blood group (optional)
+                        </option>
+
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+
+                <!-- Campus -->
+                <div class="student-form-field">
+                    <label for="campus">
+                        Campus
+                    </label>
+
+                    <select
+                        id="campus"
+                        name="campus"
+                        required
+                    >
+                        <option value="" selected disabled>
+                            Select campus
+                        </option>
+
+                        {% for campus in campuses %}
+                            <option value="{{ campus.campus_id }}">
+                                {{ campus.campus_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <!-- Profile Photo -->
+                <div class="student-form-field">
+                    <label for="profile_photo">
+                        Profile Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="profile_photo"
+                        name="profile_photo"
+                        accept="image/*"
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONTACT INFORMATION
+        ====================================================== -->
+        <section class="student-form-card">
+
+            <div class="student-section-header">
+                <div>
+                    <h2>Contact Information</h2>
+                    <p>Enter the student's contact details.</p>
+                </div>
+            </div>
+
+            <div class="student-form-grid">
+
+                <!-- Email -->
+                <div class="student-form-field">
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="student@example.com"
+                        required
+                    >
+                </div>
+
+
+                <!-- Phone -->
+                <div class="student-form-field">
+                    <label for="phone_number">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone_number"
+                        name="phone_number"
+                        pattern="[0-9]{10}" 
+                        maxlength="10" 
+                        minlength="10"
+                        placeholder="Enter phone number"
+                        required
+                    >
+                </div>
+
+
+                <!-- Alternate -->
+                <div class="student-form-field">
+                    <label for="alternate">
+                        Alternate Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="alternate"
+                        pattern="[0-9]{10}" 
+                        maxlength="10" 
+                        minlength="10"
+                        name="alternate"
+                        placeholder="Optional"
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ADDRESS INFORMATION
+        ====================================================== -->
+        <section class="student-form-card student-location-card">
+
+            <div class="student-section-header">
+                <div>
+                    <h2>Address Information</h2>
+                    <p>Enter the student's residential address.</p>
+                </div>
+            </div>
+
+            <div class="student-form-grid">
+
+                <!-- Address -->
+                <div class="student-form-field student-form-field-full">
+                    <label for="address_line">
+                        Address
+                    </label>
+
+                    <textarea
+                        id="address_line"
+                        name="address_line"
+                        rows="3"
+                        placeholder="Enter complete address"
+                        required
+                    ></textarea>
+                </div>
+
+
+                <!-- City -->
+                <div class="student-form-field">
+                    <label for="city">
+                        City
+                    </label>
+
+                    <select
+                        id="city"
+                        name="city"
+                        required
+                        disabled
+                    >
+                        <option value="">
+                            Select State First
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- State -->
+                <div class="student-form-field">
+                    <label for="state">
+                        State
+                    </label>
+
+                    <select
+                        id="state"
+                        name="state"
+                        required
+                        disabled
+                    >
+                        <option value="">
+                            Select Country First
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- Country -->
+                <div class="student-form-field">
+                    <label for="country">
+                        Country
+                    </label>
+
+                    <select
+                        id="country"
+                        name="country"
+                        required
+                    >
+                        <option value="">
+                            Select Country
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- Pincode -->
+                <div class="student-form-field">
+                    <label for="pincode">
+                        Pincode
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pincode"
+                        name="pincode"
+                        pattern="[0-9]{6}" 
+                        maxlength="6" 
+                        minlength="6"
+                        placeholder="Enter pincode"
+                        required
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GUARDIAN INFORMATION
+        ====================================================== -->
+        <section class="student-form-card">
+
+            <div class="student-section-header">
+                <div>
+                    <h2>Guardian Information</h2>
+                    <p>Enter the student's guardian details.</p>
+                </div>
+            </div>
+
+            <div class="student-form-grid">
+
+                <!-- Guardian Name -->
+                <div class="student-form-field">
+                    <label for="guardian_name">
+                        Guardian Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="guardian_name"
+                        name="guardian_name"
+                        placeholder="Enter guardian name"
+                        required
+                    >
+                </div>
+
+
+                <!-- Relationship -->
+                <div class="student-form-field">
+                    <label for="relationship">
+                        Relationship
+                    </label>
+
+                    <select
+                        id="relationship"
+                        name="relationship"
+                        required
+                    >
+                        <option value="" selected disabled>
+                            Select relationship
+                        </option>
+
+                        <option value="Father">
+                            Father
+                        </option>
+
+                        <option value="Mother">
+                            Mother
+                        </option>
+
+                        <option value="Guardian">
+                            Guardian
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- Guardian Phone -->
+                <div class="student-form-field">
+                    <label for="guardian_phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="guardian_phone"
+                        name="guardian_phone"
+                        pattern="[0-9]{10}" 
+                        maxlength="10" 
+                        minlength="10"
+                        placeholder="Enter guardian phone"
+                        required
+                    >
+                </div>
+
+
+                <!-- Guardian Email -->
+                <div class="student-form-field">
+                    <label for="guardian_email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="guardian_email"
+                        name="guardian_email"
+                        placeholder="guardian@example.com"
+                    >
+                </div>
+
+
+                <!-- Occupation -->
+                <div class="student-form-field">
+                    <label for="occupation">
+                        Occupation
+                    </label>
+
+                    <input
+                        type="text"
+                        id="occupation"
+                        name="occupation"
+                        placeholder="Enter occupation"
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ENROLLMENT INFORMATION
+        ====================================================== -->
+        <section class="student-form-card">
+
+            <div class="student-section-header">
+                <div>
+                    <h2>Enrollment Information</h2>
+                    <p>Enter the student's current academic enrollment.</p>
+                </div>
+            </div>
+
+            <div class="student-form-grid">
+
+                <!-- Course -->
+                <div class="student-form-field">
+                    <label for="course">
+                        Course
+                    </label>
+
+                    <select
+                        id="course"
+                        name="course"
+                        required
+                    >
+                        <option value="">
+                            Select course
+                        </option>
+
+                        {% for course in courses %}
+                            <option value="{{ course.course_id }}">
+                                {{ course.course_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <!-- Department -->
+                <div class="student-form-field">
+                    <label for="branch">
+                        Department
+                    </label>
+
+                    <select
+                        id="branch"
+                        name="branch"
+                        required
+                    >
+                        <option value="">
+                            Select department
+                        </option>
+
+                        {% for department in departments %}
+                            <option value="{{ department.department_id }}">
+                                {{ department.department_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <!-- Academic Year -->
+                <div class="student-form-field">
+                    <label for="academic_year">
+                        Academic Year
+                    </label>
+
+                    <input
+                        type="text"
+                        id="academic_year"
+                        name="academic_year"
+                        placeholder="2026-27"
+                        maxlength="7"
+                        required
+                    >
+                </div>
+
+
+                <!-- Semester -->
+                <div class="student-form-field">
+                    <label for="semester">
+                        Semester
+                    </label>
+
+                    <input
+                        type="number"
+                        id="semester"
+                        name="semester"
+                        min="1"
+                        placeholder="1"
+                        maxlength="1"
+                        required
+                    >
+                </div>
+
+
+                <!-- Section -->
+                <div class="student-form-field">
+                    <label for="section">
+                        Section
+                    </label>
+
+                    <input
+                        type="text"
+                        id="section"
+                        name="section"
+                        placeholder="A"
+                        maxlength="1"
+                    >
+                </div>
+
+
+                <!-- Roll Number -->
+                <div class="student-form-field">
+                    <label for="roll_no">
+                        Roll Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="roll_no"
+                        name="roll_no"
+                        placeholder="Enter roll number"
+                        required
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+    <!-- =====================================================
+            STUDENT DOCUMENTS
+    ====================================================== -->
+
+        <section class="student-form-card">
+
+            <div class="student-section-header">
+                <div>
+                    <h2>Document Information</h2>
+                    <p>Upload the student's required documents.</p>
+                </div>
+            </div>
+
+            <div class="student-form-grid">
+
+                <div class="student-form-field">
+                    <label for="marksheet_10">
+                        10th Marksheet
+                    </label>
+
+                    <input
+                        type="file"
+                        id="marksheet_10"
+                        name="marksheet_10"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+                </div>
+
+
+                <div class="student-form-field">
+                    <label for="marksheet_12">
+                        12th Marksheet
+                    </label>
+
+                    <input
+                        type="file"
+                        id="marksheet_12"
+                        name="marksheet_12"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+                </div>
+
+
+                <div class="student-form-field">
+                    <label for="aadhaar">
+                        Aadhaar
+                    </label>
+
+                    <input
+                        type="file"
+                        id="aadhaar"
+                        name="aadhaar"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+                </div>
+
+
+                <div class="student-form-field">
+                    <label for="migration_certificate">
+                        Migration Certificate
+                    </label>
+
+                    <input
+                        type="file"
+                        id="migration_certificate"
+                        name="migration_certificate"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+                </div>
+
+
+                <div class="student-form-field">
+                    <label for="certificate">
+                        Certificate
+                    </label>
+
+                    <input
+                        type="file"
+                        id="certificate"
+                        name="certificate"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FORM ACTIONS
+        ====================================================== -->
+        <div class="student-form-actions">
+
+            <a
+                href="{% url 'student_list' %}"
+                class="student-cancel-button"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="student-save-button"
+            >
+                <i class="fa-solid fa-check"></i>
+                Add Student
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
+<script src="{% static 'data/countries.js' %}"></script>
+<script src="{% static 'js/faculty/location.js' %}?v=2"></script>
+{% endblock %}

@@ -1,0 +1,318 @@
+{% with student_count=students|length %}
+
+<div class="student-table-heading">
+
+    <div>
+        <h2 id="studentRecordsTitle">Student records</h2>
+        <p>Review enrollment and program information.</p>
+    </div>
+
+    <span
+        class="student-record-count"
+        role="status"
+        aria-live="polite"
+    >
+        {{ student_count }} student{{ student_count|pluralize }}
+    </span>
+
+</div>
+
+
+<div class="student-table-scroll">
+
+    <table class="student-table">
+
+        <thead>
+            <tr>
+                <th scope="col">Student ID</th>
+                <th scope="col">Student</th>
+                <th scope="col">Course</th>
+                <th scope="col">Department</th>
+                <th scope="col">Semester</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+
+
+        <tbody id="studentTableBody">
+
+            {% for student in students %}
+
+            <tr class="student-row">
+
+                <!-- Student ID -->
+                <td>
+                    <span class="student-id">
+                        {{ student.student_id }}
+                    </span>
+                </td>
+
+
+                <!-- Student -->
+                <td>
+
+                    <div class="student-identity">
+
+                        <span
+                            class="student-avatar"
+                            aria-hidden="true"
+                        >
+                            {% if student.profile_photo %}
+                                <img
+                                    src="{{ student.profile_photo.url }}"
+                                    alt=""
+                                    onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+                                >
+                                <span hidden>
+                                    {{ student.full_name|first|upper }}
+                                </span>
+                            {% else %}
+                                <span>
+                                    {{ student.full_name|first|upper }}
+                                </span>
+                            {% endif %}
+                        </span>
+
+                        <span class="student-identity-copy">
+
+                            <strong>
+                                {{ student.full_name }}
+                            </strong>
+
+                            {% if student.contact %}
+                                <small>
+                                    {{ student.contact.email }}
+                                </small>
+                            {% else %}
+                                <small>—</small>
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                </td>
+
+
+                <!-- Course -->
+                <td>
+
+                    {% with enrollment=student.enrollments.first %}
+
+                        {% if enrollment %}
+                            {{ enrollment.course.course_name }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    {% endwith %}
+
+                </td>
+
+
+                <!-- Department -->
+                <td>
+
+                    {% with enrollment=student.enrollments.first %}
+
+                        {% if enrollment %}
+                            {{ enrollment.branch.department_name }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    {% endwith %}
+
+                </td>
+
+
+                <!-- Semester -->
+                <td>
+
+                    {% with enrollment=student.enrollments.first %}
+
+                        {% if enrollment %}
+                            {{ enrollment.semester }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    {% endwith %}
+
+                </td>
+
+
+                <!-- Status -->
+                <td>
+
+                    {% if student.status %}
+
+                        <span class="student-status is-active">
+                            Active
+                        </span>
+
+                    {% else %}
+
+                        <span class="student-status is-inactive">
+                            Inactive
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td class="student-actions">
+
+                    <a
+                        href="{% url 'student_detail' student.student_id %}"
+                        class="student-action-button"
+                        title="View student"
+                        aria-label="View student"
+                    >
+                        <i class="fa-regular fa-eye"></i>
+                    </a>
+
+                    <a
+                        href="{% url 'student_update' student.student_id %}"
+                        class="student-action-button"
+                        title="Edit student"
+                        aria-label="Edit student"
+                    >
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+
+                    <a
+                        href="{% url 'student_delete' student.student_id %}"
+                        class="student-action-button student-action-delete"
+                        title="Delete student"
+                        aria-label="Delete student"
+                    >
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+
+                </td>
+
+            </tr>
+
+
+            {% empty %}
+
+            <!-- No students found -->
+            <tr class="student-empty-row">
+
+                <td colspan="6">
+
+                    <div
+                        class="student-empty-state"
+                        role="status"
+                    >
+
+                        <i
+                            class="fa-regular fa-folder-open"
+                            aria-hidden="true"
+                        ></i>
+
+                        <strong>
+                            No students match these filters
+                        </strong>
+
+                        <span>
+                            Try a different search or clear the selected filters.
+                        </span>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- Pagination -->
+<nav
+    class="student-pagination"
+    aria-label="Student pagination"
+>
+
+    <button
+        type="button"
+        {% if page_obj.has_previous %}
+            hx-get="{% url 'student_table' %}?page={{ page_obj.previous_page_number }}"
+            hx-target="#student-table"
+            hx-swap="innerHTML"
+            hx-include="#studentFilters"
+        {% else %}
+            disabled
+            aria-disabled="true"
+        {% endif %}
+    >
+
+        <i
+            class="fa-solid fa-chevron-left"
+            aria-hidden="true"
+        ></i>
+
+        Previous
+
+    </button>
+
+    <span class="student-page-info" aria-current="page">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    <button
+        type="button"
+        {% if page_obj.has_next %}
+            hx-get="{% url 'student_table' %}?page={{ page_obj.next_page_number }}"
+            hx-target="#student-table"
+            hx-swap="innerHTML"
+            hx-include="#studentFilters"
+        {% else %}
+            disabled
+            aria-disabled="true"
+        {% endif %}
+    >
+
+        Next
+
+        <i
+            class="fa-solid fa-chevron-right"
+            aria-hidden="true"
+        ></i>
+
+    </button>
+
+</nav>
+
+
+<!-- Footer -->
+<footer class="student-table-footer">
+
+    Showing
+
+    <strong>
+        {{ student_count }}
+    </strong>
+
+    of
+
+    <strong>
+        {% if page_obj %}
+            {{ page_obj.paginator.count }}
+        {% else %}
+            {{ student_count }}
+        {% endif %}
+    </strong>
+
+    student{{ page_obj.paginator.count|default:student_count|pluralize }}
+
+</footer>
+
+{% endwith %}

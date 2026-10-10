@@ -1,0 +1,137 @@
+.student-delete-page {
+	--delete-ink: #17324d;
+	--delete-muted: #788895;
+	--delete-border: #e6edf0;
+	width: min(100%, 900px);
+	margin: 0 auto;
+	color: var(--delete-ink);
+}
+
+.student-delete-card {
+	display: flex;
+	align-items: flex-start;
+	gap: 22px;
+	padding: clamp(22px, 5vw, 38px);
+	border: 1px solid var(--delete-border);
+	border-radius: 14px;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(23, 50, 77, .045);
+}
+
+.student-delete-icon {
+	display: grid;
+	width: 56px;
+	height: 56px;
+	flex: 0 0 56px;
+	place-items: center;
+	border-radius: 14px;
+	background: #fff0ed;
+	color: #c94736;
+	font-size: 21px;
+}
+
+.student-delete-content {
+	min-width: 0;
+	flex: 1;
+}
+
+.student-delete-content h1 {
+	margin: 0 0 12px;
+	font-size: clamp(23px, 3vw, 30px);
+	font-weight: 750;
+}
+
+.student-delete-warning {
+	margin: 0 0 8px;
+	color: #344c5f;
+	font-size: 15px;
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+
+.student-delete-warning strong {
+	color: var(--delete-ink);
+}
+
+.student-delete-description {
+	max-width: 620px;
+	margin: 0;
+	color: var(--delete-muted);
+	font-size: 13px;
+	line-height: 1.65;
+}
+
+.student-delete-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	margin-top: 26px;
+}
+
+.student-delete-actions form {
+	margin: 0;
+}
+
+.student-cancel-button,
+.student-confirm-delete-button {
+	display: inline-flex;
+	min-height: 42px;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 0 16px;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	font: inherit;
+	font-size: 13px;
+	font-weight: 650;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.student-cancel-button {
+	border-color: #dfe7eb;
+	background: #fff;
+	color: #526777;
+}
+
+.student-cancel-button:hover {
+	border-color: #bdcbd3;
+	background: #f7f9fa;
+	color: var(--delete-ink);
+}
+
+.student-confirm-delete-button {
+	background: #bd3c2d;
+	color: #fff;
+}
+
+.student-confirm-delete-button:hover {
+	background: #a93226;
+}
+
+.student-cancel-button:focus-visible,
+.student-confirm-delete-button:focus-visible {
+	outline: 3px solid rgba(46, 139, 87, .24);
+	outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+	.student-delete-card {
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.student-delete-actions {
+		align-items: stretch;
+		flex-direction: column-reverse;
+	}
+
+	.student-delete-actions form,
+	.student-cancel-button,
+	.student-confirm-delete-button {
+		width: 100%;
+	}
+}

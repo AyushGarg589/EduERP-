@@ -1,0 +1,146 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Students | EduERP{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/students/student_list.css' %}?v=10">
+{% endblock %}
+
+{% block content %}
+<div class="student-list">
+    <header class="student-page-heading">
+        <div>
+            <span class="student-eyebrow">STUDENT MANAGEMENT</span>
+            <h1>Students</h1>
+            <p>Search and review student records across your campuses.</p>
+        </div>
+        <div class="student-heading-mark" aria-hidden="true">
+            <i class="fa-solid fa-user-graduate"></i>
+        </div>
+    </header>
+
+    <section class="student-card student-filter-card" aria-label="Student filters">
+        <form id="studentFilters" class="student-filter-grid">
+            <div class="student-filter-field student-search-field">
+                <label for="studentSearch">Search students</label>
+                <div class="student-search-control">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input
+                        id="studentSearch"
+                        type="search"
+                        name="search"
+                        placeholder="Name, email, or student ID"
+                        autocomplete="off"
+                        hx-get="{% url 'student_table' %}"
+                        hx-trigger="keyup changed delay:400ms"
+                        hx-target="#student-table"
+                        hx-swap="innerHTML"
+                        hx-include="#studentFilters"
+                    >
+                </div>
+            </div>
+
+            <div class="student-filter-field">
+                <label for="courseFilter">Course</label>
+                <select
+                    id="courseFilter"
+                    name="course"
+                    hx-get="{% url 'student_table' %}"
+                    hx-trigger="change"
+                    hx-target="#student-table"
+                    hx-swap="innerHTML"
+                    hx-include="#studentFilters"
+                >
+                    <option value="">All courses</option>
+
+                    {% for course in courses %}
+                        <option value="{{ course.course_name }}">
+                            {{ course.course_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="student-filter-field">
+                <label for="branchFilter">Department</label>
+                <select
+                    id="branchFilter"
+                    name="branch"
+                    hx-get="{% url 'student_table' %}"
+                    hx-trigger="change"
+                    hx-target="#student-table"
+                    hx-swap="innerHTML"
+                    hx-include="#studentFilters"
+                >
+                    <option value="">All Department</option>
+
+                    {% for department in departments %}
+                        <option value="{{ department.department_name }}">
+                            {{ department.department_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="student-filter-field">
+                <label for="statusFilter">Status</label>
+                <select
+                    id="statusFilter"
+                    name="status"
+                    hx-get="{% url 'student_table' %}"
+                    hx-trigger="change"
+                    hx-target="#student-table"
+                    hx-swap="innerHTML"
+                    hx-include="#studentFilters"
+                >
+                    <option value="">All statuses</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
+            <button id="clearFilters" class="student-reset-button" type="reset" aria-label="Clear filters" title="Clear filters">
+                <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                <span>Clear</span>
+            </button>
+        </form>
+    </section>
+
+    <div class="record-data-region">
+        <div class="record-data-loading" aria-hidden="true">
+            <span class="record-loading-spinner"></span>
+            <span>Loading student data...</span>
+        </div>
+        <section
+            class="student-card student-table-card"
+            id="student-table"
+            aria-labelledby="studentRecordsTitle"
+            hx-get="{% url 'student_table' %}"
+            hx-trigger="load"
+            hx-target="this"
+            hx-swap="innerHTML"
+        >
+            {% include "admin/students/partials/student_table.html" %}
+        </section>
+    </div>
+</div>
+
+<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+<script>
+    document.querySelector("#clearFilters").addEventListener("click", function () {
+    // Reset all filter values
+    document.querySelector("#studentFilters").reset();
+
+    // Reload the student table without filters
+    htmx.ajax(
+        "GET",
+        "/students/table/",
+        {
+            target: "#student-table",
+            swap: "innerHTML"
+        }
+    );
+});
+</script>
+{% endblock %}
