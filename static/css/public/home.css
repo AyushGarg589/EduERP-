@@ -15,7 +15,561 @@ img {
     overflow: hidden;
 }
 
+.hero-row {*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.hero-section {
+    padding: 52px 0 72px;
+    background: #f7f9fc;
+    overflow: hidden;
+}
+
 .hero-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    gap: clamp(28px, 4vw, 54px);
+    align-items: center;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.hero-row > .hero-slider-col,
+.hero-row > .hero-intro-col {
+    width: auto;
+    max-width: none;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.hero-slider-col {
+    width: 100%;
+    min-width: 0;
+}
+
+.hero-intro {
+    max-width: 500px;
+    padding: 12px 0;
+}
+
+.hero-intro h1 {
+    font-size: clamp(2rem, 3.25vw, 3rem);
+    line-height: 1.12;
+    font-weight: 750;
+    letter-spacing: -.035em;
+    color: #17324d;
+    margin-bottom: 20px;
+}
+
+.hero-intro p {
+    font-size: clamp(.96rem, 1.15vw, 1.05rem);
+    color: #4f5564;
+    line-height: 1.75;
+    margin-bottom: 27px;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.hero-actions a {
+    margin-right: 0;
+}
+
+.hero-btn {
+    display: inline-block;
+    background: #F4B400;
+    color: #222;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.4s;
+    white-space: nowrap;
+}
+
+.hero-btn:hover {
+    background: #2E8B57;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.hero-secondary-btn {
+    display: inline-block;
+    background: transparent;
+    color: #2E8B57;
+    padding: 14px 32px;
+    border-radius: 50px;
+    border: 2px solid #2E8B57;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.4s;
+    white-space: nowrap;
+}
+
+.hero-secondary-btn:hover {
+    background: #2E8B57;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.section-space {
+    padding: 80px 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 10px;
+}
+
+.section-title h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #17324d;
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: #666;
+    font-size: 1.05rem;
+}
+
+.feature-card {
+    background: #fff;
+    padding: 35px 28px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    transition: 0.4s;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card i {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2E8B57, #3fb96b);
+    color: white;
+    font-size: 34px;
+    margin-bottom: 20px;
+}
+
+.feature-card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #17324d;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.stats {
+    background: linear-gradient(135deg, #17324d, #274c77);
+    color: white;
+    padding: 70px 0;
+    margin: 20px 0 60px;
+}
+
+.stats h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.stats p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.stats [class^="col-"] {
+    margin-bottom: 20px;
+}
+
+.about img {
+    border: 6px solid #f8f9fa;
+}
+
+.cta {
+    background: #f7f9fc;
+    padding: 80px 0;
+    margin-top: 20px;
+}
+
+.cta h2 {
+    color: #17324d;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.cta p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.hero-slider-col .carousel {
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0,0,0,.18);
+}
+
+.slider-card {
+    position: relative;
+    height: clamp(350px, 38vw, 470px);
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+.slider-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 8s;
+    animation: zoomSlider 8s linear infinite alternate;
+}
+
+.slider-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.15));
+    z-index: 1;
+}
+
+.slider-overlay {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    bottom: 35px;
+    z-index: 2;
+    color: white;
+    max-width: 460px;
+}
+
+.slider-overlay span {
+    display: inline-block;
+    padding: 6px 18px;
+    background: #2E8B57;
+    border-radius: 50px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.slider-overlay h3 {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.05;
+}
+
+.slider-overlay p {
+    font-size: 16px;
+    max-width: 420px;
+    margin: 0;
+    opacity: .95;
+}
+
+.carousel-indicators {
+    margin-top: 25px;
+}
+
+.carousel-indicators button {
+    width: 12px!important;
+    height: 12px!important;
+    border-radius: 50%;
+    background: #17324d!important;
+    margin: 0 6px;
+    opacity: .4;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+    background: #2E8B57!important;
+    transform: scale(1.3);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    display: none;
+}
+
+@keyframes zoomSlider {
+    from { transform: scale(1); }
+    to { transform: scale(1.12); }
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+
+@media (max-width: 1200px) {
+    .feature-card {
+        padding: 30px 22px;
+    }
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-section {
+        padding: 50px 0 60px;
+    }
+    .hero-row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .hero-intro {
+        max-width: 680px;
+        padding: 0;
+    }
+    .hero-intro h1 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+    .hero-intro p {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+    .hero-btn,
+    .hero-secondary-btn {
+        padding: 12px 28px;
+        font-size: 14px;
+    }
+    .slider-card {
+        height: 400px;
+    }
+    .slider-overlay h3 {
+        font-size: 28px;
+    }
+    .section-title h2 {
+        font-size: 2rem;
+    }
+    .section-title p {
+        font-size: 1rem;
+    }
+    .feature-card {
+        padding: 28px 22px;
+    }
+    .stats h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 0 50px;
+    }
+    .hero-intro h1 {
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
+        line-height: 1.2;
+    }
+    .hero-intro p {
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+    }
+    .hero-btn,
+    .hero-secondary-btn {
+        padding: 10px 24px;
+        font-size: 13px;
+        margin-right: 8px;
+    }
+    .hero-actions a:only-child {
+        margin-right: 0;
+    }
+    .slider-card {
+        height: 350px;
+    }
+    .slider-overlay {
+        left: 25px;
+        right: 25px;
+        bottom: 25px;
+        max-width: 100%;
+    }
+    .slider-overlay span {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+    .slider-overlay h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .slider-overlay p {
+        font-size: 14px;
+        max-width: 100%;
+    }
+    .carousel-indicators button {
+        width: 10px!important;
+        height: 10px!important;
+        margin: 0 5px;
+    }
+    .section-space {
+        padding: 60px 0;
+    }
+    .section-title h2 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+    .section-title p {
+        font-size: 0.95rem;
+    }
+    .feature-card {
+        padding: 25px 18px;
+    }
+    .feature-card i {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 30px;
+    }
+    .feature-card h4 {
+        font-size: 1.1rem;
+    }
+    .stats {
+        padding: 50px 0;
+    }
+    .stats h2 {
+        font-size: 1.8rem;
+    }
+    .stats p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 30px 0 40px;
+    }
+    .hero-intro h1 {
+        font-size: 1.65rem;
+    }
+    .hero-intro p {
+        font-size: 0.9rem;
+    }
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .hero-btn,
+    .hero-secondary-btn {
+        display: block;
+        text-align: center;
+        padding: 9px 20px;
+        font-size: 12px;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .hero-actions a:last-child {
+        margin-bottom: 0;
+    }
+    .slider-card {
+        height: 300px;
+    }
+    .slider-overlay {
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+    }
+    .slider-overlay h3 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+    .slider-overlay p {
+        font-size: 13px;
+    }
+    .carousel-indicators {
+        margin-top: 15px;
+    }
+    .section-space {
+        padding: 50px 0;
+    }
+    .section-title h2 {
+        font-size: 1.5rem;
+    }
+    .feature-card {
+        padding: 20px 15px;
+    }
+    .feature-card i {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 28px;
+    }
+    .feature-card h4 {
+        font-size: 1rem;
+    }
+    .stats {
+        padding: 40px 0;
+    }
+    .stats h2 {
+        font-size: 1.5rem;
+    }
+    .stats [class^="col-"] {
+        margin-bottom: 25px;
+    }
+    .stats [class^="col-"]:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 20px 0 30px;
+    }
+    .hero-intro h1 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    .hero-intro p {
+        font-size: 0.85rem;
+    }
+    .hero-btn,
+    .hero-secondary-btn {
+        padding: 8px 18px;
+        font-size: 11px;
+    }
+    .slider-card {
+        height: 250px;
+    }
+    .slider-overlay h3 {
+        font-size: 18px;
+    }
+    .slider-overlay p {
+        font-size: 12px;
+    }
+    .section-title h2 {
+        font-size: 1.3rem;
+    }
+    .section-title p {
+        font-size: 0.85rem;
+    }
+    .feature-card {
+        padding: 18px 12px;
+    }
+    .feature-card i {
+        width: 55px;
+        height: 55px;
+        line-height: 55px;
+        font-size: 26px;
+    }
+}
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 40px;

@@ -30,7 +30,7 @@ urlpatterns = [
 
     path("", include("apps.public.urls")),
 
-    # path("dashboard/", include(("apps.dashboard.urls", "dashboard"), namespace="dashboard")),
+    path("dashboard/", include(("apps.dashboard.urls", "dashboard"), namespace="dashboard")),
 
     # path("students/", include(("apps.students.urls", "students"), namespace="students")),
 
