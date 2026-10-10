@@ -1,0 +1,865 @@
+/*=========================================================
+                    DASHBOARD BASE CSS
+=========================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f7f9fc;
+    overflow-x:hidden;
+    color:#17324d;
+    padding-top:80px;
+}
+
+/*=========================================================
+                    WRAPPER
+=========================================================*/
+
+.dashboard-wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+/*=========================================================
+                    SIDEBAR
+=========================================================*/
+
+.sidebar{
+    width:280px;
+    background:#17324d;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    padding:25px 0;
+    overflow-y:auto;
+    box-shadow:5px 0 20px rgba(0,0,0,.08);
+    /* Keep expanded fly-out menus above cards and page-specific decorations. */
+    z-index:1001;
+}
+
+/* Scrollbar */
+
+.sidebar::-webkit-scrollbar{
+    width:5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+    background:#2E8B57;
+}
+
+/*=========================================================
+                    LOGO
+=========================================================*/
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:0;
+    font-size:28px;
+    font-weight:700;
+    padding:0 30px 30px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo i{
+    color:#F4B400;
+    margin-right:12px;
+}
+
+.logo-edu{
+
+color:#60a5fa;
+
+}
+
+.logo-erp{
+
+color:#3fb96b;
+
+}
+/*=========================================================
+                    MENU
+=========================================================*/
+
+.sidebar-menu{
+    list-style:none;
+    padding:25px 0;
+    flex:1;
+}
+
+.sidebar-menu li{
+    list-style:none;
+}
+
+.menu-item{
+    position:relative;
+}
+
+.sidebar-menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    color:#d8dde5;
+
+    text-decoration:none;
+
+    padding:15px 30px;
+
+    transition:.35s;
+
+    font-size:16px;
+
+    font-weight:500;
+
+}
+
+.sidebar-menu a i:first-child{
+
+    width:22px;
+
+    text-align:center;
+
+}
+
+.sidebar-menu a:hover{
+
+    background:#2E8B57;
+
+    color:#fff;
+
+    padding-left:40px;
+
+}
+
+.sidebar-menu .active{
+
+    background:#2E8B57;
+
+    color:white;
+
+}
+
+/*=========================================================
+                    SUBMENU
+=========================================================*/
+
+.submenu{
+
+    list-style:none;
+
+    background:#11263b;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:0 0 10px 10px;
+
+    box-shadow:0 12px 28px rgba(0,0,0,.18);
+
+    max-height:0;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:translateY(-6px);
+
+    transition:max-height .45s ease, opacity .35s ease, transform .35s ease, visibility .35s ease;
+
+}
+
+.submenu.menu-open{
+
+    max-height:600px;
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:translateY(0);
+
+}
+
+.menu-item:hover > .submenu{
+
+    max-height:600px;
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:translateY(0);
+
+}
+
+.submenu-toggle .fa-angle-down{
+
+    transition:.3s;
+
+}
+
+.submenu-toggle.submenu-open .fa-angle-down{
+
+    transform:rotate(180deg);
+
+}
+
+.menu-item:hover > .submenu-toggle .fa-angle-down{
+
+    transform:rotate(180deg);
+
+}
+
+.submenu li a{
+
+    padding:11px 24px 11px 55px;
+
+    font-size:15px;
+
+    color:#cbd3dc;
+
+    border-left:3px solid transparent;
+
+}
+
+.submenu li a:hover{
+
+    background:rgba(46,139,87,.28);
+
+    padding-left:58px;
+
+    border-left-color:#3fb96b;
+
+    color:#fff;
+
+}
+
+/*=========================================================
+                    LOGOUT
+=========================================================*/
+
+.logout{
+
+    padding:25px 30px;
+
+    border-top:1px solid rgba(255,255,255,.1);
+
+}
+
+.logout a{
+
+    color:#fff;
+
+    text-decoration:none;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-weight:600;
+
+    font-size: larger;
+
+}
+
+.logout a:hover{
+
+    color:#F4B400;
+
+}
+
+/*=========================================================
+                    MAIN
+=========================================================*/
+
+.main-content{
+
+    margin-left:280px;
+
+    width:calc(100% - 280px);
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/*=========================================================
+                    TOP NAVBAR
+=========================================================*/
+
+.top-navbar{
+
+    height:80px;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    padding:0 35px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+
+    position:fixed;
+
+    top:0;
+
+    left:280px;
+
+    right:0;
+
+    z-index:999;
+
+}
+
+/*=========================================================
+                    SEARCH
+=========================================================*/
+
+.search-box{
+
+    display:flex;
+
+    align-items:center;
+
+    background:#f3f5f9;
+
+    border-radius:50px;
+
+    padding:12px 20px;
+
+    width:340px;
+
+}
+
+.search-box i{
+
+    color:#777;
+
+    margin-right:12px;
+
+}
+
+.search-box input{
+
+    border:none;
+
+    outline:none;
+
+    background:none;
+
+    width:100%;
+
+    font-size:15px;
+
+}
+
+/*=========================================================
+                    HAMBURGER MENU BUTTON
+=========================================================*/
+
+.hamburger-btn{
+    display:none;
+    width:45px;
+    height:45px;
+    border:none;
+    background:#f3f5f9;
+    border-radius:50%;
+    cursor:pointer;
+    transition:.35s;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+}
+
+.hamburger-btn:hover{
+    background:#2E8B57;
+    color:white;
+}
+
+.hamburger-btn span{
+    width:22px;
+    height:2px;
+    background:currentColor;
+    display:block;
+    border-radius:2px;
+    transition:.35s;
+}
+
+.hamburger-btn.active span:nth-child(1){
+    transform:rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger-btn.active span:nth-child(2){
+    opacity:0;
+}
+
+.hamburger-btn.active span:nth-child(3){
+    transform:rotate(-45deg) translate(7px, -7px);
+}
+
+/*=========================================================
+                    SIDEBAR OVERLAY (Mobile)
+=========================================================*/
+
+.sidebar-overlay{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    z-index:500;
+}
+
+.sidebar-overlay.active{
+    display:block;
+}
+
+/*=========================================================
+                    TOP RIGHT
+=========================================================*/
+
+.top-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.icon-btn{
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f3f5f9;
+
+    transition:.35s;
+
+    cursor:pointer;
+
+}
+
+.icon-btn:hover{
+
+    background:#2E8B57;
+
+    color:white;
+
+}
+
+.profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    cursor:pointer;
+
+}
+
+.profile-avatar{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    border:3px solid #2E8B57;
+
+    background:linear-gradient(135deg, #17324d 0%, #2E8B57 100%);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    box-shadow:0 4px 12px rgba(23,50,77,.24);
+
+    user-select: none;
+}
+
+.profile span{
+
+    font-weight:600;
+
+    color:#17324d;
+
+}
+
+/*=========================================================
+                    PAGE CONTENT
+=========================================================*/
+
+.page-content{
+
+    padding:35px;
+
+    flex:1;
+
+}
+
+/*=========================================================
+                    CARD
+=========================================================*/
+
+.dashboard-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+
+}
+
+/*=========================================================
+                    RESPONSIVE
+=========================================================*/
+
+@media(max-width:1200px){
+    .sidebar{
+        width:85px;
+        overflow:visible;
+    }
+    .logo{
+        justify-content:center;
+        padding:0 15px 25px;
+    }
+    .logo i{
+        margin-right:0;
+    }
+    .logo span{
+        display:none;
+    }
+    .sidebar-menu a{
+        justify-content:center;
+        padding:15px;
+    }
+    .sidebar-menu a span{
+        display:none;
+    }
+    .submenu-toggle .fa-angle-down{
+        display:none;
+    }
+    .submenu{
+        display:block;
+        position:absolute;
+        top:0;
+        left:100%;
+        width:220px;
+        z-index:1002;
+        border-radius:10px;
+        background:#17324d;
+    }
+    .submenu li a span{
+        display:inline !important;
+    }
+    .submenu li a{
+        justify-content:flex-start;
+        padding:11px 18px;
+        font-size:14px;
+        gap:0;
+    }
+    .submenu li a:hover{
+        padding-left:22px;
+    }
+    .logout a span{
+        display:none;
+    }
+    .search-box{
+        width:280px;
+    }
+    .main-content{
+        margin-left:85px;
+        width:calc(100% - 85px);
+    }
+    .top-navbar{
+        left:85px;
+    }
+}
+
+@media(max-width:992px){
+    .sidebar{
+        width:80px;
+        padding:20px 0;
+    }
+    .logo{
+        padding:0 15px 20px;
+        font-size:24px;
+    }
+    .sidebar-menu a{
+        padding:12px 15px;
+        font-size:14px;
+    }
+    .logo span{
+        display:none;
+    }
+    .sidebar-menu a span{
+        display:none;
+    }
+    .submenu li a span{
+        display:inline !important;
+    }
+    .logout a span{
+        display:none;
+    }
+    .main-content{
+        margin-left:80px;
+        width:calc(100% - 80px);
+    }
+    .search-box{
+        width:200px;
+        padding:10px 15px;
+    }
+    .top-navbar{
+        left:80px;
+        padding:0 20px;
+        height:70px;
+    }
+    .top-right{
+        gap:12px;
+    }
+    .icon-btn{
+        width:40px;
+        height:40px;
+    }
+    .profile-avatar{
+        width:40px;
+        height:40px;
+    }
+    body{
+        padding-top:70px;
+    }
+}
+
+@media(max-width:768px){
+    .hamburger-btn{
+        display:flex;
+    }
+    .sidebar{
+        position:fixed;
+        left:-280px;
+        width:280px;
+        height:100vh;
+        z-index:1001;
+        transition:.35s;
+        padding-top:80px;
+        overflow-y:auto;
+    }
+    /* The 992px breakpoint force-hides .submenu (display:none) for the
+       icon-only collapsed sidebar. In the full off-canvas drawer there's
+       plenty of room, so let the max-height/.menu-open system control
+       visibility again instead. */
+    .sidebar-menu .submenu{
+        display:block !important;
+        position:static;
+        width:auto;
+    }
+    .sidebar.active{
+        left:0;
+    }
+    .logo span{
+        display:block;
+    }
+    .logo i{
+        margin-right:12px;
+    }
+    .sidebar-menu a span{
+        display:inline;
+    }
+    .sidebar-menu a{
+        justify-content:flex-start;
+    }
+    .submenu-toggle .fa-angle-down{
+        display:block;
+    }
+    .logout a span{
+        display:inline;
+    }
+    .main-content{
+        margin-left:0;
+        width:100%;
+    }
+    .search-box{
+        display:none;
+    }
+    .top-navbar{
+        left:0;
+        padding:12px 15px;
+        height:80px;
+    }
+    .page-content{
+        padding:15px;
+    }
+    .profile span{
+        display:none;
+    }
+    .top-right{
+        gap:8px;
+    }
+    .icon-btn{
+        width:36px;
+        height:36px;
+        font-size:14px;
+    }
+    .profile-avatar{
+        width:36px;
+        height:36px;
+    }
+    body{
+        padding-top:80px;
+    }
+}
+
+@media(max-width:576px){
+    .hamburger-btn{
+        width:40px;
+        height:40px;
+    }
+    .hamburger-btn span{
+        width:18px;
+        height:2px;
+    }
+    .sidebar{
+        width:280px;
+        left:-280px;
+        padding-top:70px;
+    }
+    .sidebar.active{
+        left:0;
+    }
+    .logo{
+        font-size:20px;
+        padding:12px 20px 20px;
+    }
+    .sidebar-menu a{
+        padding:12px 20px;
+        font-size:14px;
+    }
+    .main-content{
+        margin-left:0;
+        width:100%;
+    }
+    .top-navbar{
+        padding:10px 12px;
+        height:70px;
+    }
+    .search-box{
+        width:150px;
+        padding:8px 12px;
+    }
+    .page-content{
+        padding:12px;
+    }
+    .icon-btn{
+        width:32px;
+        height:32px;
+    }
+    .profile-avatar{
+        width:32px;
+        height:32px;
+    }
+    body{
+        padding-top:70px;
+    }
+}
+
+@media(max-width:480px){
+    .hamburger-btn{
+        width:36px;
+        height:36px;
+    }
+    .hamburger-btn span{
+        width:16px;
+        height:2px;
+    }
+    .sidebar{
+        width:280px;
+        left:-280px;
+        padding-top:65px;
+    }
+    .sidebar.active{
+        left:0;
+    }
+    .logo{
+        font-size:18px;
+        padding:10px 20px 15px;
+    }
+    .sidebar-menu a{
+        padding:10px 20px;
+        font-size:13px;
+    }
+    .main-content{
+        margin-left:0;
+        width:100%;
+    }
+    .top-navbar{
+        padding:8px 10px;
+        height:65px;
+    }
+    .page-content{
+        padding:10px;
+    }
+    .icon-btn{
+        width:28px;
+        height:28px;
+    }
+    .profile-avatar{
+        width:28px;
+        height:28px;
+    }
+    .logout{
+        padding:15px 20px;
+    }
+    .logout a{
+        font-size:12px;
+    }
+    body{
+        padding-top:65px;
+    }
+}

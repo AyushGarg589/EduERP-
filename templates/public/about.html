@@ -1,0 +1,409 @@
+{% extends 'public/base.html' %}
+{% load static %}
+
+{% block title %}
+About | EduERP
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/public/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+
+<section class="about-hero">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <span class="hero-tag">
+                    About EduERP
+                </span>
+
+                <h1>
+                    Empowering Educational Institutions Through Smart Technology
+                </h1>
+
+                <p>
+                    EduERP is an intelligent Education Management System designed
+                    to simplify administration, improve communication, and enhance
+                    the learning experience for students, teachers, and institutions.
+                </p>
+
+                <a href="{% url 'public:contact' %}" class="hero-btn">
+                    Contact Us
+                </a>
+
+            </div>
+
+            <div class="col-lg-6 text-center">
+
+                <img src="{% static 'images/about_logo.png' %}"
+                     class="img-fluid about-image"
+                     alt="About EduERP"
+                     width="1254" height="1254"
+                     fetchpriority="high">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= OUR STORY ================= -->
+
+<section class="section-space">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <img src="{% static 'images/our_story.png' %}"
+                     class="img-fluid rounded-4 shadow-lg"
+                     alt="Our Story"
+                     width="1254" height="1254"
+                     loading="lazy"
+                     decoding="async">
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="section-title text-start">
+
+                    <h2>Our Story</h2>
+
+                </div>
+
+                <p>
+
+                    EduERP was created with a vision of transforming traditional
+                    educational administration into a modern digital ecosystem.
+
+                </p>
+
+                <p>
+
+                    From student admissions to attendance, examinations,
+                    fee management, faculty records and analytics,
+                    everything is integrated into one secure platform.
+
+                </p>
+
+                <p>
+
+                    Our goal is to reduce paperwork, save time,
+                    improve transparency and enable institutions
+                    to make data-driven decisions.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= MISSION ================= -->
+
+<section class="mission-section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Our Core Values</h2>
+
+            <p>
+                The principles that drive everything we build.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="value-card">
+
+                    <i class="fa-solid fa-bullseye"></i>
+
+                    <h4>Our Mission</h4>
+
+                    <p>
+
+                        To simplify education management by providing
+                        secure, innovative and user-friendly ERP solutions.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="value-card">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    <h4>Our Vision</h4>
+
+                    <p>
+
+                        To become the most trusted education technology
+                        platform for institutions worldwide.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="value-card">
+
+                    <i class="fa-solid fa-handshake"></i>
+
+                    <h4>Our Values</h4>
+
+                    <p>
+
+                        Innovation, Transparency, Security,
+                        Collaboration and Excellence.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= WHY CHOOSE ================= -->
+
+<section class="section-space">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Why Choose EduERP?</h2>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-box">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <h5>Secure Platform</h5>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-box">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    <h5>Powerful Analytics</h5>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-box">
+
+                    <i class="fa-solid fa-cloud"></i>
+
+                    <h5>Cloud Ready</h5>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-box">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <h5>Easy Collaboration</h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= STATS ================= -->
+
+<section class="stats">
+
+    <div class="container">
+
+        <div class="row text-center">
+
+            <div class="col-md-3">
+
+                <h2>2500+</h2>
+
+                <p>Students</p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <h2>120+</h2>
+
+                <p>Faculty Members</p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <h2>35+</h2>
+
+                <p>Courses</p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <h2>98%</h2>
+
+                <p>Success Rate</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= TEAM ================= -->
+
+<!-- <section class="section-space">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Meet Our Team</h2>
+
+            <p>
+
+                Passionate people behind EduERP.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="team-card">
+
+                    <img src="{% static 'images/ceo.jpeg' %}" alt="Ayush Garg" width="900" height="1600" loading="lazy" decoding="async">
+
+                    <h4>Ayush Garg</h4>
+
+                    <span>Founder & CEO</span>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="team-card">
+
+                    <img src="{% static 'images/team2.jpg' %}" alt="Sarah Johnson" loading="lazy" decoding="async">
+
+                    <h4>Sarah Johnson</h4>
+
+                    <span>Project Manager</span>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="team-card">
+
+                    <img src="{% static 'images/team3.jpg' %}" alt="David Wilson" loading="lazy" decoding="async">
+
+                    <h4>David Wilson</h4>
+
+                    <span>Lead Developer</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section> -->
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <div class="container text-center">
+
+        <h2>
+
+            Let's Build the Future of Education Together
+
+        </h2>
+
+        <p>
+
+            Join thousands of institutions already using EduERP.
+
+        </p>
+
+        <a href="{% url 'public:contact' %}" class="hero-btn">
+
+            Get Started
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

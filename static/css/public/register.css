@@ -1,0 +1,259 @@
+/* From Uiverse.io by Yaya12085 */ 
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f7fb;
+  font-family: Arial, sans-serif;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 350px;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.form label {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  padding: 0 8px;
+}
+
+.title {
+  font-size: 28px;
+  color: royalblue;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.title::before,.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: royalblue;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+  background-color: royalblue;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.message, .signin {
+  color: rgba(88, 87, 87, 0.822);
+  font-size: 14px;
+}
+
+.signin {
+  text-align: center;
+}
+
+.signin a {
+  color: royalblue;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  width: 100%;
+  padding: 14px 16px 20px 16px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.form label .input + span {
+  position: absolute;
+  left: 16px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown + span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus + span,.form label .input:valid + span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.form label .input:valid + span {
+  color: green;
+}
+
+.submit {
+  border: none;
+  outline: none;
+  background-color: royalblue;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: .3s ease;
+}
+
+.submit:hover {
+  background-color: rgb(56, 90, 194);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@media(max-width:768px){
+  body{
+    padding:15px;
+  }
+  main{
+    width:100%;
+    padding:0;
+  }
+  .form{
+    max-width:90%;
+    padding:30px;
+    gap:14px;
+  }
+  .title{
+    font-size:24px;
+    padding-left:25px;
+  }
+  .title::before,
+  .title::after{
+    width:14px;
+    height:14px;
+  }
+  .title::before{
+    width:16px;
+    height:16px;
+  }
+  .message{
+    font-size:13px;
+  }
+  .flex{
+    gap:5px;
+  }
+  .form label .input{
+    padding:12px 14px 18px;
+    font-size:13px;
+  }
+  .form label .input + span{
+    font-size:0.8em;
+  }
+  .submit{
+    padding:8px;
+    font-size:14px;
+  }
+  .signin{
+    font-size:12px;
+  }
+}
+
+@media(max-width:576px){
+  body{
+    padding:10px;
+  }
+  .form{
+    max-width:100%;
+    padding:25px;
+    gap:12px;
+  }
+  .title{
+    font-size:20px;
+    padding-left:20px;
+  }
+  .title::before,
+  .title::after{
+    width:12px;
+    height:12px;
+  }
+  .title::before{
+    width:14px;
+    height:14px;
+  }
+  .flex{
+    flex-direction:column;
+    gap:3px;
+  }
+  .form label .input{
+    padding:10px 12px 16px;
+    font-size:12px;
+  }
+  .submit{
+    padding:7px;
+    font-size:13px;
+  }
+}
+
+@media(max-width:480px){
+  .form{
+    padding:20px;
+    max-width:100%;
+  }
+  .title{
+    font-size:18px;
+    padding-left:18px;
+  }
+  .form label .input{
+    padding:8px 10px 14px;
+  }
+  .submit{
+    padding:6px;
+    font-size:12px;
+  }
+}

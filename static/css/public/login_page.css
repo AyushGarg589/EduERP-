@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 380px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.message {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.submit {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.submit:hover {
+    background: #4338ca;
+}
+
+.signin {
+    margin-top: 12px;
+    font-size: 14px;
+    text-align: center;
+}
+
+@media(max-width:768px){
+    body{
+        padding:15px;
+    }
+    .form{
+        padding:25px;
+        max-width:90%;
+    }
+    .title{
+        font-size:20px;
+        margin-bottom:6px;
+    }
+    .message{       
+        font-size:12px;       
+         margin-bottom:15px;    }   .input{       padding:8px;       margin-bottom:10px;       font-size:13px;    }   .submit{       padding:8px;        font-size:13px;    }   .signin{       font-size:12px;      margin-top:10px;   }}@media(max-width:576px){    body{       padding:10px;  }    .form{        padding:20px;       max-width:100%;    }    .title{        font-size:18px;   }    .message{       font-size:11px;    }    .input{        padding:7px;       font-size:12px;    }   .submit{       padding:7px;        font-size:12px;   }}@media(max-width:480px){    .form{       padding:15px;    }    .title{      font-size:16px;    }    .input{        padding:6px;       margin-bottom:8px;    }    .submit{        padding:6px;    }}

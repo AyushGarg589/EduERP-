@@ -1,0 +1,354 @@
+{% extends 'public/base.html' %}
+{% load static %}
+
+{% block title %}
+Contact | EduERP
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/public/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+
+<section class="contact-hero">
+
+    <div class="container text-center">
+
+        <span class="hero-tag">
+            Contact EduERP
+        </span>
+
+        <h1>Let's Build Better Education Together</h1>
+
+        <p>
+
+            Have questions about our ERP solution? We'd love to hear from you.
+            Reach out to our team and we'll get back to you as soon as possible.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ================= CONTACT INFO ================= -->
+
+<section class="section-space">
+
+<div class="container">
+
+<div class="row g-4">
+
+<div class="col-md-6 col-lg-4">
+
+<div class="contact-card">
+
+<i class="fa-solid fa-location-dot"></i>
+
+<h4>Visit Us</h4>
+
+<p>
+
+123 Education Street<br>
+
+New Delhi, India
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-4">
+
+<div class="contact-card">
+
+<i class="fa-solid fa-phone"></i>
+
+<h4>Call Us</h4>
+
+<p>
+
++91 98765 43210<br>
+
++91 98765 12345
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-4">
+
+<div class="contact-card">
+
+<i class="fa-solid fa-envelope"></i>
+
+<h4>Email Us</h4>
+
+<p>
+
+support@eduerp.com<br>
+
+info@eduerp.com
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CONTACT FORM ================= -->
+
+<section class="contact-form-section">
+
+<div class="container">
+
+<div class="row align-items-center g-5">
+
+<div class="col-lg-6">
+
+<img src="{% static 'images/Contact.png' %}"
+
+class="img-fluid"
+
+alt="Contact"
+
+width="1254"
+
+height="1254"
+
+loading="lazy"
+
+decoding="async">
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="contact-form">
+
+<h2>
+
+Send Us a Message
+
+</h2>
+
+<form action="https://api.web3forms.com/submit" method="POST">
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<input type="hidden" name="access_key" value="6a6a9d5e-bd3f-466d-a046-160d53ad8ac2">
+
+<input type="text" name="username"  class="form-control" placeholder="Your Name" required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<input type="email" name="email" class="form-control" placeholder="Your Email" required>
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<input type="text" name="subject" class="form-control" placeholder="Subject" required>
+
+</div>
+
+<div class="mb-3">
+
+<textarea class="form-control" name="body" rows="6" placeholder="Write your message..." required></textarea>
+
+</div>
+
+<button class="hero-btn">
+
+Send Message
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FAQ ================= -->
+
+<section class="section-space">
+
+<div class="container">
+
+<div class="section-title">
+
+<h2>
+
+Frequently Asked Questions
+
+</h2>
+
+<p>
+
+Quick answers to common questions.
+
+</p>
+
+</div>
+
+<div class="accordion" id="faqAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#faq1">
+
+Is EduERP suitable for colleges?
+
+</button>
+
+</h2>
+
+<div id="faq1"
+
+class="accordion-collapse collapse show"
+
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Yes. EduERP supports schools, colleges,
+universities and training institutes.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#faq2">
+
+Can I customize the ERP?
+
+</button>
+
+</h2>
+
+<div id="faq2"
+
+class="accordion-collapse collapse"
+
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Absolutely. Modules can be customized
+according to institutional requirements.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#faq3">
+
+Do you provide support?
+
+</button>
+
+</h2>
+
+<div id="faq3"
+
+class="accordion-collapse collapse"
+
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Yes, we provide dedicated technical support
+and regular product updates.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+<div class="container text-center">
+
+<h2>
+
+Ready to Get Started?
+
+</h2>
+
+<p>
+
+Empower your institution with EduERP.
+
+</p>
+
+<a href="#" class="hero-btn">
+
+Book a Free Demo
+
+</a>
+
+</div>
+
+</section>
+
+{% endblock %}

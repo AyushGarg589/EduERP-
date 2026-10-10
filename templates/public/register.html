@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/public/register.css' %}?v=2">
+    <title>Register</title>
+</head>
+<body>
+    <main>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <p class="title">Register</p>
+            <p class="message">Sign up to your account.</p>
+
+            <label>
+                <input required type="text" name="name" class="input" placeholder="">
+                <span>Username</span>
+            </label>
+
+            <label>
+                <input required type="email" name="email" class="input" placeholder="">
+                <span>Email</span>
+            </label>
+
+            <label>
+                <input required type="tel" name="phone_number" pattern="[0-9]{10}" class="input" placeholder="">
+                <span>Phone Number</span>
+            </label>
+
+            <label>
+                <input required type="password" name="password" class="input" placeholder="">
+                <span>Password</span>
+            </label>
+            
+            <button class="submit" type="submit">Register</button>
+            <p class="signin">Already have an account? <a href="{% url 'public:login_page' %}">Login</a></p>
+        </form>
+    </main>
+</body>
+</html>

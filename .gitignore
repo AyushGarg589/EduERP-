@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+.edutrack/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
+# Local databases and generated user data
+*.sqlite3
+*.db
+media/
+uploads/
+
+# Logs, coverage, and test artifacts
+*.log
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
