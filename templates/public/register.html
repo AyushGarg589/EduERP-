@@ -4,39 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/public/register.css' %}?v=2">
-    <title>Register</title>
+    <meta name="theme-color" content="#102d43">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/public/register.css' %}?v=3">
+    <title>Create account | EduERP</title>
 </head>
 <body>
-    <main>
-        <form method="post" class="form">
-            {% csrf_token %}
-            <p class="title">Register</p>
-            <p class="message">Sign up to your account.</p>
+    <main class="register-layout">
+        <section class="welcome-panel" aria-label="About EduERP">
+            <a class="brand" href="{% url 'public:home' %}" aria-label="EduERP home">
+                <span class="brand-icon" aria-hidden="true">E</span>
+                <span>Edu<span class="brand-accent">ERP</span></span>
+            </a>
 
-            <label>
-                <input required type="text" name="name" class="input" placeholder="">
-                <span>Username</span>
-            </label>
+            <div class="welcome-copy">
+                <span class="eyebrow"><span></span> START YOUR JOURNEY</span>
+                <h1>A better campus<br>starts here.</h1>
+                <p>Create your account and bring your learning, your campus, and your day into one place.</p>
+            </div>
 
-            <label>
-                <input required type="email" name="email" class="input" placeholder="">
-                <span>Email</span>
-            </label>
+            <div class="panel-footer">
+                <span class="footer-mark" aria-hidden="true">✳</span>
+                <span>Built for better learning days.</span>
+            </div>
+            <span class="decor decor-one" aria-hidden="true"></span>
+            <span class="decor decor-two" aria-hidden="true"></span>
+        </section>
 
-            <label>
-                <input required type="tel" name="phone_number" pattern="[0-9]{10}" class="input" placeholder="">
-                <span>Phone Number</span>
-            </label>
+        <section class="form-panel" aria-labelledby="register-title">
+            <div class="form-wrap">
+                <span class="welcome-label">GET STARTED</span>
+                <h2 id="register-title">Create your account</h2>
+                <p class="form-intro">A few details and you’ll be ready to go.</p>
 
-            <label>
-                <input required type="password" name="password" class="input" placeholder="">
-                <span>Password</span>
-            </label>
-            
-            <button class="submit" type="submit">Register</button>
-            <p class="signin">Already have an account? <a href="{% url 'public:login_page' %}">Login</a></p>
-        </form>
+                {% if form.errors %}
+                    <div class="form-errors" role="alert" aria-live="polite">
+                        <span class="error-icon" aria-hidden="true">!</span>
+                        <div>
+                            {% for field in form %}
+                                {% for error in field.errors %}<p>{{ error }}</p>{% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <form method="post" class="register-form">
+                    {% csrf_token %}
+                    <div class="field-group">
+                        <label for="name">Username</label>
+                        <input id="name" name="name" type="text" autocomplete="username"
+                               value="{{ form.name.value|default:'' }}" placeholder="Choose a username" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="email">Email address</label>
+                        <input id="email" name="email" type="email" autocomplete="email"
+                               value="{{ form.email.value|default:'' }}" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="phone_number">Phone number</label>
+                        <input id="phone_number" name="phone_number" type="tel" inputmode="numeric"
+                               autocomplete="tel" pattern="[0-9]{10}" maxlength="10"
+                               value="{{ form.phone_number.value|default:'' }}" placeholder="10-digit phone number" required>
+                        <span class="field-hint">Use a 10-digit number.</span>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" autocomplete="new-password"
+                               placeholder="Create a password" required>
+                    </div>
+
+                    <button class="submit-button" type="submit">
+                        <span>Create account</span><span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <p class="login-prompt">Already have an account? <a href="{% url 'public:login_page' %}">Sign in</a></p>
+                <a class="back-link" href="{% url 'public:home' %}"><span aria-hidden="true">←</span> Back to home</a>
+            </div>
+            <p class="copyright">© 2026 EduERP. All rights reserved.</p>
+        </section>
     </main>
 </body>
 </html>
