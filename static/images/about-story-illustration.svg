@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">From paperwork to one platform</title><desc id="desc">Traditional student records flow into an organized digital college management dashboard.</desc>
+  <defs><linearGradient id="bg" x1="70" y1="24" x2="580" y2="464" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#e9f2ef"/></linearGradient><linearGradient id="screen" x1="327" y1="155" x2="526" y2="353" gradientUnits="userSpaceOnUse"><stop stop-color="#173f5c"/><stop offset="1" stop-color="#102d43"/></linearGradient></defs>
+  <rect x="12" y="12" width="616" height="456" rx="30" fill="url(#bg)"/><circle cx="511" cy="92" r="57" fill="#edc579" fill-opacity=".19"/><circle cx="126" cy="362" r="59" fill="#71b7a0" fill-opacity=".16"/>
+  <path d="M101 371h436" stroke="#c5dad3" stroke-width="3" stroke-linecap="round"/>
+  <!-- archive files -->
+  <path d="M96 222h104v143H96z" fill="#fff" stroke="#bfd4cc" stroke-width="2"/><path d="M91 222v-16h41l10 12h63v16H91z" fill="#edc579"/><path d="M111 254h72m-72 17h57m-57 17h65m-65 17h45" stroke="#d0ded9" stroke-width="6" stroke-linecap="round"/><path d="M122 324h51" stroke="#71b7a0" stroke-width="8" stroke-linecap="round"/>
+  <path d="M169 185h80v180h-80z" fill="#f2ddae" stroke="#dec996" stroke-width="2"/><path d="M185 214h48m-48 17h40m-40 17h50m-50 17h34" stroke="#fff9e9" stroke-width="6" stroke-linecap="round"/><path d="M185 301h43" stroke="#c3953c" stroke-width="8" stroke-linecap="round"/>
+  <!-- transition -->
+  <path d="M260 270h57" stroke="#71b7a0" stroke-width="4" stroke-linecap="round"/><path d="m303 257 15 13-15 13" stroke="#285f50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="284" cy="230" r="20" fill="#fff"/><path d="m274 230 7 7 14-15" stroke="#285f50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- digital platform -->
+  <rect x="328" y="128" width="204" height="233" rx="17" fill="#fff" stroke="#c7d9d3" stroke-width="2"/><path d="M328 145a17 17 0 0 1 17-17h170a17 17 0 0 1 17 17v21H328v-21Z" fill="#173f5c"/><circle cx="347" cy="146" r="4" fill="#edc579"/><circle cx="361" cy="146" r="4" fill="#71b7a0"/><circle cx="375" cy="146" r="4" fill="#fff" fill-opacity=".75"/><rect x="346" y="184" width="168" height="46" rx="9" fill="#edf4f1"/><circle cx="368" cy="207" r="12" fill="#285f50"/><path d="M363 207h10m-5-5v10" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M390 201h88m-88 12h61" stroke="#afc5bd" stroke-width="5" stroke-linecap="round"/>
+  <rect x="346" y="244" width="77" height="91" rx="9" fill="#f4f8f6"/><path d="M359 317v-22h11v22h-11zm19 0v-42h11v42h-11zm19 0v-31h11v31h-11z" fill="#71b7a0"/><path d="M357 267h54" stroke="#d3e1dc" stroke-width="5" stroke-linecap="round"/>
+  <rect x="433" y="244" width="81" height="91" rx="9" fill="#fff7e7"/><circle cx="473" cy="283" r="22" stroke="#e7ca8a" stroke-width="9"/><path d="M473 261a22 22 0 0 1 20 31" stroke="#285f50" stroke-width="9" stroke-linecap="round"/><path d="M448 320h50" stroke="#e4d5b1" stroke-width="5" stroke-linecap="round"/>
+  <path d="M355 385h151" stroke="#c7d9d3" stroke-width="7" stroke-linecap="round"/><path d="M386 405h90" stroke="#dce8e4" stroke-width="7" stroke-linecap="round"/>
+</svg>

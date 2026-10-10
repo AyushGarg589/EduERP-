@@ -205,7 +205,7 @@ class StudentUpdateView(InstituteRequiredMixin, UpdateView):
             "Student updated successfully."
         )
 
-        return redirect("student_detail", student_id=student.student_id)
+        return redirect("students:student_detail", student_id=student.student_id)
 
 
 
@@ -337,7 +337,7 @@ class StudentCreateView(InstituteRequiredMixin, View):
                 f"Unable to create student: {str(e)}"
             )
 
-            return redirect("student_add")
+            return redirect("students:student_add")
 
 
     def get(self, request, *args, **kwargs):

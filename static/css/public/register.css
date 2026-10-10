@@ -76,6 +76,7 @@ a { color: inherit; }
 
 .brand-accent { color: #edc579; }
 .welcome-copy { position: relative; z-index: 1; max-width: 400px; margin: 42px 0; }
+.welcome-illustration { position: relative; z-index: 1; display: block; width: 100%; max-height: 190px; margin: -20px 0 0; object-fit: contain; }
 
 .eyebrow, .welcome-label {
     display: inline-flex;
@@ -203,7 +204,7 @@ a { color: inherit; }
     .welcome-panel { min-height: auto; padding: 21px 27px; }
     .brand { font-size: 19px; }
     .brand-icon { width: 33px; height: 33px; border-radius: 10px; font-size: 17px; }
-    .welcome-copy, .panel-footer, .decor { display: none; }
+    .welcome-copy, .welcome-illustration, .panel-footer, .decor { display: none; }
     .form-panel { padding: 34px 31px 20px; }
     .form-wrap h2 { font-size: 28px; }
 }

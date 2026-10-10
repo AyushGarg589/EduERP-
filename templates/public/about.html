@@ -5,10 +5,6 @@
 About | EduERP
 {% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/public/about.css' %}">
-{% endblock %}
-
 {% block content %}
 
 <!-- ================= HERO ================= -->
@@ -43,11 +39,12 @@ About | EduERP
 
             <div class="col-lg-6 text-center">
 
-                <img src="{% static 'images/about_logo.png' %}"
+                <img src="{% static 'images/about-hero-illustration.svg' %}"
                      class="img-fluid about-image"
-                     alt="About EduERP"
-                     width="1254" height="1254"
-                     fetchpriority="high">
+                     alt="Illustration of a college connected to student, course and analytics tools"
+                     width="640" height="480"
+                     fetchpriority="high"
+                     decoding="async">
 
             </div>
 
@@ -67,10 +64,10 @@ About | EduERP
 
             <div class="col-lg-6">
 
-                <img src="{% static 'images/our_story.png' %}"
+                <img src="{% static 'images/about-story-illustration.svg' %}"
                      class="img-fluid rounded-4 shadow-lg"
-                     alt="Our Story"
-                     width="1254" height="1254"
+                     alt="Students and a faculty member collaborating around a laptop on campus"
+                     width="640" height="480"
                      loading="lazy"
                      decoding="async">
 

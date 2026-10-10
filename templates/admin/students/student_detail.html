@@ -15,7 +15,7 @@
     <div class="student-detail-header">
 
         <div>
-            <a href="{% url 'student_list' %}" class="student-back-link">
+            <a href="{% url 'students:student_list' %}" class="student-back-link">
                 <i class="fa-solid fa-arrow-left"></i>
                 Back to Students
             </a>
@@ -26,7 +26,7 @@
 
         <div class="student-detail-actions">
 
-            <a href="{% url 'student_update' student.student_id %}" class="student-edit-button">
+            <a href="{% url 'students:student_update' student.student_id %}" class="student-edit-button">
                 <i class="fa-solid fa-pen"></i>
                 Edit Student
             </a>

@@ -49,9 +49,10 @@ EXTERNAL_APPS = [
     'rest_framework',
     'rest_framework_simplejwt', 
     'apps.public',
-    # 'apps.dashboard',
-    # 'apps.students',
-    # 'apps.institute_app',
+    'apps.dashboard',
+    'apps.students',
+    'apps.faculty',
+    'apps.institute_app',
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS

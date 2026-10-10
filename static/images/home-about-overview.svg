@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">EduERP institution overview</title>
+  <desc id="desc">A connected college management workspace bringing students, faculty, courses and operations together.</desc>
+  <defs>
+    <linearGradient id="canvas" x1="60" y1="22" x2="590" y2="458" gradientUnits="userSpaceOnUse"><stop stop-color="#f9fcfb"/><stop offset="1" stop-color="#e5efeb"/></linearGradient>
+    <linearGradient id="panel" x1="170" y1="91" x2="485" y2="393" gradientUnits="userSpaceOnUse"><stop stop-color="#173f5c"/><stop offset="1" stop-color="#102d43"/></linearGradient>
+  </defs>
+  <rect x="12" y="12" width="616" height="456" rx="30" fill="url(#canvas)"/>
+  <circle cx="527" cy="91" r="61" fill="#edc579" fill-opacity=".2"/>
+  <circle cx="102" cy="368" r="54" fill="#71b7a0" fill-opacity=".14"/>
+  <path d="M108 391h424" stroke="#c5d9d2" stroke-width="3" stroke-linecap="round"/>
+  <rect x="139" y="76" width="363" height="298" rx="20" fill="#fff" stroke="#c8dad4" stroke-width="2"/>
+  <path d="M139 96a20 20 0 0 1 20-20h323a20 20 0 0 1 20 20v42H139V96Z" fill="url(#panel)"/>
+  <circle cx="165" cy="105" r="5" fill="#edc579"/><circle cx="183" cy="105" r="5" fill="#71b7a0"/>
+  <path d="M205 105h103" stroke="#fff" stroke-opacity=".7" stroke-width="6" stroke-linecap="round"/>
+  <rect x="164" y="158" width="142" height="78" rx="12" fill="#edf4f1"/>
+  <circle cx="194" cy="189" r="13" fill="#285f50"/><path d="M176 221c2-12 8-18 18-18s16 6 18 18" fill="#71b7a0"/>
+  <path d="M221 183h63m-63 17h51" stroke="#bed1ca" stroke-width="6" stroke-linecap="round"/>
+  <rect x="320" y="158" width="156" height="78" rx="12" fill="#fff7e8"/>
+  <path d="M341 215v-20h14v20h-14zm25 0v-37h14v37h-14zm25 0v-28h14v28h-14zm25 0v-48h14v48h-14z" fill="#71b7a0"/>
+  <path d="M341 173h105" stroke="#e8d8b1" stroke-width="5" stroke-linecap="round"/>
+  <rect x="164" y="252" width="312" height="93" rx="12" fill="#f8faf9" stroke="#e0eae6"/>
+  <circle cx="193" cy="281" r="11" fill="#285f50"/><path d="M178 321c2-11 7-16 15-16s13 5 15 16" fill="#71b7a0"/>
+  <path d="M223 278h89m-89 15h69m-69 15h81" stroke="#c8d9d3" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="361" cy="292" r="9" fill="#edc579"/><path d="M382 292h69" stroke="#b4c9c1" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="361" cy="321" r="9" fill="#71b7a0"/><path d="M382 321h52" stroke="#b4c9c1" stroke-width="6" stroke-linecap="round"/>
+  <g transform="translate(72 166)"><rect width="78" height="70" rx="17" fill="#fff" stroke="#d5e3de"/><rect x="10" y="10" width="58" height="50" rx="11" fill="#285f50"/><path d="M23 27h31m-31 10h31m-31 10h21" stroke="#fff" stroke-width="4" stroke-linecap="round"/></g>
+  <g transform="translate(496 265)"><rect width="76" height="70" rx="17" fill="#fff" stroke="#d5e3de"/><rect x="10" y="10" width="56" height="50" rx="11" fill="#edc579"/><path d="M24 46V34h8v12h-8zm13 0V24h8v22h-8zm13 0V30h8v16h-8z" fill="#173f5c"/></g>
+  <path d="M111 246c-7 35 4 60 29 76m419-81c19 13 27 31 23 52" stroke="#64a992" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 8"/>
+</svg>

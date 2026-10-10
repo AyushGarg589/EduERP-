@@ -9,17 +9,14 @@ from django.views.decorators.cache import cache_page
 User = get_user_model()
 # Create your views here.
 
-@cache_page(60 * 5)
 def home(request):
     return render(request, "public/home.html")
 
 
-@cache_page(60 * 5)
 def about(request):
     return render(request, "public/about.html")
 
 
-@cache_page(60 * 5)
 def contact(request):
     return render(request, "public/contact.html")
 

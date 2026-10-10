@@ -165,7 +165,7 @@
                 <td class="student-actions">
 
                     <a
-                        href="{% url 'student_detail' student.student_id %}"
+                        href="{% url 'students:student_detail' student.student_id %}"
                         class="student-action-button"
                         title="View student"
                         aria-label="View student"
@@ -174,7 +174,7 @@
                     </a>
 
                     <a
-                        href="{% url 'student_update' student.student_id %}"
+                        href="{% url 'students:student_update' student.student_id %}"
                         class="student-action-button"
                         title="Edit student"
                         aria-label="Edit student"
@@ -183,7 +183,7 @@
                     </a>
 
                     <a
-                        href="{% url 'student_delete' student.student_id %}"
+                        href="{% url 'students:student_delete' student.student_id %}"
                         class="student-action-button student-action-delete"
                         title="Delete student"
                         aria-label="Delete student"
@@ -244,7 +244,7 @@
     <button
         type="button"
         {% if page_obj.has_previous %}
-            hx-get="{% url 'student_table' %}?page={{ page_obj.previous_page_number }}"
+            hx-get="{% url 'students:student_table' %}?page={{ page_obj.previous_page_number }}"
             hx-target="#student-table"
             hx-swap="innerHTML"
             hx-include="#studentFilters"
@@ -270,7 +270,7 @@
     <button
         type="button"
         {% if page_obj.has_next %}
-            hx-get="{% url 'student_table' %}?page={{ page_obj.next_page_number }}"
+            hx-get="{% url 'students:student_table' %}?page={{ page_obj.next_page_number }}"
             hx-target="#student-table"
             hx-swap="innerHTML"
             hx-include="#studentFilters"

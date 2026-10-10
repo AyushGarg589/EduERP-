@@ -6,7 +6,7 @@ Home | EduERP
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/public/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/public/home.css' %}?v=5">
 {% endblock %}
 
 {% block content %}
@@ -21,8 +21,8 @@ Home | EduERP
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="slider-card">
-                <img src="{% static 'images/hero1.jpg' %}" alt="Smart student management dashboard"
-                     width="735" height="353" fetchpriority="high">
+                <img src="{% static 'images/home-student-management.svg' %}" alt="Student records and attendance displayed in a college dashboard"
+                     width="720" height="470" loading="lazy" decoding="async">
                 <div class="slider-overlay">
                   <span>EduERP</span>
                   <h3>Smart Student Management</h3>
@@ -32,8 +32,8 @@ Home | EduERP
             </div>
             <div class="carousel-item">
               <div class="slider-card">
-                <img src="{% static 'images/hero2.jpg' %}" alt="Education analytics dashboard"
-                     width="735" height="410" loading="lazy">
+                <img src="{% static 'images/home-analytics.svg' %}" alt="College performance analytics with attendance and progress charts"
+                     width="720" height="470" loading="lazy" decoding="async">
                 <div class="slider-overlay">
                   <span>Analytics</span>
                   <h3>Powerful Reports</h3>
@@ -43,8 +43,8 @@ Home | EduERP
             </div>
             <div class="carousel-item">
               <div class="slider-card">
-                <img src="{% static 'images/hero3.jpg' %}" alt="Future-ready campus"
-                     width="736" height="493" loading="lazy">
+                <img src="{% static 'images/home-campus.svg' %}" alt="Modern college campus surrounded by trees and a welcoming path"
+                     width="720" height="470" loading="lazy" decoding="async">
                 <div class="slider-overlay">
                   <span>Education</span>
                   <h3>Future Ready Campus</h3>
@@ -144,8 +144,8 @@ Home | EduERP
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6">
-        <img src="{% static 'images/home_logo.png' %}" class="img-fluid rounded-4 shadow" style="user-select: none;" alt="About EduERP"
-             width="1726" height="911" loading="lazy" decoding="async">
+        <img src="{% static 'images/home-about-overview.svg' %}" class="img-fluid rounded-4 shadow" alt="One college workspace connecting student profiles and institutional analytics"
+             width="640" height="480" loading="lazy" decoding="async">
       </div>
       <div class="col-lg-6">
         <h2>About EduERP</h2>

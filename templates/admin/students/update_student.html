@@ -11,7 +11,7 @@
 <main class="student-update-page">
     <header class="student-update-header">
         <div>
-            <a href="{% url 'student_detail' student.student_id %}" class="student-update-back">
+            <a href="{% url 'students:student_detail' student.student_id %}" class="student-update-back">
                 <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
                 Back to student details
             </a>
@@ -154,7 +154,7 @@
         </section>
 
         <footer class="student-update-actions">
-            <a href="{% url 'student_detail' student.student_id %}" class="student-update-cancel">Cancel</a>
+            <a href="{% url 'students:student_detail' student.student_id %}" class="student-update-cancel">Cancel</a>
             <button type="submit" class="student-update-submit">
                 <i class="fa-solid fa-check" aria-hidden="true"></i>
                 Save changes

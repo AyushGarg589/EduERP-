@@ -115,7 +115,7 @@ class StudentListTests(TestCase):
         self.client.force_login(self.owner)
 
     def test_student_list_renders_database_records_and_filter_options(self):
-        response = self.client.get(reverse("student_list"))
+        response = self.client.get(reverse("students:student_list"))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Asha Mehta")
@@ -128,10 +128,10 @@ class StudentListTests(TestCase):
         self.active_student.save(update_fields=["profile_photo"])
 
         edit_response = self.client.get(
-            reverse("student_update", args=[self.active_student.student_id])
+            reverse("students:student_update", args=[self.active_student.student_id])
         )
         detail_response = self.client.get(
-            reverse("student_detail", args=[self.active_student.student_id])
+            reverse("students:student_detail", args=[self.active_student.student_id])
         )
 
         self.assertEqual(edit_response.status_code, 200)
@@ -160,7 +160,7 @@ class StudentListTests(TestCase):
         with TemporaryDirectory() as media_root:
             with override_settings(MEDIA_ROOT=media_root):
                 response = self.client.post(
-                    reverse("student_update", args=[self.active_student.student_id]),
+                    reverse("students:student_update", args=[self.active_student.student_id]),
                     {
                         "full_name": self.active_student.full_name,
                         "date_of_birth": "2005-05-10",
@@ -174,7 +174,7 @@ class StudentListTests(TestCase):
 
                 self.assertRedirects(
                     response,
-                    reverse("student_detail", args=[self.active_student.student_id]),
+                    reverse("students:student_detail", args=[self.active_student.student_id]),
                 )
                 self.active_student.refresh_from_db()
                 self.assertTrue(self.active_student.profile_photo.name)
@@ -182,7 +182,7 @@ class StudentListTests(TestCase):
 
     def test_htmx_table_filters_by_search_course_department_and_status(self):
         response = self.client.get(
-            reverse("student_table"),
+            reverse("students:student_table"),
             {
                 "search": "asha@example.com",
                 "course": "B.Tech",
@@ -202,7 +202,7 @@ class StudentListTests(TestCase):
         self.active_student.save(update_fields=["profile_photo"])
 
         response = self.client.get(
-            reverse("student_table"),
+            reverse("students:student_table"),
             {"search": "Asha Mehta"},
             HTTP_HX_REQUEST="true",
         )
@@ -230,7 +230,7 @@ class StudentListTests(TestCase):
             )
 
         first_page = self.client.get(
-            reverse("student_table"),
+            reverse("students:student_table"),
             {"status": "active"},
             HTTP_HX_REQUEST="true",
         )
@@ -242,7 +242,7 @@ class StudentListTests(TestCase):
         self.assertContains(first_page, "hx-include=\"#studentFilters\"")
 
         second_page = self.client.get(
-            reverse("student_table"),
+            reverse("students:student_table"),
             {"status": "active", "page": 2},
             HTTP_HX_REQUEST="true",
         )
@@ -256,7 +256,7 @@ class StudentListTests(TestCase):
 
     def test_htmx_table_search_accepts_formatted_student_id(self):
         response = self.client.get(
-            reverse("student_table"),
+            reverse("students:student_table"),
             {"search": f"STU{self.active_student.student_id:03d}"},
             HTTP_HX_REQUEST="true",
         )
@@ -266,7 +266,7 @@ class StudentListTests(TestCase):
 
     def test_htmx_table_shows_empty_state_for_no_matches(self):
         response = self.client.get(
-            reverse("student_table"),
+            reverse("students:student_table"),
             {"search": "nobody@example.com"},
             HTTP_HX_REQUEST="true",
         )
@@ -292,8 +292,8 @@ class StudentListTests(TestCase):
             gender="Other",
         )
 
-        page_response = self.client.get(reverse("student_list"))
-        table_response = self.client.get(reverse("student_table"))
+        page_response = self.client.get(reverse("students:student_list"))
+        table_response = self.client.get(reverse("students:student_table"))
         list_api_response = self.client.get(reverse("student_api_list"))
         detail_api_response = self.client.get(
             reverse("studentDetail", args=[other_student.student_id])
@@ -322,11 +322,11 @@ class StudentListTests(TestCase):
         )
 
         response = self.client.post(
-            reverse("student_add"),
+            reverse("students:student_add"),
             {"campus": str(other_campus.campus_id)},
         )
 
-        self.assertRedirects(response, reverse("student_add"))
+        self.assertRedirects(response, reverse("students:student_add"))
         self.assertFalse(
             Student.objects.filter(campus=other_campus).exists()
         )
@@ -369,7 +369,7 @@ class StudentListTests(TestCase):
         )
         self.client.force_login(unassigned_user)
 
-        page_response = self.client.get(reverse("student_list"))
+        page_response = self.client.get(reverse("students:student_list"))
         api_response = self.client.get(reverse("student_api_list"))
 
         self.assertEqual(page_response.status_code, 403)

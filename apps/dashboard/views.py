@@ -11,7 +11,7 @@ def admin_dashboard(request):
     return render(request, "admin/admin_dashboard.html")
 
 
-@require_POST
+
 def logout_home(request):
     logout(request)
     return redirect("public:home")

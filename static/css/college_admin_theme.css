@@ -1,0 +1,142 @@
+/* Shared visual language for student and faculty administration. */
+:is(.student-list, .student-form-page, .student-detail-page, .student-delete-page) {
+    --student-ink: #18313e;
+    --student-green: #285f50;
+    --student-muted: #78868c;
+    --student-border: #e2e9e8;
+    --form-ink: #18313e;
+    --form-green: #285f50;
+    --form-muted: #78868c;
+    --form-border: #e2e9e8;
+    --detail-ink: #18313e;
+    --detail-green: #285f50;
+    --detail-muted: #78868c;
+    --detail-border: #e2e9e8;
+    --update-ink: #18313e;
+    --update-green: #285f50;
+    --update-muted: #78868c;
+    --update-border: #e2e9e8;
+    --delete-ink: #18313e;
+    --delete-muted: #78868c;
+    --delete-border: #e2e9e8;
+}
+
+:is(.faculty-page, .faculty-add-page, .faculty-detail-page) {
+    --faculty-ink: #18313e;
+    --faculty-green: #285f50;
+    --faculty-muted: #78868c;
+    --faculty-border: #e2e9e8;
+    --detail-ink: #18313e;
+    --detail-green: #285f50;
+    --detail-muted: #78868c;
+    --detail-border: #e2e9e8;
+}
+
+:is(.student-list, .student-form-page, .student-detail-page, .student-delete-page,
+    .faculty-page, .faculty-add-page, .faculty-detail-page) {
+    color: #18313e;
+    font-family: 'DM Sans', 'Segoe UI', sans-serif;
+}
+
+:is(.student-list, .student-form-page, .student-detail-page, .student-delete-page,
+    .faculty-page, .faculty-add-page, .faculty-detail-page) h1,
+:is(.student-list, .student-form-page, .student-detail-page, .faculty-page, .faculty-add-page, .faculty-detail-page) h2,
+:is(.student-list, .student-form-page, .student-detail-page, .faculty-page, .faculty-add-page, .faculty-detail-page) h3 {
+    color: #18313e;
+    font-family: 'Manrope', 'DM Sans', sans-serif;
+}
+
+:is(.student-card, .student-form-card, .student-detail-section, .student-profile,
+    .student-delete-card, .faculty-filter-card, .faculty-table-card, .faculty-form-card,
+    .faculty-profile-card, .faculty-detail-section) {
+    border-color: #e2e9e8;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(24, 49, 62, .05);
+}
+
+:is(.student-filter-field input, .student-filter-field select,
+    .student-form-field input, .student-form-field select, .student-form-field textarea,
+    .student-detail-page input, .student-detail-page select, .student-detail-page textarea,
+    .faculty-search-box input, .faculty-filter-group select,
+    .faculty-form-group input:not([type="checkbox"]), .faculty-form-group select,
+    .faculty-form-group textarea) {
+    border-color: #dce5e3;
+    border-radius: 8px;
+}
+
+:is(.student-filter-field input, .student-filter-field select,
+    .student-form-field input, .student-form-field select, .student-form-field textarea,
+    .faculty-search-box input, .faculty-filter-group select,
+    .faculty-form-group input:not([type="checkbox"]), .faculty-form-group select,
+    .faculty-form-group textarea):focus {
+    border-color: #4b8976;
+    box-shadow: 0 0 0 3px rgba(75, 137, 118, .13);
+    outline: none;
+}
+
+:is(.faculty-add-btn, .faculty-submit-btn, .faculty-edit-btn,
+    .student-save-button, .student-add-button, .student-edit-button,
+    .student-submit-button, .student-reset-button) {
+    border-color: #285f50;
+    background: #285f50;
+    color: #fff;
+}
+
+:is(.faculty-add-btn, .faculty-submit-btn, .faculty-edit-btn,
+    .student-save-button, .student-add-button, .student-edit-button,
+    .student-submit-button, .student-reset-button):hover {
+    border-color: #214f43;
+    background: #214f43;
+    color: #fff;
+}
+
+:is(.student-back-link, .student-cancel-button, .faculty-back-btn, .faculty-cancel-btn) {
+    border-radius: 8px;
+}
+
+:is(.student-eyebrow, .faculty-eyebrow, .student-section-icon, .faculty-section-icon) {
+    color: #397661;
+}
+
+:is(.student-heading-mark, .student-section-icon, .faculty-section-icon) {
+    background-color: #e9f1ed;
+}
+
+:is(.student-table th, .faculty-table th) {
+    background: #f3f7f5;
+    color: #5e746c;
+}
+
+:is(.student-record-count, .faculty-count) {
+    border-color: #cbded5;
+    background: #edf5f1;
+    color: #285f50;
+}
+
+:is(.student-action-button:not(.student-action-delete), .faculty-action-btn:not(.delete)) {
+    color: #285f50;
+}
+
+:is(.student-action-button:not(.student-action-delete), .faculty-action-btn:not(.delete)):hover {
+    background: #e9f1ed;
+}
+
+:is(.student-pagination button, .faculty-page-btn):not(:disabled):hover {
+    border-color: #285f50;
+    background: #285f50;
+    color: #fff;
+}
+
+:is(.student-pagination button, .faculty-page-btn):focus-visible,
+:is(.student-action-button, .faculty-action-button):focus-visible,
+:is(.faculty-action-btn):focus-visible,
+:is(.faculty-add-btn, .faculty-submit-btn, .student-save-button, .student-add-button):focus-visible {
+    outline: 3px solid rgba(75, 137, 118, .25);
+    outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+    :is(.student-page-heading, .faculty-page-header, .faculty-add-header, .student-detail-header, .faculty-detail-header) {
+        align-items: flex-start;
+    }
+}

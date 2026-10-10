@@ -18,6 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import RedirectView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -26,19 +27,23 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
 
+    path("favicon.ico", RedirectView.as_view(url="/static/favicon.ico", permanent=False), name="favicon"),
+
     path("admin/", admin.site.urls),
 
     path("", include("apps.public.urls")),
 
     path("dashboard/", include(("apps.dashboard.urls", "dashboard"), namespace="dashboard")),
 
-    # path("students/", include(("apps.students.urls", "students"), namespace="students")),
+    path("students/", include("apps.students.urls")),
 
-    # path("Institute/", include(("apps.institute_app.urls" , "institute") , namespace="institute")),
+    path("faculty/", include("apps.faculty.urls")),
 
-    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("Institute/", include(("apps.institute_app.urls" , "institute") , namespace="institute")),
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
