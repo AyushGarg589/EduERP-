@@ -22,6 +22,60 @@ from apps.institute_app.models import (
 
 class FacultyCitiesApiTests(TestCase):
     @patch("apps.faculty.api_views.requests.get")
+    def test_country_api_returns_complete_sorted_country_names(self, mock_get):
+        upstream_response = mock_get.return_value
+        upstream_response.json.return_value = {
+            "error": False,
+            "data": [
+                {"country": "India"},
+                {"country": "Canada"},
+                {"country": "India"},
+                {"country": ""},
+                {"country": None},
+            ],
+        }
+
+        response = self.client.get("/api/faculty/countries/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["data"], ["Canada", "India"])
+        mock_get.assert_called_once_with(
+            "https://countriesnow.space/api/v0.1/countries",
+            timeout=10,
+        )
+
+    @patch("apps.faculty.api_views.requests.get")
+    def test_state_api_is_available_at_location_script_endpoint(
+        self,
+        mock_get,
+    ):
+        upstream_response = mock_get.return_value
+        upstream_response.json.return_value = {
+            "error": False,
+            "data": {
+                "states": [
+                    {"name": "Maharashtra"},
+                ],
+            },
+        }
+
+        response = self.client.get(
+            "/api/faculty/states/",
+            {"country": "India"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.json()["data"]["states"],
+            [{"name": "Maharashtra"}],
+        )
+        mock_get.assert_called_once_with(
+            "https://countriesnow.space/api/v0.1/countries/states/q",
+            params={"country": "India"},
+            timeout=10,
+        )
+
+    @patch("apps.faculty.api_views.requests.get")
     def test_city_api_returns_cities_for_selected_country_and_state(
         self,
         mock_get,
@@ -111,6 +165,20 @@ class FacultyPaginationTests(TestCase):
             r"Showing\s*<strong>\s*5\s*</strong>\s*of\s*<strong>\s*7\s*</strong>",
         )
 
+    def test_faculty_can_be_deleted_from_confirmation_page(self):
+        faculty = Faculty.objects.order_by("faculty_id").first()
+        delete_url = reverse("faculty_delete", kwargs={"faculty_id": faculty.faculty_id})
+
+        response = self.client.get(delete_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Delete Faculty")
+        self.assertContains(response, faculty.full_name)
+
+        response = self.client.post(delete_url)
+
+        self.assertRedirects(response, reverse("faculty_list"))
+        self.assertFalse(Faculty.objects.filter(pk=faculty.pk).exists())
+
     def test_faculty_table_pagination_keeps_filters(self):
         response = self.client.get(
             reverse("faculty_table"),
@@ -144,6 +212,14 @@ class FacultyPaginationTests(TestCase):
         faculty = Faculty.objects.get(emp_id="EMP000")
         faculty.profile_photo = "faculty/profile/current.jpg"
         faculty.save(update_fields=["profile_photo"])
+        FacultyAddress.objects.create(
+            faculty=faculty,
+            address="Current address",
+            city="Mumbai",
+            state="Maharashtra",
+            country="India",
+            pincode="400001",
+        )
 
         response = self.client.get(
             reverse("faculty_update", args=[faculty.faculty_id])
@@ -158,6 +234,11 @@ class FacultyPaginationTests(TestCase):
             response,
             f'alt="Current profile photo of {faculty.full_name}"',
         )
+        self.assertRegex(response.content.decode(), r"<select\s+name=\"city\"")
+        self.assertContains(response, 'data-current-city="Mumbai"')
+        self.assertContains(response, 'data-current-state="Maharashtra"')
+        self.assertContains(response, 'data-current-country="India"')
+        self.assertContains(response, '/static/location.js?v=5')
 
     def test_faculty_pages_hide_other_institutes_records(self):
         other_institute = Institute.objects.create(

@@ -7,6 +7,48 @@ from django.http import JsonResponse
 from django.views import View
 
 
+class FacultyCountriesApi(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            response = requests.get(
+                "https://countriesnow.space/api/v0.1/countries",
+                timeout=10,
+            )
+            response.raise_for_status()
+            payload = response.json()
+        except (requests.RequestException, ValueError):
+            return JsonResponse(
+                {"error": "Unable to fetch countries."},
+                status=503,
+            )
+
+        if not isinstance(payload, dict) or payload.get("error"):
+            return JsonResponse(
+                {"error": "Country provider returned invalid data."},
+                status=502,
+            )
+
+        country_data = payload.get("data")
+        if not isinstance(country_data, list):
+            return JsonResponse(
+                {"error": "Country provider returned invalid data."},
+                status=502,
+            )
+
+        countries = sorted({
+            item["country"].strip()
+            for item in country_data
+            if isinstance(item, dict)
+            and isinstance(item.get("country"), str)
+            and item["country"].strip()
+        })
+        if not countries:
+            return JsonResponse(
+                {"error": "Country provider returned no countries."},
+                status=502,
+            )
+
+        return JsonResponse({"data": countries})
 
 
 class FacultyStatesApi(View):
