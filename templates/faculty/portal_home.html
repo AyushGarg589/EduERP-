@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Faculty portal | EduERP</title>
+    <style>
+        body { margin: 0; background: #f3f6fb; color: #172033; font: 16px/1.5 Arial, sans-serif; }
+        main { width: min(100% - 32px, 760px); margin: 8vh auto; padding: 32px; border-radius: 16px; background: white; box-shadow: 0 12px 40px #17203312; }
+        h1 { margin-top: 0; } .detail { padding: 18px; border-radius: 10px; background: #f7f9fd; }
+        a { color: #2459d3; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Welcome, {{ faculty.full_name }}</h1>
+    <p>Your faculty account is connected to your institute profile.</p>
+    <section class="detail">
+        <p><strong>Institute:</strong> {{ faculty.campus.institute.institute_name }}</p>
+        <p><strong>Campus:</strong> {{ faculty.campus.campus_name }}</p>
+        <p><strong>Employee ID:</strong> {{ faculty.emp_id }}</p>
+    </section>
+    <p><a href="{% url 'dashboard:logout_home' %}">Log out</a></p>
+</main>
+</body>
+</html>

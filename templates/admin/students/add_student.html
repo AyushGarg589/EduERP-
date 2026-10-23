@@ -509,14 +509,15 @@
                     <select
                         id="course"
                         name="course"
+                        disabled
                         required
                     >
                         <option value="">
-                            Select course
+                            Select campus first
                         </option>
 
                         {% for course in courses %}
-                            <option value="{{ course.course_id }}">
+                            <option value="{{ course.course_id }}" data-campus-id="{{ course.campus_id }}" hidden disabled>
                                 {{ course.course_name }}
                             </option>
                         {% endfor %}
@@ -533,14 +534,15 @@
                     <select
                         id="branch"
                         name="branch"
+                        disabled
                         required
                     >
                         <option value="">
-                            Select department
+                            Select course first
                         </option>
 
                         {% for department in departments %}
-                            <option value="{{ department.department_id }}">
+                            <option value="{{ department.department_id }}" data-course-id="{{ department.course_id }}" hidden disabled>
                                 {{ department.department_name }}
                             </option>
                         {% endfor %}
@@ -737,6 +739,71 @@
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
-<script src="{% static 'data/countries.js' %}"></script>
-<script src="{% static 'js/faculty/location.js' %}?v=2"></script>
+<script src="{% static 'location.js' %}?v=4"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const campusSelect = document.getElementById("campus");
+    const courseSelect = document.getElementById("course");
+    const departmentSelect = document.getElementById("branch");
+    if (!campusSelect || !courseSelect || !departmentSelect) return;
+
+    const courseOptions = Array.from(courseSelect.options).slice(1).map(function (option) {
+        const copy = option.cloneNode(true);
+        copy.hidden = false;
+        copy.disabled = false;
+        return copy;
+    });
+    const departmentOptions = Array.from(departmentSelect.options).slice(1).map(function (option) {
+        const copy = option.cloneNode(true);
+        copy.hidden = false;
+        copy.disabled = false;
+        return copy;
+    });
+
+    function setRelatedOptions(select, options, relationAttribute, parentValue, emptyPrompt, choosePrompt, noResultsPrompt) {
+        const related = parentValue
+            ? options.filter(function (option) { return option.dataset[relationAttribute] === parentValue; })
+            : [];
+        select.replaceChildren();
+        const placeholder = new Option(
+            !parentValue ? emptyPrompt : (related.length ? choosePrompt : noResultsPrompt),
+            ""
+        );
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        select.appendChild(placeholder);
+        related.forEach(function (option) { select.appendChild(option.cloneNode(true)); });
+        select.disabled = related.length === 0;
+    }
+
+    function updateCourses() {
+        setRelatedOptions(
+            courseSelect,
+            courseOptions,
+            "campusId",
+            campusSelect.value,
+            "Select campus first",
+            "Select course",
+            "No courses for this campus"
+        );
+        updateDepartments();
+    }
+
+    function updateDepartments() {
+        setRelatedOptions(
+            departmentSelect,
+            departmentOptions,
+            "courseId",
+            courseSelect.value,
+            "Select course first",
+            "Select department",
+            "No departments for this course"
+        );
+    }
+
+    campusSelect.addEventListener("change", updateCourses);
+    courseSelect.addEventListener("change", updateDepartments);
+    updateCourses();
+});
+</script>
 {% endblock %}

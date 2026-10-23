@@ -1,0 +1,22 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Delete Campus | EduERP{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/admin/institute/institute_theme.css' %}?v=5">{% endblock %}
+
+{% block content %}
+<main class="institute-setup-page">
+    <header class="setup-header">
+        <div><span class="setup-eyebrow">INSTITUTE SETUP</span><h1>Delete Campus</h1><p>Review this action before confirming.</p></div>
+        <a class="setup-button setup-button--light" href="{% url 'institute:campus_list' %}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Campuses</a>
+    </header>
+    <form class="setup-card setup-delete-card" method="post">
+        {% csrf_token %}
+        <p>Delete campus <strong>{{ object }}</strong>? This action cannot be undone.</p>
+        <div class="setup-form-actions">
+            <a class="setup-button setup-button--light" href="{% url 'institute:campus_list' %}">Cancel</a>
+            <button class="setup-button setup-button--danger" type="submit">Delete Campus</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

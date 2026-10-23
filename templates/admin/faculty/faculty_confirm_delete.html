@@ -1,0 +1,39 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/faculty/faculty_confirm_delete.css' %}">
+{% endblock %}
+
+{% block title %}Delete Faculty | EduERP{% endblock %}
+
+{% block content %}
+<div class="faculty-delete-page">
+    <section class="faculty-delete-card">
+        <div class="faculty-delete-icon" aria-hidden="true">
+            <i class="fa-solid fa-trash"></i>
+        </div>
+
+        <div class="faculty-delete-content">
+            <h1>Delete Faculty</h1>
+            <p class="faculty-delete-warning">
+                Are you sure you want to delete <strong>{{ faculty.full_name }}</strong>?
+            </p>
+            <p class="faculty-delete-description">
+                This action will permanently remove this faculty member and their related information. This cannot be undone.
+            </p>
+
+            <div class="faculty-delete-actions">
+                <a href="{% url 'faculty_list' %}" class="faculty-cancel-button">Cancel</a>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="faculty-confirm-delete-button">
+                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                        Delete Faculty
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

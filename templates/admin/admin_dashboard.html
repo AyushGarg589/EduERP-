@@ -4,7 +4,7 @@
 {% block title %}Admin Dashboard | EduERP{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/admin/admin_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin/admin_dashboard.css' %}?v=10">
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
     <header class="admin-page-heading">
         <div>
             <span class="admin-eyebrow">ADMIN PANEL</span>
-            <h1>Welcome back, {{ request.user.get_full_name|default:request.user.username }} <span aria-hidden="true">👋</span></h1>
+            <h1>Welcome back, {{ request.user.get_full_name|default:request.user.username }}</h1>
             <p>Here's what's happening across your institute today.</p>
         </div>
         <div class="admin-heading-icon" aria-hidden="true">
@@ -23,69 +23,70 @@
     <section class="admin-stats" aria-label="Institute statistics">
         <article class="admin-stat-card">
             <span class="admin-stat-icon students"><i class="fa-solid fa-user-graduate"></i></span>
-            <div><span>Total Students</span><strong>1,248</strong><small><i class="fa-solid fa-arrow-trend-up"></i> 8.2% this month</small></div>
+            <div><span>Active Students</span><strong>{{ total_students }}</strong><small>Active student profiles</small></div>
         </article>
         <article class="admin-stat-card">
             <span class="admin-stat-icon faculty"><i class="fa-solid fa-chalkboard-user"></i></span>
-            <div><span>Total Faculty</span><strong>86</strong><small><i class="fa-solid fa-arrow-trend-up"></i> 3 new this month</small></div>
+            <div><span>Active Faculty</span><strong>{{ total_faculty }}</strong><small>Currently active staff</small></div>
         </article>
         <article class="admin-stat-card">
-            <span class="admin-stat-icon courses"><i class="fa-solid fa-book-open"></i></span>
-            <div><span>Total Courses</span><strong>32</strong><small>Currently active</small></div>
+            <span class="admin-stat-icon student-faculty"><i class="fa-solid fa-users"></i></span>
+            <div><span>Student-Faculty Ratio</span><strong>{{ student_faculty_ratio }}</strong><small>Active students per active faculty</small></div>
         </article>
         <article class="admin-stat-card">
-            <span class="admin-stat-icon departments"><i class="fa-solid fa-building"></i></span>
-            <div><span>Departments</span><strong>12</strong><small>Across all campuses</small></div>
+            <span class="admin-stat-icon capacity"><i class="fa-solid fa-bullseye"></i></span>
+            <div><span>Annual Course Intake</span><strong>{{ intake_capacity }}</strong><small>Recorded across active courses</small></div>
+        </article>
+        <article class="admin-stat-card">
+            <span class="admin-stat-icon growth"><i class="fa-solid fa-user-plus"></i></span>
+            <div><span>New Student Records</span><strong>{{ new_student_records_this_month }}</strong><small>Created this month</small></div>
+        </article>
+        <article class="admin-stat-card">
+            <span class="admin-stat-icon compliance"><i class="fa-solid fa-file-circle-exclamation"></i></span>
+            <div><span>Documents to Verify</span><strong>{{ pending_documents }}</strong><small>Awaiting verification</small></div>
         </article>
     </section>
 
     <section class="admin-dashboard-grid">
         <article class="admin-card">
             <div class="admin-card-heading">
-                <div><h2>Student Distribution</h2><p>Students by department</p></div>
+                <div><h2>Student Distribution</h2><p>Active enrollments by department</p></div>
                 <span class="admin-card-mark"><i class="fa-solid fa-chart-pie"></i></span>
             </div>
             <div class="admin-chart-wrap">
-                <canvas id="studentChart" aria-label="Student distribution chart"></canvas>
+                <canvas id="studentChart" aria-label="Student distribution by department" role="img"></canvas>
             </div>
         </article>
 
-        <article class="admin-card attendance-card">
+        <article class="admin-card">
             <div class="admin-card-heading">
-                <div><h2>Today's Attendance</h2><p>Overall attendance status</p></div>
-                <span class="admin-card-mark"><i class="fa-regular fa-calendar-check"></i></span>
+                <div><h2>New Student Records</h2><p>Records created in the last six months</p></div>
+                <span class="admin-card-mark"><i class="fa-solid fa-chart-line"></i></span>
             </div>
-            <div class="attendance-summary">
-                <div class="attendance-meter" aria-label="91 percent present"><strong>91%</strong><span>Present</span></div>
-                <div class="attendance-legend">
-                    <div><span class="attendance-dot present"></span><span>Present</span><strong>91%</strong></div>
-                    <div><span class="attendance-dot absent"></span><span>Absent</span><strong>7%</strong></div>
-                    <div><span class="attendance-dot leave"></span><span>Leave</span><strong>2%</strong></div>
-                </div>
+            <div class="admin-chart-wrap">
+                <canvas id="studentTrendChart" aria-label="New student records by month" role="img"></canvas>
             </div>
         </article>
     </section>
 
-    <section class="admin-dashboard-grid admin-lower-grid">
+    <section class="admin-dashboard-grid admin-strategic-grid" aria-label="Institution planning insights">
         <article class="admin-card">
             <div class="admin-card-heading">
-                <div><h2>Recent Activity</h2><p>Latest updates in the system</p></div>
+                <div><h2>Enrollment by Campus</h2><p>Active students across campuses</p></div>
+                <span class="admin-card-mark"><i class="fa-solid fa-building-columns"></i></span>
             </div>
-            <div class="admin-activity-list">
-                <div class="admin-activity"><span class="activity-icon student"><i class="fa-solid fa-user-plus"></i></span><div><strong>New student added</strong><span>Student registration completed</span></div><time>5 min ago</time></div>
-                <div class="admin-activity"><span class="activity-icon faculty"><i class="fa-solid fa-user-tie"></i></span><div><strong>Faculty profile updated</strong><span>Faculty information was updated</span></div><time>25 min ago</time></div>
-                <div class="admin-activity"><span class="activity-icon course"><i class="fa-solid fa-book"></i></span><div><strong>New course created</strong><span>Course has been added to the system</span></div><time>1 hour ago</time></div>
+            <div class="admin-chart-wrap">
+                <canvas id="campusEnrollmentChart" aria-label="Active student enrollment by campus" role="img"></canvas>
             </div>
         </article>
 
         <article class="admin-card">
             <div class="admin-card-heading">
-                <div><h2>Pending Actions</h2><p>Things that need attention</p></div>
+                <div><h2>Faculty by Department</h2><p>Active faculty with a department assigned</p></div>
+                <span class="admin-card-mark"><i class="fa-solid fa-people-group"></i></span>
             </div>
-            <div class="admin-pending-list">
-                <div><span class="pending-icon"><i class="fa-solid fa-file-circle-check"></i></span><span><strong>Document verification</strong><small>12 documents pending</small></span></div>
-                <div><span class="pending-icon"><i class="fa-solid fa-user-check"></i></span><span><strong>Incomplete profiles</strong><small>4 faculty profiles</small></span></div>
-                <div><span class="pending-icon"><i class="fa-solid fa-graduation-cap"></i></span><span><strong>Enrollment updates</strong><small>8 records need review</small></span></div>
+            <div class="admin-chart-wrap">
+                <canvas id="facultyDepartmentChart" aria-label="Active faculty by department" role="img"></canvas>
             </div>
         </article>
     </section>
@@ -96,7 +97,7 @@
         </div>
         <div class="admin-action-list">
             <a href="{% url 'students:student_list' %}"><i class="fa-solid fa-user"></i><span>Student List</span></a>
-            <a href="{% url 'institute:faculty' as faculty_url %}{{ faculty_url|default:'#' }}"><i class="fa-solid fa-user-tie"></i><span>Faculties</span></a>
+            <a href="{% url 'faculty_list' %}"><i class="fa-solid fa-user-tie"></i><span>Faculties</span></a>
             <a href="{% url 'institute:courses' as courses_url %}{{ courses_url|default:'#' }}"><i class="fa-solid fa-book-medical"></i><span>Courses</span></a>
             <a href="{% url 'institute:campus' as campus_url %}{{ campus_url|default:'#' }}"><i class="fa-solid fa-school"></i><span>Campuses</span></a>
         </div>
@@ -105,27 +106,217 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{{ dashboard_chart_data|json_script:"dashboard-chart-data" }}
 <script>
-    const studentChart = document.getElementById("studentChart");
-    if (studentChart) {
-        new Chart(studentChart, {
-            type: "doughnut",
-            data: {
-                labels: ["Science", "Arts", "Commerce", "Other"],
-                datasets: [{
-                    data: [38, 27, 22, 13],
-                    backgroundColor: ["#2e8b57", "#f4b400", "#3975a5", "#dce5eb"],
-                    borderWidth: 0,
-                    hoverOffset: 5
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                cutout: "68%",
-                plugins: { legend: { position: "right" } }
-            }
-        });
-    }
+    (function () {
+        const departmentCanvas = document.getElementById("studentChart");
+        const trendCanvas = document.getElementById("studentTrendChart");
+        const campusCanvas = document.getElementById("campusEnrollmentChart");
+        const facultyCanvas = document.getElementById("facultyDepartmentChart");
+        const chartData = JSON.parse(document.getElementById("dashboard-chart-data").textContent);
+        const colors = ["#285f50", "#edc579", "#397661", "#173b50", "#8ca99b", "#b5cabe", "#8198a5", "#dce5e3"];
+        let chartLibraryRequested = false;
+
+        function loadCharts() {
+            if (chartLibraryRequested) return;
+            chartLibraryRequested = true;
+            const chartScript = document.createElement("script");
+            chartScript.src = "https://cdn.jsdelivr.net/npm/chart.js";
+            chartScript.async = true;
+            chartScript.onload = function () {
+                if (departmentCanvas) {
+                    const departmentTotal = chartData.departmentCounts.reduce(function (sum, count) { return sum + count; }, 0);
+                    const departmentColors = chartData.departmentCounts.map(function (_, index) { return colors[index % colors.length]; });
+                    new Chart(departmentCanvas, {
+                        type: "doughnut",
+                        data: {
+                            labels: chartData.departmentLabels,
+                            datasets: [{
+                                data: chartData.departmentCounts,
+                                backgroundColor: departmentColors.slice(),
+                                borderColor: "#ffffff",
+                                borderWidth: 3,
+                                hoverOffset: 0,
+                                borderRadius: 0,
+                                spacing: 0
+                            }]
+                        },
+                        plugins: [{
+                            id: "department-center-summary",
+                            afterDraw: function (chart) {
+                                const active = chart.getActiveElements();
+                                const index = active.length ? active[0].index : -1;
+                                const count = index < 0 ? departmentTotal : chart.data.datasets[0].data[index];
+                                const percent = departmentTotal ? Math.round(count / departmentTotal * 100) : 0;
+                                const area = chart.chartArea;
+                                const x = (area.left + area.right) / 2;
+                                const y = (area.top + area.bottom) / 2;
+                                const ctx = chart.ctx;
+                                ctx.save();
+                                ctx.textAlign = "center";
+                                ctx.textBaseline = "middle";
+                                ctx.fillStyle = "#78868c";
+                                ctx.font = "500 9px DM Sans, sans-serif";
+                                const label = index < 0 ? "ENROLLED STUDENTS" : chart.data.labels[index].toUpperCase();
+                                ctx.fillText(label.length > 18 ? label.slice(0, 15) + "..." : label, x, y - 16);
+                                ctx.fillStyle = "#18313e";
+                                ctx.font = "700 20px Manrope, sans-serif";
+                                ctx.fillText(count.toLocaleString(), x, y + 5);
+                                ctx.fillStyle = "#78868c";
+                                ctx.font = "500 10px DM Sans, sans-serif";
+                                ctx.fillText(percent + "%", x, y + 22);
+                                ctx.restore();
+                            }
+                        }],
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: "66%",
+                            radius: "94%",
+                            layout: { padding: 8 },
+                            animation: { duration: 400 },
+                            hover: { mode: "nearest", intersect: true, animationDuration: 120 },
+                            onHover: function (event, activeElements, chart) {
+                                const selected = activeElements.length ? activeElements[0].index : -1;
+                                const dataset = chart.data.datasets[0];
+                                const nextColors = departmentColors.map(function (color, index) {
+                                    return selected < 0 || selected === index ? color : color + "35";
+                                });
+                                if (dataset.backgroundColor.some(function (color, index) { return color !== nextColors[index]; })) {
+                                    dataset.backgroundColor = nextColors;
+                                    chart.update("none");
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: window.matchMedia("(max-width: 600px)").matches ? "bottom" : "right",
+                                    labels: { usePointStyle: true, pointStyle: "circle", boxWidth: 8, boxHeight: 8, padding: 12, color: "#78868c", font: { family: "DM Sans", size: 11 } }
+                                },
+                                tooltip: {
+                                    padding: 12,
+                                    backgroundColor: "#102d43",
+                                    cornerRadius: 8,
+                                    callbacks: {
+                                        label: function (context) {
+                                            const count = context.raw;
+                                            const percent = departmentTotal ? Math.round(count / departmentTotal * 100) : 0;
+                                            return " " + count.toLocaleString() + " students (" + percent + "%)";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    departmentCanvas.parentElement.classList.add("chart-loaded");
+                }
+
+                if (trendCanvas) {
+                    new Chart(trendCanvas, {
+                        type: "line",
+                        data: {
+                            labels: chartData.monthlyLabels,
+                            datasets: [{
+                                label: "New student records",
+                                data: chartData.monthlyCounts,
+                                borderColor: "#397661",
+                                backgroundColor: "rgba(57,118,97,.14)",
+                                pointBackgroundColor: "#285f50",
+                                pointBorderColor: "#ffffff",
+                                pointBorderWidth: 2,
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                fill: true,
+                                tension: .35
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: { duration: 400 },
+                            plugins: { legend: { display: false }, tooltip: { padding: 10, backgroundColor: "#102d43", cornerRadius: 8 } },
+                            scales: {
+                                x: { grid: { display: false }, ticks: { color: "#78868c", maxRotation: 0, autoSkip: true } },
+                                y: { beginAtZero: true, ticks: { precision: 0, color: "#78868c" }, grid: { color: "rgba(24,49,62,.12)" } }
+                            }
+                        }
+                    });
+                    trendCanvas.parentElement.classList.add("chart-loaded");
+                }
+
+                if (campusCanvas) {
+                    new Chart(campusCanvas, {
+                        type: "bar",
+                        data: {
+                            labels: chartData.campusLabels,
+                            datasets: [{
+                                label: "Active students",
+                                data: chartData.campusCounts,
+                                backgroundColor: "rgba(40,95,80,.86)",
+                                hoverBackgroundColor: "#214f43",
+                                borderRadius: 7,
+                                maxBarThickness: 44
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: { duration: 400 },
+                            plugins: { legend: { display: false }, tooltip: { padding: 10, backgroundColor: "#102d43", cornerRadius: 8 } },
+                            scales: {
+                                x: { grid: { display: false }, ticks: { color: "#78868c", maxRotation: 0, autoSkip: true } },
+                                y: { beginAtZero: true, ticks: { precision: 0, color: "#78868c" }, grid: { color: "rgba(24,49,62,.12)" } }
+                            }
+                        }
+                    });
+                    campusCanvas.parentElement.classList.add("chart-loaded");
+                }
+
+                if (facultyCanvas) {
+                    new Chart(facultyCanvas, {
+                        type: "bar",
+                        data: {
+                            labels: chartData.facultyDepartmentLabels,
+                            datasets: [{
+                                label: "Active faculty",
+                                data: chartData.facultyDepartmentCounts,
+                                backgroundColor: "rgba(237,197,121,.9)",
+                                hoverBackgroundColor: "#d8ae5b",
+                                borderRadius: 7,
+                                maxBarThickness: 28
+                            }]
+                        },
+                        options: {
+                            indexAxis: "y",
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: { duration: 400 },
+                            plugins: { legend: { display: false }, tooltip: { padding: 10, backgroundColor: "#102d43", cornerRadius: 8 } },
+                            scales: {
+                                x: { beginAtZero: true, ticks: { precision: 0, color: "#78868c" }, grid: { color: "rgba(24,49,62,.12)" } },
+                                y: { ticks: { color: "#78868c", autoSkip: false }, grid: { display: false } }
+                            }
+                        }
+                    });
+                    facultyCanvas.parentElement.classList.add("chart-loaded");
+                }
+            };
+            document.head.appendChild(chartScript);
+        }
+
+        if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(function (entries) {
+                if (entries.some(function (entry) { return entry.isIntersecting; })) {
+                    loadCharts();
+                    observer.disconnect();
+                }
+            }, { rootMargin: "160px" });
+            if (departmentCanvas) observer.observe(departmentCanvas);
+            if (trendCanvas) observer.observe(trendCanvas);
+            if (campusCanvas) observer.observe(campusCanvas);
+            if (facultyCanvas) observer.observe(facultyCanvas);
+        } else {
+            loadCharts();
+        }
+    }());
 </script>
 {% endblock %}

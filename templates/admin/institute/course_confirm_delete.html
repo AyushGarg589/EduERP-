@@ -1,0 +1,32 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Delete Course | EduERP{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/institute/course.css' %}?v=13">
+<link rel="stylesheet" href="{% static 'css/admin/institute/institute_theme.css' %}?v=5">
+{% endblock %}
+
+{% block content %}
+<main class="course-page institute-setup-page">
+    <header class="course-page-header setup-header">
+        <div>
+            <span class="course-eyebrow setup-eyebrow">COURSE MANAGEMENT</span>
+            <h1>Delete Course</h1>
+            <p>Review this action before confirming.</p>
+        </div>
+        <a class="course-add-button" href="{% url 'institute:course_list' %}">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Courses
+        </a>
+    </header>
+
+    <form class="setup-card setup-delete-card" method="post">
+        {% csrf_token %}
+        <p>Delete course <strong>{{ object.course_name }}</strong> ({{ object.course_code }})? This also deletes departments assigned to the course and cannot be undone.</p>
+        <div class="setup-form-actions">
+            <a class="setup-button setup-button--light" href="{% url 'institute:course_list' %}">Cancel</a>
+            <button class="setup-button setup-button--danger" type="submit">Delete Course</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

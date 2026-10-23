@@ -4,7 +4,11 @@
 {% block title %}Update Student | EduERP{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/admin/students/student_update.css' %}?v=3">
+<link rel="stylesheet" href="{% static 'css/admin/students/student_update.css' %}?v=5">
+<link
+    href="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/css/tom-select.css"
+    rel="stylesheet"
+>
 {% endblock %}
 
 {% block content %}
@@ -153,6 +157,129 @@
             </div>
         </section>
 
+        <section class="student-update-section student-location-section">
+            <div class="student-update-section-heading">
+                <h2>Address information</h2>
+                <p>Update the student’s current address and location.</p>
+            </div>
+
+            <div class="student-update-grid">
+                <div class="student-update-field student-update-field-full">
+                    <label for="studentAddressLine">Street address</label>
+                    <textarea
+                        id="studentAddressLine"
+                        name="address_line"
+                        rows="3"
+                        required
+                    >{{ address.address_line|default:'' }}</textarea>
+                </div>
+
+                <div class="student-update-field">
+                    <label for="country">Country</label>
+                    <select
+                        id="country"
+                        name="country"
+                        data-current-country="{{ address.country|default:'' }}"
+                        required
+                    >
+                        <option value="">Loading countries...</option>
+                    </select>
+                </div>
+
+                <div class="student-update-field">
+                    <label for="state">State</label>
+                    <select
+                        id="state"
+                        name="state"
+                        data-current-state="{{ address.state|default:'' }}"
+                        required
+                        disabled
+                    >
+                        <option value="">Select Country First</option>
+                    </select>
+                </div>
+
+                <div class="student-update-field">
+                    <label for="city">City</label>
+                    <select
+                        id="city"
+                        name="city"
+                        data-current-city="{{ address.city|default:'' }}"
+                        required
+                        disabled
+                    >
+                        <option value="">Select State First</option>
+                    </select>
+                </div>
+
+                <div class="student-update-field">
+                    <label for="studentPincode">Pincode</label>
+                    <input
+                        id="studentPincode"
+                        type="text"
+                        name="pincode"
+                        value="{{ address.pincode|default:'' }}"
+                        required
+                    >
+                </div>
+            </div>
+        </section>
+
+        <section class="student-update-section">
+            <div class="student-update-section-heading">
+                <h2>Student documents</h2>
+                <p>Upload a new file to add or replace a document. Existing files are kept if left blank.</p>
+            </div>
+
+            <div class="student-update-grid">
+                <div class="student-update-field student-document-field">
+                    <label for="id_marksheet_10">10th marksheet</label>
+                    {% if documents and documents.marksheet_10 %}
+                        <a class="student-document-current" href="{{ documents.marksheet_10.url }}" target="_blank" rel="noopener">View current file</a>
+                    {% else %}
+                        <span class="student-document-current is-missing">No file uploaded</span>
+                    {% endif %}
+                    <input id="id_marksheet_10" type="file" name="marksheet_10" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+                <div class="student-update-field student-document-field">
+                    <label for="id_marksheet_12">12th marksheet</label>
+                    {% if documents and documents.marksheet_12 %}
+                        <a class="student-document-current" href="{{ documents.marksheet_12.url }}" target="_blank" rel="noopener">View current file</a>
+                    {% else %}
+                        <span class="student-document-current is-missing">No file uploaded</span>
+                    {% endif %}
+                    <input id="id_marksheet_12" type="file" name="marksheet_12" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+                <div class="student-update-field student-document-field">
+                    <label for="id_aadhaar">Aadhaar</label>
+                    {% if documents and documents.aadhaar %}
+                        <a class="student-document-current" href="{{ documents.aadhaar.url }}" target="_blank" rel="noopener">View current file</a>
+                    {% else %}
+                        <span class="student-document-current is-missing">No file uploaded</span>
+                    {% endif %}
+                    <input id="id_aadhaar" type="file" name="aadhaar" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+                <div class="student-update-field student-document-field">
+                    <label for="id_migration_certificate">Migration certificate</label>
+                    {% if documents and documents.migration_certificate %}
+                        <a class="student-document-current" href="{{ documents.migration_certificate.url }}" target="_blank" rel="noopener">View current file</a>
+                    {% else %}
+                        <span class="student-document-current is-missing">No file uploaded</span>
+                    {% endif %}
+                    <input id="id_migration_certificate" type="file" name="migration_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+                <div class="student-update-field student-document-field">
+                    <label for="id_certificate">Other certificate</label>
+                    {% if documents and documents.certificate %}
+                        <a class="student-document-current" href="{{ documents.certificate.url }}" target="_blank" rel="noopener">View current file</a>
+                    {% else %}
+                        <span class="student-document-current is-missing">No file uploaded</span>
+                    {% endif %}
+                    <input id="id_certificate" type="file" name="certificate" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+            </div>
+        </section>
+
         <footer class="student-update-actions">
             <a href="{% url 'students:student_detail' student.student_id %}" class="student-update-cancel">Cancel</a>
             <button type="submit" class="student-update-submit">
@@ -162,4 +289,9 @@
         </footer>
     </form>
 </main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
+<script src="{% static 'location.js' %}?v=5"></script>
 {% endblock %}

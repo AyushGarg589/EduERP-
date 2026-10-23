@@ -1,0 +1,106 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Settings | EduERP Dashboard{% endblock %}
+
+{% block content %}
+<div class="settings-page">
+<header class="page-header">
+    <p class="eyebrow">ACCOUNT</p>
+    <h1>Settings</h1>
+    <p>Manage your personal details and keep your account secure.</p>
+</header>
+
+<div class="settings-grid">
+    <section class="settings-card" aria-labelledby="account-details-title">
+        <div class="settings-card-heading">
+            <span class="settings-icon"><i class="fa-regular fa-user" aria-hidden="true"></i></span>
+            <div><h2 id="account-details-title">Account details</h2><p>Update the username and email associated with your account.</p></div>
+        </div>
+        <div class="settings-form">
+            <form method="post" class="settings-form">
+                {% csrf_token %}
+                {% if account_details_form.non_field_errors %}<div class="settings-errors">{{ account_details_form.non_field_errors }}</div>{% endif %}
+                <div class="settings-field"><label for="{{ account_details_form.username.id_for_label }}">Username</label><input id="{{ account_details_form.username.id_for_label }}" name="{{ account_details_form.username.html_name }}" type="text" value="{{ account_details_form.username.value|default_if_none:'' }}" maxlength="150" autocomplete="username" required>{% for error in account_details_form.username.errors %}<small class="settings-error">{{ error }}</small>{% endfor %}</div>
+                <div class="settings-field"><label for="{{ account_details_form.email.id_for_label }}">Email address</label><input id="{{ account_details_form.email.id_for_label }}" name="{{ account_details_form.email.html_name }}" type="email" value="{{ account_details_form.email.value|default_if_none:'' }}" autocomplete="email">{% for error in account_details_form.email.errors %}<small class="settings-error">{{ error }}</small>{% endfor %}</div>
+                <button class="settings-button" type="submit">Save account details</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="settings-card" aria-labelledby="password-title">
+        <div class="settings-card-heading">
+            <span class="settings-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+            <div><h2 id="password-title">Change password</h2><p>Choose a strong password you do not use elsewhere.</p></div>
+        </div>
+        <div class="settings-form">
+            <form method="post" action="{% url 'dashboard:password_change' %}" class="settings-form">
+                {% csrf_token %}
+                {% if password_change_form.non_field_errors %}<div class="settings-errors">{{ password_change_form.non_field_errors }}</div>{% endif %}
+                <div class="settings-field">
+                    <label for="{{ password_change_form.old_password.id_for_label }}">Current password</label>
+                    <div class="settings-password-wrap"><input id="{{ password_change_form.old_password.id_for_label }}" name="{{ password_change_form.old_password.html_name }}" type="password" autocomplete="current-password" required><button class="settings-password-toggle" type="button" data-password-target="{{ password_change_form.old_password.id_for_label }}" aria-label="Show current password" aria-pressed="false"><i class="fa-regular fa-eye" aria-hidden="true"></i></button></div>
+                    {% for error in password_change_form.old_password.errors %}<small class="settings-error">{{ error }}</small>{% endfor %}
+                </div>
+                <div class="settings-field">
+                    <label for="{{ password_change_form.new_password1.id_for_label }}">New password</label>
+                    <div class="settings-password-wrap"><input id="{{ password_change_form.new_password1.id_for_label }}" name="{{ password_change_form.new_password1.html_name }}" type="password" autocomplete="new-password" required><button class="settings-password-toggle" type="button" data-password-target="{{ password_change_form.new_password1.id_for_label }}" aria-label="Show new password" aria-pressed="false"><i class="fa-regular fa-eye" aria-hidden="true"></i></button></div>
+                    {% for error in password_change_form.new_password1.errors %}<small class="settings-error">{{ error }}</small>{% endfor %}
+                </div>
+                <div class="settings-field">
+                    <label for="{{ password_change_form.new_password2.id_for_label }}">Confirm new password</label>
+                    <div class="settings-password-wrap"><input id="{{ password_change_form.new_password2.id_for_label }}" name="{{ password_change_form.new_password2.html_name }}" type="password" autocomplete="new-password" required><button class="settings-password-toggle" type="button" data-password-target="{{ password_change_form.new_password2.id_for_label }}" aria-label="Show confirmed password" aria-pressed="false"><i class="fa-regular fa-eye" aria-hidden="true"></i></button></div>
+                    {% for error in password_change_form.new_password2.errors %}<small class="settings-error">{{ error }}</small>{% endfor %}
+                </div>
+                <button class="settings-button" type="submit">Update password</button>
+            </form>
+        </div>
+    </section>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.settings-page { color: #18313e; font-family: 'DM Sans', 'Segoe UI', sans-serif; }
+.settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 25px; }
+.settings-card { padding: 25px; border: 1px solid #e2e9e8; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(24,49,62,.04); }
+.settings-card-heading { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+.settings-icon { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border-radius: 12px; background: #eaf3ef; color: #285f50; }
+.settings-card h2 { margin: 1px 0 5px; font: 700 18px/1.3 'Manrope', sans-serif; }
+.settings-card-heading p, .settings-username small { display: block; margin: 0; color: #78868c; font-size: 13px; line-height: 1.5; }
+.settings-username { display: grid; gap: 4px; margin: 0 0 17px; padding: 12px 14px; border-radius: 10px; background: #f6f8f7; color: #78868c; font-size: 12px; }
+.settings-username strong { color: #18313e; font-size: 14px; }
+.settings-form { display: grid; gap: 15px; }
+.settings-field { display: grid; gap: 7px; }
+.settings-field label { color: #29424e; font-size: 13px; font-weight: 700; }
+.settings-field input { box-sizing: border-box; width: 100%; min-height: 43px; padding: 10px 12px; border: 1px solid #d8e1df; border-radius: 9px; background: #fff; color: #18313e; font: inherit; }
+.settings-field input:focus { border-color: #397661; outline: 3px solid rgba(57,118,97,.13); }
+.settings-password-wrap { position: relative; }
+.settings-password-wrap input { padding-right: 46px; }
+.settings-password-toggle { position: absolute; top: 50%; right: 8px; display: grid; width: 32px; height: 32px; place-items: center; transform: translateY(-50%); border: 0; border-radius: 7px; background: transparent; color: #65777e; cursor: pointer; }
+.settings-password-toggle:hover, .settings-password-toggle:focus-visible { background: #edf3f0; color: #285f50; }
+.settings-field small { color: #78868c; font-size: 12px; line-height: 1.5; }
+.settings-field .settings-error, .settings-errors { color: #a3332d; }
+.settings-errors ul { margin: 0; padding-left: 20px; }
+.settings-button { justify-self: start; min-height: 42px; padding: 10px 16px; border: 0; border-radius: 9px; background: #285f50; color: #fff; font: 700 13px 'DM Sans', sans-serif; cursor: pointer; }
+.settings-button:hover { background: #204d40; }
+@media (max-width: 900px) { .settings-grid { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.settings-password-toggle').forEach(function (button) {
+    button.addEventListener('click', function () {
+        const input = document.getElementById(button.dataset.passwordTarget);
+        const showPassword = input.type === 'password';
+        input.type = showPassword ? 'text' : 'password';
+        button.setAttribute('aria-pressed', String(showPassword));
+        button.setAttribute('aria-label', (showPassword ? 'Hide ' : 'Show ') + input.labels[0].textContent.toLowerCase());
+        button.innerHTML = showPassword
+            ? '<i class="fa-regular fa-eye-slash" aria-hidden="true"></i>'
+            : '<i class="fa-regular fa-eye" aria-hidden="true"></i>';
+    });
+});
+</script>
+{% endblock %}

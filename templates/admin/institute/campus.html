@@ -1,0 +1,40 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Campuses | EduERP{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/institute/course.css' %}?v=12">
+<link rel="stylesheet" href="{% static 'css/admin/institute/institute_theme.css' %}?v=5">
+{% endblock %}
+
+{% block content %}
+<main class="course-page institute-setup-page">
+    <header class="course-page-header setup-header">
+        <div>
+            <span class="course-eyebrow setup-eyebrow">INSTITUTE SETUP</span>
+            <h1>Campuses</h1>
+            <p>Manage the campuses that belong to your institute.</p>
+        </div>
+        <a class="course-add-button" href="{% url 'institute:campus_add' %}">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Campus
+        </a>
+    </header>
+
+    <div class="course-summary-grid">
+        <article class="course-stat-card">
+            <div class="course-stat-icon course-stat-icon--total"><i class="fa-solid fa-building" aria-hidden="true"></i></div>
+            <div class="course-stat-copy"><p>Total Campuses</p><h2>{{ total_campuses }}</h2></div>
+        </article>
+        <article class="course-stat-card">
+            <div class="course-stat-icon course-stat-icon--active"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
+            <div class="course-stat-copy"><p>Active Campuses</p><h2>{{ active_campuses }}</h2></div>
+        </article>
+        <article class="course-stat-card">
+            <div class="course-stat-icon course-stat-icon--inactive"><i class="fa-solid fa-circle-pause" aria-hidden="true"></i></div>
+            <div class="course-stat-copy"><p>Inactive Campuses</p><h2>{{ inactive_campuses }}</h2></div>
+        </article>
+    </div>
+
+    {% include "admin/institute/partials/campus_table.html" %}
+</main>
+{% endblock %}

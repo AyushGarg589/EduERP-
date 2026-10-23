@@ -33,16 +33,44 @@
         <!-- Dashboard CSS -->
 
         <link rel="stylesheet"
-            href="{% static 'css/dashboard_base.css' %}?v=5">
+            href="{% static 'css/dashboard_base.css' %}?v=6">
 
     {% block extra_css %}
     {% endblock %}
 
-    <link rel="stylesheet" href="{% static 'css/college_admin_theme.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/college_admin_theme.css' %}?v=3">
 
 </head>
 
 <body>
+
+{% if messages %}
+    <div class="dashboard-toast-region" aria-label="Notifications">
+        {% for message in messages %}
+            <div
+                class="dashboard-toast {% if 'error' in message.tags %}dashboard-toast--error{% elif 'warning' in message.tags %}dashboard-toast--warning{% elif 'success' in message.tags %}dashboard-toast--success{% else %}dashboard-toast--info{% endif %}"
+                role="{% if 'error' in message.tags or 'warning' in message.tags %}alert{% else %}status{% endif %}"
+                aria-live="{% if 'error' in message.tags or 'warning' in message.tags %}assertive{% else %}polite{% endif %}"
+            >
+                <span class="dashboard-toast-icon" aria-hidden="true">
+                    {% if 'error' in message.tags %}
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                    {% elif 'warning' in message.tags %}
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    {% elif 'success' in message.tags %}
+                        <i class="fa-solid fa-circle-check"></i>
+                    {% else %}
+                        <i class="fa-solid fa-circle-info"></i>
+                    {% endif %}
+                </span>
+                <span class="dashboard-toast-message">{{ message }}</span>
+                <button class="dashboard-toast-close" type="button" aria-label="Dismiss notification">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
 <div class="dashboard-wrapper">
 
@@ -55,6 +83,7 @@
         </a>
 
         <nav class="sidebar-nav" aria-label="College workspace">
+            {% if request.user.is_superuser or request.user.institute_membership %}
             <p class="nav-section-label">WORKSPACE</p>
             <a class="nav-link {% if request.resolver_match.url_name == 'home' and request.resolver_match.namespace == 'dashboard' %}is-active{% endif %}"
                href="{% url 'dashboard:home' %}">
@@ -85,6 +114,33 @@
                     <li><a href="{% url 'faculty_add' %}" {% if request.resolver_match.url_name == 'faculty_add' %}aria-current="page"{% endif %}>Add faculty</a></li>
                 </ul>
             </div>
+
+            {% if request.user.is_superuser or request.user.institute_membership %}
+            <div class="nav-group {% if request.resolver_match.namespace == 'institute' or request.resolver_match.namespace == 'admin' and request.resolver_match.url_name|slice:':12' == 'institute_app' %}is-current{% endif %}">
+                <button type="button" class="nav-link submenu-toggle" data-bs-target="#instituteMenu" aria-controls="instituteMenu"
+                        aria-expanded="{% if request.resolver_match.namespace == 'institute' or request.resolver_match.namespace == 'admin' and request.resolver_match.url_name|slice:':12' == 'institute_app' %}true{% else %}false{% endif %}">
+                    <i class="fa-solid fa-building-columns" aria-hidden="true"></i><span>Institute Setup</span>
+                    <i class="fa-solid fa-chevron-down nav-chevron" aria-hidden="true"></i>
+                </button>
+                <ul class="submenu {% if request.resolver_match.namespace == 'institute' or request.resolver_match.namespace == 'admin' and request.resolver_match.url_name|slice:':12' == 'institute_app' %}menu-open{% endif %}" id="instituteMenu">
+                    {% if request.user.is_superuser %}
+                    <li><a href="{% url 'admin:institute_app_institute_changelist' %}" {% if request.resolver_match.url_name == 'institute_app_institute_changelist' %}aria-current="page"{% endif %}>Institutes</a></li>
+                    <li><a href="{% url 'admin:institute_app_campus_changelist' %}" {% if request.resolver_match.url_name == 'institute_app_campus_changelist' %}aria-current="page"{% endif %}>Campuses</a></li>
+                    <li><a href="{% url 'admin:institute_app_department_changelist' %}" {% if request.resolver_match.url_name == 'institute_app_department_changelist' %}aria-current="page"{% endif %}>Departments</a></li>
+                    {% elif request.user.institute_membership %}
+                    <li><a href="{% url 'institute:institute_setup' %}" {% if request.resolver_match.url_name == 'institute_setup' %}aria-current="page"{% endif %}>Institute Details</a></li>
+                    <li><a href="{% url 'institute:campus_list' %}" {% if request.resolver_match.url_name == 'campus_list' or request.resolver_match.url_name == 'campus_add' or request.resolver_match.url_name == 'campus_edit' or request.resolver_match.url_name == 'campus_delete' %}aria-current="page"{% endif %}>Campuses</a></li>
+                    <li><a href="{% url 'institute:department_list' %}" {% if request.resolver_match.url_name == 'department_list' or request.resolver_match.url_name == 'department_add' or request.resolver_match.url_name == 'department_edit' or request.resolver_match.url_name == 'department_delete' %}aria-current="page"{% endif %}>Departments</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'institute:course_list' %}" {% if request.resolver_match.url_name == 'course_list' or request.resolver_match.url_name == 'course_add' or request.resolver_match.url_name == 'course_edit' or request.resolver_match.url_name == 'course_delete' %}aria-current="page"{% endif %}>Courses</a></li>
+                </ul>
+            </div>
+            {% endif %}
+            {% endif %}
+            <a class="nav-link {% if request.resolver_match.url_name == 'settings' %}is-active{% endif %}"
+               href="{% url 'dashboard:settings' %}" {% if request.resolver_match.url_name == 'settings' %}aria-current="page"{% endif %}>
+                <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span>
+            </a>
         </nav>
 
         <div class="sidebar-bottom">
@@ -151,6 +207,31 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    document.querySelectorAll('.dashboard-toast').forEach(function (toast) {
+        const dismissButton = toast.querySelector('.dashboard-toast-close');
+        let dismissTimer;
+
+        function dismissToast() {
+            toast.classList.add('is-dismissing');
+            toast.addEventListener('transitionend', function () {
+                toast.remove();
+            }, { once: true });
+            window.setTimeout(function () {
+                toast.remove();
+            }, 250);
+        }
+
+        dismissButton.addEventListener('click', dismissToast);
+
+        if (!toast.classList.contains('dashboard-toast--error')
+            && !toast.classList.contains('dashboard-toast--warning')) {
+            dismissTimer = window.setTimeout(dismissToast, 6000);
+            toast.addEventListener('mouseenter', function () {
+                window.clearTimeout(dismissTimer);
+            }, { once: true });
+        }
+    });
+
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');

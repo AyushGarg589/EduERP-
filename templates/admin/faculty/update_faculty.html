@@ -55,6 +55,18 @@
 
         {% csrf_token %}
 
+        {% if form.errors %}
+            <div class="faculty-form-card" role="alert" aria-live="polite">
+                <h2>Some details need attention</h2>
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    {% if field.errors %}
+                        <p><strong>{{ field.label }}:</strong> {{ field.errors|join:", " }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
 
         <!-- ================================= -->
         <!-- Personal Information -->
@@ -490,7 +502,7 @@
         <!-- Address -->
         <!-- ================================= -->
 
-        <div class="faculty-form-card">
+        <div class="faculty-form-card faculty-location-card">
 
             <div class="faculty-form-card-header">
 
@@ -535,13 +547,17 @@
                         City
                     </label>
 
-                    <input
-                        type="text"
+                    <select
                         name="city"
                         id="city"
-                        value="{{ faculty.address.city }}"
+                        data-current-city="{{ faculty.address.city }}"
                         required
+                        disabled
                     >
+                        <option value="">
+                            Select State First
+                        </option>
+                    </select>
 
                 </div>
 
@@ -915,9 +931,6 @@
 {% block extra_js %}
 
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
-
-<script src="{% static 'data/countries.js' %}"></script>
-
-<script src="{% static 'js/faculty/location.js' %}"></script>
+<script src="{% static 'location.js' %}?v=5"></script>
 
 {% endblock %}

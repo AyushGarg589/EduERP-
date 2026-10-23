@@ -1,0 +1,40 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}{{ setup_title }} | EduERP{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/admin/institute/institute_theme.css' %}?v=5">{% endblock %}
+
+{% block content %}
+<main class="institute-setup-page">
+    <header class="setup-header">
+        <div>
+            <span class="setup-eyebrow">INSTITUTE SETUP</span>
+            <h1>{{ setup_title }}</h1>
+            <p>{{ setup_description }}</p>
+        </div>
+        <a class="setup-button setup-button--light" href="{% url 'institute:department_list' %}">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Departments
+        </a>
+    </header>
+
+    <form class="setup-card" method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="setup-errors" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+        <div class="setup-form-grid">
+            {% for field in form %}
+            <div class="setup-field {% if field.field.widget.input_type == 'checkbox' %}setup-field--check{% endif %}">
+                {% if field.field.widget.input_type == 'checkbox' %}
+                    {{ field }}<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% else %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span aria-hidden="true"> *</span>{% endif %}</label>
+                    {{ field }}
+                {% endif %}
+                {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+                {% for error in field.errors %}<small class="setup-error">{{ error }}</small>{% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="setup-form-actions"><button class="setup-button" type="submit">Save Department</button></div>
+    </form>
+</main>
+{% endblock %}

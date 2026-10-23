@@ -1,0 +1,42 @@
+<section class="course-table-card" aria-labelledby="campus-records-title">
+    <div class="course-table-heading">
+        <h2 id="campus-records-title">Campus Records</h2>
+        <span>{{ campuses|length }} campus{{ campuses|length|pluralize }}</span>
+    </div>
+    <div class="course-table-scroll">
+        <table class="course-table institute-data-table institute-campus-table">
+            <colgroup>
+                <col class="institute-col-campus">
+                <col class="institute-col-code">
+                <col class="institute-col-location">
+                <col class="institute-col-status">
+                <col class="institute-col-actions">
+            </colgroup>
+            <thead>
+                <tr><th>Campus</th><th>Code</th><th>Location</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for campus in campuses %}
+                <tr>
+                    <td><span class="institute-record-name">{{ campus.campus_name }}</span></td>
+                    <td><span class="institute-record-code">{{ campus.campus_code }}</span></td>
+                    <td class="institute-campus-location">{{ campus.city|default:"—" }}{% if campus.state %}, {{ campus.state }}{% endif %}</td>
+                    <td><span class="setup-status {% if campus.status %}is-active{% else %}is-inactive{% endif %}">{% if campus.status %}Active{% else %}Inactive{% endif %}</span></td>
+                    <td class="setup-actions">
+                        <a href="{% url 'institute:campus_edit' campus.pk %}">Edit</a>
+                        <a class="is-danger" href="{% url 'institute:campus_delete' campus.pk %}">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="course-empty-state">
+                        <i class="fa-solid fa-building" aria-hidden="true"></i>
+                        <h3>No campuses yet</h3>
+                        <p>Add your first campus to get started.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -4,7 +4,7 @@
 {% block title %}Student Details | EduERP{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/admin/students/student_detail.css' %}?v=5">
+<link rel="stylesheet" href="{% static 'css/admin/students/student_detail.css' %}?v=7">
 {% endblock %}
 
 {% block content %}
@@ -253,6 +253,99 @@
 
         </div>
 
+    </section>
+
+    <!-- Student Documents -->
+    <section class="student-detail-card student-documents-section">
+        <div class="student-section-header">
+            <div>
+                <h2>Student documents</h2>
+                <p>View or download the documents on record. Use Edit Student to add or replace files.</p>
+            </div>
+        </div>
+
+        <div class="student-document-list">
+            {% if documents %}
+                {% if documents.marksheet_10 %}
+                    <div class="student-document-item has-file">
+                        <span class="student-document-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
+                        <span class="student-document-name">10th marksheet</span>
+                        <a href="{{ documents.marksheet_10.url }}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View file</a>
+                    </div>
+                {% else %}
+                    <div class="student-document-item is-missing">
+                        <span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span>
+                        <span class="student-document-name">10th marksheet</span>
+                        <span class="student-document-missing">Not uploaded</span>
+                    </div>
+                {% endif %}
+                {% if documents.marksheet_12 %}
+                    <div class="student-document-item has-file">
+                        <span class="student-document-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
+                        <span class="student-document-name">12th marksheet</span>
+                        <a href="{{ documents.marksheet_12.url }}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View file</a>
+                    </div>
+                {% else %}
+                    <div class="student-document-item is-missing">
+                        <span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span>
+                        <span class="student-document-name">12th marksheet</span>
+                        <span class="student-document-missing">Not uploaded</span>
+                    </div>
+                {% endif %}
+                {% if documents.aadhaar %}
+                    <div class="student-document-item has-file">
+                        <span class="student-document-icon"><i class="fa-solid fa-id-card" aria-hidden="true"></i></span>
+                        <span class="student-document-name">Aadhaar</span>
+                        <a href="{{ documents.aadhaar.url }}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View file</a>
+                    </div>
+                {% else %}
+                    <div class="student-document-item is-missing">
+                        <span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span>
+                        <span class="student-document-name">Aadhaar</span>
+                        <span class="student-document-missing">Not uploaded</span>
+                    </div>
+                {% endif %}
+                {% if documents.migration_certificate %}
+                    <div class="student-document-item has-file">
+                        <span class="student-document-icon"><i class="fa-solid fa-file-circle-check" aria-hidden="true"></i></span>
+                        <span class="student-document-name">Migration certificate</span>
+                        <a href="{{ documents.migration_certificate.url }}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View file</a>
+                    </div>
+                {% else %}
+                    <div class="student-document-item is-missing">
+                        <span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span>
+                        <span class="student-document-name">Migration certificate</span>
+                        <span class="student-document-missing">Not uploaded</span>
+                    </div>
+                {% endif %}
+                {% if documents.certificate %}
+                    <div class="student-document-item has-file">
+                        <span class="student-document-icon"><i class="fa-solid fa-file-circle-check" aria-hidden="true"></i></span>
+                        <span class="student-document-name">Other certificate</span>
+                        <a href="{{ documents.certificate.url }}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View file</a>
+                    </div>
+                {% else %}
+                    <div class="student-document-item is-missing">
+                        <span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span>
+                        <span class="student-document-name">Other certificate</span>
+                        <span class="student-document-missing">Not uploaded</span>
+                    </div>
+                {% endif %}
+                <div class="student-document-meta">
+                    <span class="student-document-uploaded">Last uploaded {{ documents.uploaded_at|date:"d M Y, g:i A" }}</span>
+                    <span class="student-document-verification {% if documents.verified %}is-verified{% else %}is-unverified{% endif %}">
+                        {% if documents.verified %}Verified{% else %}Not verified{% endif %}
+                    </span>
+                </div>
+            {% else %}
+                <p class="student-document-empty">No document record yet. Use Edit Student to upload documents.</p>
+                <div class="student-document-item is-missing"><span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span><span class="student-document-name">10th marksheet</span><span class="student-document-missing">Not uploaded</span></div>
+                <div class="student-document-item is-missing"><span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span><span class="student-document-name">12th marksheet</span><span class="student-document-missing">Not uploaded</span></div>
+                <div class="student-document-item is-missing"><span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span><span class="student-document-name">Aadhaar</span><span class="student-document-missing">Not uploaded</span></div>
+                <div class="student-document-item is-missing"><span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span><span class="student-document-name">Migration certificate</span><span class="student-document-missing">Not uploaded</span></div>
+                <div class="student-document-item is-missing"><span class="student-document-icon"><i class="fa-regular fa-file" aria-hidden="true"></i></span><span class="student-document-name">Other certificate</span><span class="student-document-missing">Not uploaded</span></div>
+            {% endif %}
+        </div>
     </section>
 
 

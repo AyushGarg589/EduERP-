@@ -1,0 +1,103 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Courses | EduERP{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/institute/course.css' %}?v=13">
+{% endblock %}
+
+{% block content %}
+<div class="course-page">
+
+    <!-- Page Header -->
+    <header class="course-page-header">
+        <div>
+            <span class="course-eyebrow">ACADEMIC CATALOG</span>
+            <h1>Courses</h1>
+            <p>Browse the courses offered across your institute.</p>
+        </div>
+        <div class="course-header-actions">
+            <a class="course-add-button" href="{% url 'institute:course_add' %}">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                Add Course
+            </a>
+            <span class="course-header-mark" aria-hidden="true"><i class="fa-solid fa-book-open"></i></span>
+        </div>
+    </header>
+
+    <!-- Summary Cards -->
+    <div class="course-summary-grid">
+        <div class="course-stat-card">
+                    <div class="course-stat-icon course-stat-icon--total">
+                        <i class="fa-solid fa-book-open fa-lg"></i>
+                    </div>
+                    <div class="course-stat-copy">
+                        <p>Total Courses</p>
+                        <h2>{{ total_courses }}</h2>
+                    </div>
+        </div>
+
+        <div class="course-stat-card">
+                    <div class="course-stat-icon course-stat-icon--active">
+                        <i class="fa-solid fa-circle-check fa-lg"></i>
+                    </div>
+                    <div class="course-stat-copy">
+                        <p>Active Courses</p>
+                        <h2>{{ active_courses }}</h2>
+                    </div>
+        </div>
+
+        <div class="course-stat-card">
+                    <div class="course-stat-icon course-stat-icon--inactive">
+                        <i class="fa-solid fa-circle-pause fa-lg"></i>
+                    </div>
+                    <div class="course-stat-copy">
+                        <p>Inactive Courses</p>
+                        <h2>{{ inactive_courses }}</h2>
+                    </div>
+        </div>
+    </div>
+
+    <form class="course-filters" method="get" action="{% url 'institute:course_list' %}">
+        <label class="course-search-field">
+            <span class="visually-hidden">Search courses</span>
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input type="search" name="search" value="{{ request.GET.search }}" placeholder="Search courses or departments">
+        </label>
+        <label>
+            <span class="visually-hidden">Campus</span>
+            <select name="campus" aria-label="Campus">
+                <option value="">All campuses</option>
+                {% for campus in campuses %}
+                    <option value="{{ campus.campus_id }}" {% if request.GET.campus == campus.campus_id|stringformat:"s" %}selected{% endif %}>{{ campus.campus_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            <span class="visually-hidden">Status</span>
+            <select name="status" aria-label="Status">
+                <option value="">All statuses</option>
+                <option value="active" {% if request.GET.status == "active" %}selected{% endif %}>Active</option>
+                <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
+            </select>
+        </label>
+        <label>
+            <span class="visually-hidden">Course type</span>
+            <select name="type" aria-label="Course type">
+                <option value="">All types</option>
+                {% for course_type in course_types %}
+                    <option value="{{ course_type }}" {% if request.GET.type == course_type %}selected{% endif %}>{{ course_type }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <button class="course-filter-button" type="submit">Apply filters</button>
+        {% if request.GET.search or request.GET.campus or request.GET.status or request.GET.type %}
+            <a class="course-clear-filters" href="{% url 'institute:course_list' %}">Clear</a>
+        {% endif %}
+    </form>
+
+    {% include "admin/institute/partials/course_table.html" %}
+
+</div>
+{% endblock %}

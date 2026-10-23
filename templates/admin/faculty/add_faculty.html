@@ -45,16 +45,6 @@
 
     </div>
 
-    {% if messages %}
-        <div class="messages-container" aria-live="polite">
-            {% for message in messages %}
-                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
     <!-- Faculty Form -->
     <form
         method="post"
@@ -382,6 +372,7 @@
                         type="tel"
                         name="phone_number"
                         id="phone_number"
+                        maxlength="10"
                         required
                     >
 
@@ -399,6 +390,7 @@
                         type="tel"
                         name="alternate"
                         id="alternate"
+                        maxlength="10"
                     >
 
                 </div>
@@ -524,6 +516,7 @@
                         name="pincode"
                         id="pincode"
                         required
+                        maxlength="6"
                     >
 
                 </div>
@@ -811,10 +804,7 @@
 <!-- Tom Select JS -->
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
 
-<!-- Country dataset -->
-<script src="{% static 'data/countries.js' %}"></script>
-
 <!-- Country + State logic -->
-<script src="{% static 'js/faculty/location.js' %}?v=2"></script>
+<script src="{% static 'location.js' %}?v=4"></script>
 
 {% endblock %}

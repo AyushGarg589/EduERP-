@@ -1,0 +1,107 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102d43">
+    <title>Faculty dashboard | EduERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/faculty_views/dashboard.css' %}?v=2">
+</head>
+<body>
+    <div class="dashboard-shell">
+        <aside class="sidebar" aria-label="Faculty navigation">
+            <a class="brand-lockup" href="{% url 'portal_home' %}">
+                <span class="brand-mark"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></span>
+                <span class="brand-name"><span>Edu<span class="brand-accent">ERP</span></span><small>FACULTY WORKSPACE</small></span>
+            </a>
+            <nav class="navigation" aria-label="Faculty workspace">
+                <p class="nav-section-label">WORKSPACE</p>
+                <a class="nav-link active" href="{% url 'portal_home' %}" aria-current="page"><i class="fa-solid fa-table-columns"></i><span>Overview</span></a>
+                <p class="nav-section-label nav-spaced">MY ACCOUNT</p>
+                <a class="nav-link" href="#profile"><i class="fa-regular fa-id-card"></i><span>My profile</span></a>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="workspace-note"><span class="workspace-note-icon"><i class="fa-solid fa-building-columns"></i></span><span>{{ faculty.campus.campus_name }}<small>{{ faculty.campus.institute.institute_name }}</small></span></div>
+                <a class="logout-link" href="{% url 'dashboard:logout_home' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Sign out</span></a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-context"><span>FACULTY WORKSPACE</span><strong>Overview</strong></div>
+                <div class="account-chip"><span class="avatar">{{ faculty.full_name|first|upper }}</span><span>{{ faculty.full_name }}</span><i class="fa-solid fa-chevron-down"></i></div>
+            </header>
+
+            <div class="page-content">
+                <section class="welcome-panel">
+                    <div class="welcome-copy-wrap">
+                        <p class="eyebrow">YOUR ACADEMIC WORKSPACE</p>
+                        <h1>Welcome back, {{ faculty.full_name|truncatewords:2 }}</h1>
+                        <p>Here’s a quick look at your faculty profile and campus information.</p>
+                    </div>
+                    <div class="welcome-illustration" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><i class="fa-solid fa-book-open"></i><b>✦</b></div>
+                </section>
+
+                <section class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2>Your overview</h2></div><span class="status-pill"><i></i> Active faculty</span></section>
+                <section class="kpi-grid" aria-label="Faculty key information">
+                    <article class="kpi-card"><span class="kpi-icon icon-green"><i class="fa-solid fa-hourglass-half"></i></span><div><span class="kpi-label">Years at institute</span><strong>{{ years_at_institute }}</strong><small>Since {{ faculty.joining_date|date:"M Y" }}</small></div><span class="kpi-accent accent-green"></span></article>
+                    <article class="kpi-card"><span class="kpi-icon icon-gold"><i class="fa-solid fa-chart-pie"></i></span><div><span class="kpi-label">Profile completion</span><strong>{{ profile_completion }}<small class="unit">%</small></strong><small>{{ dashboard_chart_data.completedSections }} of {{ dashboard_chart_data.totalSections }} sections complete</small></div><span class="kpi-accent accent-gold"></span></article>
+                    <article class="kpi-card"><span class="kpi-icon icon-blue"><i class="fa-solid fa-building-columns"></i></span><div><span class="kpi-label">Campus</span><strong class="kpi-text">{{ faculty.campus.campus_name }}</strong><small>{{ faculty.campus.institute.institute_name }}</small></div><span class="kpi-accent accent-blue"></span></article>
+                    <article class="kpi-card"><span class="kpi-icon icon-slate"><i class="fa-solid fa-chalkboard-user"></i></span><div><span class="kpi-label">Designation</span><strong class="kpi-text">{{ designation }}</strong><small>{{ department_name }}</small></div><span class="kpi-accent accent-slate"></span></article>
+                </section>
+
+                <section class="charts-grid" aria-label="Profile analytics">
+                    <article class="panel chart-panel">
+                        <div class="panel-heading"><div><p class="eyebrow">PROFILE HEALTH</p><h2>Profile completion</h2><p>Complete each section to keep your details up to date.</p></div><span class="panel-mark"><i class="fa-solid fa-chart-pie"></i></span></div>
+                        <div class="completion-chart-wrap"><canvas id="completionChart" role="img" aria-label="Doughnut chart showing faculty profile completion"></canvas><div class="chart-center"><strong>{{ profile_completion }}%</strong><span>complete</span></div></div>
+                        <div class="chart-legend"><span><i class="legend-complete"></i> Complete</span><span><i class="legend-pending"></i> To complete</span></div>
+                    </article>
+                    <article class="panel chart-panel sections-panel">
+                        <div class="panel-heading"><div><p class="eyebrow">PROFILE CHECKLIST</p><h2>Details by section</h2><p>Quick status of the information on your profile.</p></div><span class="panel-mark"><i class="fa-solid fa-list-check"></i></span></div>
+                        <div class="sections-chart-wrap"><canvas id="sectionsChart" role="img" aria-label="Bar chart of faculty profile section completeness"></canvas></div>
+                    </article>
+                </section>
+
+                <section class="panel profile-panel" id="profile">
+                    <div class="panel-heading profile-heading"><div><p class="eyebrow">ACCOUNT DETAILS</p><h2>My faculty profile</h2><p>Your institute profile information.</p></div><span class="profile-avatar">{{ faculty.full_name|first|upper }}</span></div>
+                    <div class="profile-details">
+                        <div><span>Full name</span><strong>{{ faculty.full_name }}</strong></div>
+                        <div><span>Employee ID</span><strong>{{ faculty.emp_id }}</strong></div>
+                        <div><span>Campus</span><strong>{{ faculty.campus.campus_name }}</strong></div>
+                        <div><span>Employment type</span><strong>{{ faculty.employment|default:"Not specified" }}</strong></div>
+                        <div><span>Department</span><strong>{{ department_name }}</strong></div>
+                        <div><span>Qualification</span><strong>{% if faculty.qualification_details %}{{ faculty.qualification_details.qualification }}{% else %}Not added{% endif %}</strong></div>
+                    </div>
+                </section>
+                <footer class="page-footer">EduERP <span>·</span> Faculty workspace</footer>
+            </div>
+        </main>
+    </div>
+
+    {{ dashboard_chart_data|json_script:"faculty-dashboard-chart-data" }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        (() => {
+            const dataNode = document.getElementById("faculty-dashboard-chart-data");
+            if (!dataNode || typeof Chart === "undefined") return;
+            const data = JSON.parse(dataNode.textContent);
+            const colors = { green: "#285f50", gold: "#edc579", navy: "#173b50", muted: "#dfe8e4", ink: "#18313e", gray: "#78868c" };
+            new Chart(document.getElementById("completionChart"), {
+                type: "doughnut",
+                data: { labels: ["Complete", "To complete"], datasets: [{ data: [data.completedSections, data.totalSections - data.completedSections], backgroundColor: [colors.green, colors.muted], borderWidth: 0, hoverOffset: 5 }] },
+                options: { cutout: "78%", maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: true } } }
+            });
+            new Chart(document.getElementById("sectionsChart"), {
+                type: "bar",
+                data: { labels: data.sectionLabels, datasets: [{ data: data.sectionValues, backgroundColor: data.sectionValues.map(value => value ? colors.green : colors.gold), borderRadius: 6, barThickness: 15, maxBarThickness: 18 }] },
+                options: { indexAxis: "y", maintainAspectRatio: false, scales: { x: { min: 0, max: 100, grid: { color: "#edf1ef" }, ticks: { stepSize: 25, callback: value => value + "%", color: colors.gray, font: { family: "DM Sans" } }, border: { display: false } }, y: { grid: { display: false }, ticks: { color: colors.ink, font: { family: "DM Sans", size: 12, weight: 600 } }, border: { display: false } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: context => context.raw ? "Section complete" : "Needs attention" } } } }
+            });
+        })();
+    </script>
+</body>
+</html>

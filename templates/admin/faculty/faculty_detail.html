@@ -27,6 +27,15 @@
 
         <div class="faculty-detail-actions">
 
+            {% if not faculty.user %}
+                <form method="post" action="{% url 'faculty_invite_resend' faculty.faculty_id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="faculty-edit-btn">Send account invite</button>
+                </form>
+            {% else %}
+                <span>Login account: {{ faculty.user.email }}</span>
+            {% endif %}
+
             <a
                 href="{% url 'faculty_update' faculty.faculty_id %}"
                 class="faculty-edit-btn"

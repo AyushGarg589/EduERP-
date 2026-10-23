@@ -4,7 +4,7 @@
 {% block title %}Students | EduERP{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/admin/students/student_list.css' %}?v=10">
+<link rel="stylesheet" href="{% static 'css/admin/students/student_list.css' %}?v=11">
 {% endblock %}
 
 {% block content %}
@@ -15,8 +15,14 @@
             <h1>Students</h1>
             <p>Search and review student records across your campuses.</p>
         </div>
-        <div class="student-heading-mark" aria-hidden="true">
-            <i class="fa-solid fa-user-graduate"></i>
+        <div class="student-heading-actions">
+            <a class="student-add-button" href="{% url 'students:student_add' %}">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                <span>Add student</span>
+            </a>
+            <div class="student-heading-mark" aria-hidden="true">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
         </div>
     </header>
 

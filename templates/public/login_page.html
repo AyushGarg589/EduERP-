@@ -45,6 +45,12 @@
                 <h2 id="login-title">Sign in to EduERP</h2>
                 <p class="form-intro">Enter your details to access your account.</p>
 
+                {% if messages %}
+                    <div class="form-errors" role="status">
+                        {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+                    </div>
+                {% endif %}
+
                 {% if form.errors %}
                     <div class="form-errors" role="alert" aria-live="polite">
                         <span class="error-icon" aria-hidden="true">!</span>
@@ -76,7 +82,7 @@
                     </button>
                 </form>
 
-                <p class="register-prompt">New to EduERP? <a href="{% url 'public:register' %}">Create an account</a></p>
+                <p class="register-prompt">Faculty accounts are created through an invite from your institute.</p>
                 <a class="back-link" href="{% url 'public:home' %}"><span aria-hidden="true">←</span> Back to home</a>
             </div>
             <p class="copyright">© 2026 EduERP. All rights reserved.</p>

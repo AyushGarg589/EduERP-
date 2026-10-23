@@ -1,0 +1,68 @@
+<section class="course-table-card" aria-labelledby="department-records-title">
+    <div class="course-table-heading">
+        <h2 id="department-records-title">Department Records</h2>
+        <span>{{ departments|length }} department{{ departments|length|pluralize }}</span>
+    </div>
+    <div class="course-table-scroll">
+        <table class="course-table institute-data-table institute-department-table">
+            <colgroup>
+                <col class="institute-col-department">
+                <col class="institute-col-code">
+                <col class="institute-col-course">
+                <col class="institute-col-campus">
+                <col class="institute-col-status">
+                <col class="institute-col-actions">
+            </colgroup>
+            <thead>
+                <tr><th>Department</th><th>Code</th><th>Course</th><th>Campus</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for department in departments %}
+                <tr>
+                    <td><span class="institute-record-name" title="{{ department.department_name }}">{{ department.department_name }}</span></td>
+                    <td><span class="institute-record-code" title="Department code">{{ department.department_code }}</span></td>
+                    <td title="{{ department.course|default:'' }}">{{ department.course|default:"—" }}</td>
+                    <td title="{{ department.course.campus.campus_name|default:'' }}">{{ department.course.campus.campus_name|default:"—" }}</td>
+                    <td><span class="setup-status {% if department.status %}is-active{% else %}is-inactive{% endif %}">{% if department.status %}Active{% else %}Inactive{% endif %}</span></td>
+                    <td class="setup-actions">
+                        <a href="{% url 'institute:department_edit' department.pk %}">Edit</a>
+                        <a class="is-danger" href="{% url 'institute:department_delete' department.pk %}">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="course-empty-state">
+                        <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+                        <h3>No departments yet</h3>
+                        <p>Add a course first, then create its departments.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="course-pagination" aria-label="Department pagination">
+        {% if page_obj.has_previous %}
+            <a class="course-page-button" href="?page={{ page_obj.previous_page_number }}">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Previous
+            </a>
+        {% else %}
+            <span class="course-page-button is-disabled" aria-disabled="true">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Previous
+            </span>
+        {% endif %}
+
+        <span class="course-page-info" aria-current="page">Page {{ page_obj.number }} of {{ paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a class="course-page-button" href="?page={{ page_obj.next_page_number }}">
+                Next <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        {% else %}
+            <span class="course-page-button is-disabled" aria-disabled="true">
+                Next <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </span>
+        {% endif %}
+    </nav>
+</section>
