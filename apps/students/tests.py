@@ -16,7 +16,13 @@ from apps.institute_app.models import (
     Institute,
     InstituteMembership,
 )
-from apps.students.models import Student, StudentContact, StudentEnrollment
+from apps.students.models import (
+    DocumentDetails,
+    Student,
+    StudentAddress,
+    StudentContact,
+    StudentEnrollment,
+)
 
 
 class StudentListTests(TestCase):
@@ -122,6 +128,8 @@ class StudentListTests(TestCase):
         self.assertContains(response, "Ravi Shah")
         self.assertContains(response, "Electronics")
         self.assertContains(response, 'hx-trigger="load"')
+        self.assertContains(response, reverse("students:student_add"))
+        self.assertContains(response, "Add student")
 
     def test_student_edit_and_detail_display_profile_photo(self):
         self.active_student.profile_photo = "students/profile/asha.jpg"
@@ -142,10 +150,70 @@ class StudentListTests(TestCase):
         self.assertContains(edit_response, 'for="id_profile_photo-clear"')
         self.assertContains(edit_response, 'check “Clear” to remove it')
         self.assertContains(edit_response, "/media/students/profile/asha.jpg")
+        self.assertContains(edit_response, 'name="address_line"')
+        self.assertContains(edit_response, 'id="country"')
+        self.assertContains(edit_response, 'id="state"')
+        self.assertContains(edit_response, 'id="city"')
+        self.assertContains(edit_response, 'name="pincode"')
+        self.assertContains(edit_response, '/static/location.js?v=5')
+        self.assertContains(edit_response, 'student_update.css?v=5')
 
         self.assertEqual(detail_response.status_code, 200)
         self.assertContains(detail_response, "/media/students/profile/asha.jpg")
         self.assertContains(detail_response, 'alt="Asha Mehta"')
+
+    def test_student_update_displays_and_saves_address_fields(self):
+        StudentAddress.objects.create(
+            student=self.active_student,
+            address_line="12 Lake Road",
+            city="Mumbai",
+            state="Maharashtra",
+            country="India",
+            pincode="400001",
+        )
+        update_url = reverse(
+            "students:student_update",
+            args=[self.active_student.student_id],
+        )
+
+        response = self.client.get(update_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "12 Lake Road")
+        self.assertContains(response, 'data-current-city="Mumbai"')
+        self.assertContains(response, 'data-current-state="Maharashtra"')
+        self.assertContains(response, 'data-current-country="India"')
+
+        response = self.client.post(
+            update_url,
+            {
+                "full_name": self.active_student.full_name,
+                "date_of_birth": "2005-05-10",
+                "gender": self.active_student.gender,
+                "blood_group": "",
+                "campus": self.active_student.campus_id,
+                "status": "on",
+                "address_line": "24 New Lake Road",
+                "city": "Pune",
+                "state": "Maharashtra",
+                "country": "India",
+                "pincode": "411001",
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            reverse(
+                "students:student_detail",
+                args=[self.active_student.student_id],
+            ),
+        )
+        address = StudentAddress.objects.get(student=self.active_student)
+        self.assertEqual(address.address_line, "24 New Lake Road")
+        self.assertEqual(address.city, "Pune")
+        self.assertEqual(address.state, "Maharashtra")
+        self.assertEqual(address.country, "India")
+        self.assertEqual(address.pincode, "411001")
 
     def test_student_edit_saves_uploaded_profile_photo(self):
         png_data = base64.b64decode(
@@ -179,6 +247,75 @@ class StudentListTests(TestCase):
                 self.active_student.refresh_from_db()
                 self.assertTrue(self.active_student.profile_photo.name)
                 self.assertTrue(Path(self.active_student.profile_photo.path).is_file())
+
+    def test_student_documents_can_be_uploaded_viewed_and_kept_during_edits(self):
+        document = SimpleUploadedFile(
+            "tenth-marksheet.pdf",
+            b"student marksheet",
+            content_type="application/pdf",
+        )
+
+        with TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root):
+                update_url = reverse(
+                    "students:student_update",
+                    args=[self.active_student.student_id],
+                )
+                response = self.client.post(
+                    update_url,
+                    {
+                        "full_name": self.active_student.full_name,
+                        "date_of_birth": "2005-05-10",
+                        "gender": self.active_student.gender,
+                        "blood_group": "",
+                        "campus": self.active_student.campus_id,
+                        "status": "on",
+                        "marksheet_10": document,
+                    },
+                )
+
+                self.assertRedirects(
+                    response,
+                    reverse(
+                        "students:student_detail",
+                        args=[self.active_student.student_id],
+                    ),
+                )
+                saved_documents = DocumentDetails.objects.get(
+                    student=self.active_student,
+                )
+                saved_name = saved_documents.marksheet_10.name
+                self.assertTrue(
+                    Path(saved_documents.marksheet_10.path).is_file()
+                )
+
+                detail_response = self.client.get(
+                    reverse(
+                        "students:student_detail",
+                        args=[self.active_student.student_id],
+                    )
+                )
+                edit_response = self.client.get(update_url)
+
+                self.assertContains(detail_response, "10th marksheet")
+                self.assertContains(detail_response, saved_name)
+                self.assertContains(detail_response, "View / download")
+                self.assertContains(edit_response, "View current file")
+                self.assertContains(edit_response, 'name="marksheet_10"')
+
+                self.client.post(
+                    update_url,
+                    {
+                        "full_name": self.active_student.full_name,
+                        "date_of_birth": "2005-05-10",
+                        "gender": self.active_student.gender,
+                        "blood_group": "",
+                        "campus": self.active_student.campus_id,
+                        "status": "on",
+                    },
+                )
+                saved_documents.refresh_from_db()
+                self.assertEqual(saved_documents.marksheet_10.name, saved_name)
 
     def test_htmx_table_filters_by_search_course_department_and_status(self):
         response = self.client.get(

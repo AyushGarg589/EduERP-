@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db import transaction
 from django.views import View
+from django.utils import timezone
 
 
 from apps.students.models import (
@@ -38,7 +39,7 @@ class StudentListView(InstituteRequiredMixin, ListView):
         )
         context["departments"] = self.scope_queryset(
             Department.objects.all(),
-            "campus__institute",
+            "course__campus__institute",
         )
 
         return context
@@ -97,6 +98,11 @@ class StudentDetailView(InstituteRequiredMixin, DetailView):
     pk_url_kwarg = "student_id"
     tenant_lookup = "campus__institute"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["documents"] = getattr(self.object, "documents", None)
+        return context
+
 
 class StudentUpdateView(InstituteRequiredMixin, UpdateView):
     model = Student
@@ -133,11 +139,13 @@ class StudentUpdateView(InstituteRequiredMixin, UpdateView):
             "contact",
             None
         )
+        context["address"] = getattr(self.object, "address", None)
 
         # Current enrollment
         context["enrollment"] = (
             self.object.enrollments.first()
         )
+        context["documents"] = getattr(self.object, "documents", None)
 
         return context
 
@@ -154,7 +162,7 @@ class StudentUpdateView(InstituteRequiredMixin, UpdateView):
         campus = student_form.cleaned_data["campus"]
         if enrollment and (
             enrollment.course.campus_id != campus.campus_id
-            or enrollment.branch.campus_id != campus.campus_id
+            or enrollment.branch.course.campus_id != campus.campus_id
         ):
             student_form.add_error(
                 "campus",
@@ -163,6 +171,27 @@ class StudentUpdateView(InstituteRequiredMixin, UpdateView):
             return self.form_invalid(student_form)
 
         student = student_form.save()
+
+        address = getattr(student, "address", None)
+        address_fields = (
+            "address_line",
+            "city",
+            "state",
+            "country",
+            "pincode",
+        )
+        if address or any(field in request.POST for field in address_fields):
+            if address is None:
+                address = StudentAddress(student=student)
+
+            for field in address_fields:
+                value = request.POST.get(field)
+                if value is not None:
+                    setattr(address, field, value.strip())
+
+            if not address.country:
+                address.country = "India"
+            address.save()
 
         # Update Student Contact
         contact = getattr(student, "contact", None)
@@ -199,6 +228,32 @@ class StudentUpdateView(InstituteRequiredMixin, UpdateView):
             )
 
             enrollment.save()
+
+        document_fields = (
+            "marksheet_10",
+            "marksheet_12",
+            "aadhaar",
+            "migration_certificate",
+            "certificate",
+        )
+        uploaded_documents = {
+            field_name: request.FILES.get(field_name)
+            for field_name in document_fields
+            if request.FILES.get(field_name)
+        }
+        if uploaded_documents:
+            documents, _ = DocumentDetails.objects.get_or_create(student=student)
+            for field_name, uploaded_file in uploaded_documents.items():
+                setattr(documents, field_name, uploaded_file)
+            documents.uploaded_at = timezone.now()
+            documents.verified = False
+            documents.save(
+                update_fields=[
+                    *uploaded_documents,
+                    "uploaded_at",
+                    "verified",
+                ]
+            )
 
         messages.success(
             request,
@@ -241,9 +296,9 @@ class StudentCreateView(InstituteRequiredMixin, View):
 
                 department = Department.objects.filter(
                     pk=request.POST.get("branch"),
-                    campus=campus,
+                    course=course,
                 ).first()
-                if department is None or course.department_id != department.department_id:
+                if department is None:
                     raise ValueError("Select the department linked to the selected course.")
 
                 # -------------------------
@@ -326,7 +381,7 @@ class StudentCreateView(InstituteRequiredMixin, View):
             )
 
             return redirect(
-                "student_detail",
+                "students:student_detail",
                 student_id=student.student_id
             )
 
@@ -346,7 +401,7 @@ class StudentCreateView(InstituteRequiredMixin, View):
             "courses": self.scope_queryset(Course.objects.all(), "campus__institute"),
             "departments": self.scope_queryset(
                 Department.objects.all(),
-                "campus__institute",
+                "course__campus__institute",
             ),
         }
 
