@@ -39,6 +39,8 @@ urlpatterns = [
 
     path("faculty/", include("apps.faculty.urls")),
 
+    path("api/faculty/", include("apps.faculty.api_urls")),
+
     path("Institute/", include(("apps.institute_app.urls" , "institute") , namespace="institute")),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
