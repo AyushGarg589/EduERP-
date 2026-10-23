@@ -39,6 +39,10 @@ class AdminDashboardTests(TestCase):
             response,
             f'<a href="{reverse("students:student_list")}"><i class="fa-solid fa-user"></i><span>Student List</span></a>',
         )
+        self.assertContains(
+            response,
+            f'<a href="{reverse("faculty_list")}"><i class="fa-solid fa-user-tie"></i><span>Faculties</span></a>',
+        )
 
     def test_login_redirects_to_admin_dashboard(self):
         institute = Institute.objects.create(
