@@ -3,3 +3,4 @@ djangorestframework==3.18.3
 djangorestframework-simplejwt==5.5.1
 django-phonenumber-field[phonenumbers]   
 Pillow
+requests 
