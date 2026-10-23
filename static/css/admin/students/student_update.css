@@ -51,7 +51,8 @@
 }
 
 .student-update-form {
-    overflow: hidden;
+    position: relative;
+    overflow: visible;
     border: 1px solid var(--update-border);
     border-radius: 16px;
     background: #fff;
@@ -59,7 +60,16 @@
 }
 
 .student-update-section {
+    position: relative;
     padding: 23px 24px 25px;
+}
+
+.student-update-section:focus-within {
+    z-index: 5;
+}
+
+.student-location-section {
+    overflow: visible;
 }
 
 .student-update-section + .student-update-section {
@@ -114,6 +124,67 @@
     font: inherit;
     font-size: 13px;
     transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.student-update-field-full {
+    grid-column: 1 / -1;
+}
+
+.student-update-page .ts-wrapper {
+    min-width: 0;
+}
+
+.student-update-page .ts-control {
+    display: flex;
+    width: 100%;
+    min-height: 42px;
+    align-items: center;
+    padding: 9px 11px;
+    border: 1px solid #dfe7eb;
+    border-radius: 9px;
+    background: #fff;
+    color: #31485b;
+    font: inherit;
+    font-size: 13px;
+}
+
+.student-update-page .ts-control:focus-within {
+    border-color: #73b18c;
+    box-shadow: 0 0 0 3px rgba(46, 139, 87, .14);
+}
+
+.student-update-page .ts-dropdown {
+    z-index: 1000;
+    border-color: #dfe7eb;
+    border-radius: 9px;
+    background: #fff;
+    color: #31485b;
+    font-size: 13px;
+}
+
+.student-update-page .ts-dropdown .option.active,
+.student-update-page .ts-dropdown .option.active:hover {
+    background: #246b43;
+    color: #fff;
+}
+
+.student-update-page .ts-dropdown .option.selected {
+    background: #e0f1e6;
+    color: #17324d;
+    font-weight: 650;
+}
+
+.student-update-page .ts-dropdown .option.selected.active,
+.student-update-page .ts-dropdown .option.selected.active:hover {
+    background: #246b43;
+    color: #fff;
+}
+
+.student-update-page .ts-control > .item {
+    border-radius: 5px;
+    background: #e0f1e6;
+    color: #17324d;
+    font-weight: 650;
 }
 
 .student-update-field input:focus,
@@ -213,6 +284,51 @@
     color: var(--update-muted);
     font-size: 11px;
     line-height: 1.5;
+}
+
+.student-document-field {
+    padding: 12px;
+    border: 1px solid #edf1f3;
+    border-radius: 10px;
+    background: #fbfdfb;
+}
+
+.student-document-current {
+    color: var(--update-green);
+    font-size: 12px;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.student-document-current:hover {
+    text-decoration: underline;
+}
+
+.student-document-current.is-missing {
+    color: var(--update-muted);
+    font-weight: 400;
+}
+
+.student-update-field input[type="file"] {
+    width: 100%;
+    padding: 7px;
+    border: 1px dashed #cbd9d1;
+    border-radius: 9px;
+    background: #fff;
+    color: #526777;
+    font: inherit;
+    font-size: 12px;
+}
+
+.student-update-field input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 7px 10px;
+    border: 1px solid #dfe7eb;
+    border-radius: 7px;
+    background: #fff;
+    color: #526777;
+    font: inherit;
+    cursor: pointer;
 }
 
 .student-update-status {

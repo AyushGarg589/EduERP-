@@ -37,6 +37,41 @@
     font-size: 13px;
 }
 
+.student-heading-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 14px;
+}
+
+.student-add-button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 15px;
+    border: 1px solid var(--student-green);
+    border-radius: 9px;
+    background: var(--student-green);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 650;
+    text-decoration: none;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.student-add-button:hover {
+    border-color: #246f45;
+    background: #246f45;
+    color: #fff;
+}
+
+.student-add-button:focus-visible {
+    outline: 3px solid rgba(46, 139, 87, .25);
+    outline-offset: 2px;
+}
+
 .student-heading-mark {
     display: grid;
     width: 56px;
@@ -545,6 +580,17 @@
         flex-basis: 44px;
         border-radius: 13px;
         font-size: 18px;
+    }
+
+    .student-heading-actions {
+        gap: 8px;
+    }
+
+    .student-add-button {
+        min-height: 40px;
+        gap: 6px;
+        padding: 0 10px;
+        font-size: 12px;
     }
 
     .student-filter-card {

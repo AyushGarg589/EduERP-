@@ -1,0 +1,123 @@
+.faculty-delete-page {
+    width: min(100%, 900px);
+    margin: 0 auto;
+    color: #17324d;
+}
+
+.faculty-delete-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+    padding: clamp(22px, 5vw, 38px);
+    border: 1px solid #e6edf0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(23, 50, 77, .045);
+}
+
+.faculty-delete-icon {
+    display: grid;
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+    place-items: center;
+    border-radius: 14px;
+    background: #fff0ed;
+    color: #c94736;
+    font-size: 21px;
+}
+
+.faculty-delete-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.faculty-delete-content h1 {
+    margin: 0 0 12px;
+    font-size: clamp(23px, 3vw, 30px);
+    font-weight: 750;
+}
+
+.faculty-delete-warning {
+    margin: 0 0 8px;
+    color: #344c5f;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.faculty-delete-warning strong {
+    color: #17324d;
+}
+
+.faculty-delete-description {
+    max-width: 620px;
+    margin: 0;
+    color: #788895;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.faculty-delete-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 26px;
+}
+
+.faculty-delete-actions form {
+    margin: 0;
+}
+
+.faculty-cancel-button,
+.faculty-confirm-delete-button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.faculty-cancel-button {
+    border-color: #dfe7eb;
+    background: #fff;
+    color: #526777;
+}
+
+.faculty-confirm-delete-button {
+    background: #bd3c2d;
+    color: #fff;
+}
+
+.faculty-cancel-button:focus-visible,
+.faculty-confirm-delete-button:focus-visible {
+    outline: 3px solid rgba(46, 139, 87, .24);
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .faculty-delete-card {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .faculty-delete-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .faculty-delete-actions form,
+    .faculty-cancel-button,
+    .faculty-confirm-delete-button {
+        width: 100%;
+    }
+}

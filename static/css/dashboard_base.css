@@ -118,7 +118,7 @@ button, input, select, textarea { font: inherit; }
     transition: max-height .24s ease, opacity .2s ease, padding .2s ease;
 }
 
-.submenu.menu-open { max-height: 150px; padding-top: 4px; padding-bottom: 4px; opacity: 1; }
+.submenu.menu-open { max-height: 240px; padding-top: 4px; padding-bottom: 4px; opacity: 1; }
 .submenu li { margin: 0; padding: 0; list-style: none; }
 .submenu a { display: block; padding: 9px 10px; border-radius: 7px; color: #9eb0b9; font-size: 12px; text-decoration: none; transition: background .18s ease, color .18s ease; }
 .submenu a:hover, .submenu a[aria-current="page"] { background: rgba(255, 255, 255, .06); color: #fff; }
@@ -131,8 +131,8 @@ button, input, select, textarea { font: inherit; }
 .logout-form { width: 100%; margin: 0; }
 .logout-link { display: flex; width: 100%; min-height: 43px; align-items: center; gap: 11px; padding: 0 13px; appearance: none; border: 0; border-top: 1px solid rgba(255, 255, 255, .1); border-radius: 8px; background: transparent; color: #b9c8ce; font: inherit; font-size: 12px; font-weight: 600; line-height: 1.2; text-align: left; text-decoration: none; cursor: pointer; transition: background .18s ease, color .18s ease; }
 .logout-link i { width: 17px; flex: 0 0 17px; color: #92a7b1; text-align: center; transition: color .18s ease; }
-.logout-link:hover { background: rgba(255, 255, 255, .07); color: #fff; }
-.logout-link:hover i { color: var(--gold); }
+.logout-link:hover, .logout-link[aria-current="page"] { background: rgba(255, 255, 255, .07); color: #fff; }
+.logout-link:hover i, .logout-link[aria-current="page"] i { color: var(--gold); }
 .logout-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; color: #fff; }
 .logout-link:focus-visible i, .logout-link:active i { color: var(--gold); }
 .logout-link:active { background: rgba(237, 197, 121, .12); }

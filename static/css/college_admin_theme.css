@@ -38,6 +38,115 @@
     font-family: 'DM Sans', 'Segoe UI', sans-serif;
 }
 
+.dashboard-toast-region {
+    position: fixed;
+    z-index: 2000;
+    top: 22px;
+    right: 22px;
+    display: grid;
+    width: min(420px, calc(100vw - 32px));
+    gap: 10px;
+    pointer-events: none;
+}
+
+.dashboard-toast {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr) 30px;
+    align-items: center;
+    gap: 11px;
+    padding: 13px 12px 13px 15px;
+    border: 1px solid #cbded5;
+    border-left: 4px solid #397661;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(24, 49, 62, .16);
+    color: #18313e;
+    font: 500 13px/1.5 'DM Sans', 'Segoe UI', sans-serif;
+    pointer-events: auto;
+    animation: dashboard-toast-enter .22s ease-out both;
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+.dashboard-toast--success {
+    border-color: #cbded5;
+    border-left-color: #397661;
+}
+
+.dashboard-toast--success .dashboard-toast-icon {
+    color: #397661;
+}
+
+.dashboard-toast--error {
+    border-color: #efd0cd;
+    border-left-color: #b5473f;
+}
+
+.dashboard-toast--error .dashboard-toast-icon {
+    color: #b5473f;
+}
+
+.dashboard-toast--warning {
+    border-color: #f0dfb8;
+    border-left-color: #a97818;
+}
+
+.dashboard-toast--warning .dashboard-toast-icon {
+    color: #a97818;
+}
+
+.dashboard-toast--info .dashboard-toast-icon {
+    color: #47718a;
+}
+
+.dashboard-toast-icon {
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+}
+
+.dashboard-toast-message {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-toast-close {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #71818a;
+    cursor: pointer;
+}
+
+.dashboard-toast-close:hover {
+    background: #f1f5f3;
+    color: #18313e;
+}
+
+.dashboard-toast-close:focus-visible {
+    outline: 2px solid #397661;
+    outline-offset: 2px;
+}
+
+.dashboard-toast.is-dismissing {
+    opacity: 0;
+    transform: translateX(12px);
+}
+
+@keyframes dashboard-toast-enter {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 :is(.student-list, .student-form-page, .student-detail-page, .student-delete-page,
     .faculty-page, .faculty-add-page, .faculty-detail-page) h1,
 :is(.student-list, .student-form-page, .student-detail-page, .faculty-page, .faculty-add-page, .faculty-detail-page) h2,
@@ -136,7 +245,20 @@
 }
 
 @media (max-width: 560px) {
+    .dashboard-toast-region {
+        top: 12px;
+        right: 12px;
+        width: calc(100vw - 24px);
+    }
+
     :is(.student-page-heading, .faculty-page-header, .faculty-add-header, .student-detail-header, .faculty-detail-header) {
         align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-toast {
+        animation: none;
+        transition: none;
     }
 }
