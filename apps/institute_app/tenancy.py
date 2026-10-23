@@ -36,6 +36,8 @@ class InstituteRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             self.institute = get_user_institute(request.user)
+            if self.institute is None and not request.user.is_superuser:
+                raise PermissionDenied("An institute owner account is required.")
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -46,6 +48,26 @@ class InstituteRequiredMixin(LoginRequiredMixin):
 
     def scope_queryset(self, queryset, institute_lookup):
         return scope_queryset(queryset, self.request.user, institute_lookup)
+
+
+class InstituteOwnerRequiredMixin(InstituteRequiredMixin):
+    """Require a valid institute membership for institute setup pages."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and get_user_institute(request.user) is None:
+            raise PermissionDenied("An institute owner account is required.")
+        return super().dispatch(request, *args, **kwargs)
+
+
+class InstituteOwnerOrSuperuserRequiredMixin(InstituteRequiredMixin):
+    """Allow institute members and trusted Django superusers into course pages."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            institute = get_user_institute(request.user)
+            if institute is None and not request.user.is_superuser:
+                raise PermissionDenied("An institute owner account is required.")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ActiveInstitutePermission(BasePermission):
@@ -59,3 +81,17 @@ class ActiveInstitutePermission(BasePermission):
             return False
 
         return True
+
+class FacultyRequiredMixin(LoginRequiredMixin):
+    login_url = "public:login_page"
+
+    def dispatch(self, request, *args, **kwargs):
+        faculty = getattr(request.user, "faculty_profile", None)
+
+        if faculty is None or not faculty.status:
+            raise PermissionDenied("An active faculty account is required.")
+
+        request.faculty = faculty
+        return super().dispatch(request, *args, **kwargs)
+
+

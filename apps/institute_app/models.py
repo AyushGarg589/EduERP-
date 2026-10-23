@@ -1,5 +1,11 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
+
+
+def _course_name_key(value):
+    """Compare program names while ignoring spacing and punctuation variants."""
+    return "".join(character.casefold() for character in value if character.isalnum())
 
 
 class Institute(models.Model):
@@ -186,11 +192,12 @@ class Department(models.Model):
     # Department ki primary key
     department_id = models.BigAutoField(primary_key=True)
 
-    # Har department ek specific campus ke under hoga
-    campus = models.ForeignKey(
-        Campus,
+    # Each department belongs to one course; a course can have many departments.
+    course = models.ForeignKey(
+        "Course",
         on_delete=models.CASCADE,
-        related_name="departments"
+        related_name="departments",
+        null=True,
     )
 
     # Department ka unique code
@@ -243,13 +250,6 @@ class Course(models.Model):
 
     # Course ki primary key
     course_id = models.BigAutoField(primary_key=True)
-
-    # Course kis department ke under hai
-    department = models.ForeignKey(
-        Department,
-        on_delete=models.CASCADE,
-        related_name="courses"
-    )
 
     # Course kis campus mein offered hai
     campus = models.ForeignKey(
@@ -336,6 +336,25 @@ class Course(models.Model):
     def __str__(self):
         # Admin panel mein course ka naam show hoga
         return self.course_name
+
+    def clean(self):
+        super().clean()
+        if not self.course_name:
+            return
+
+        self.course_name = " ".join(self.course_name.split()).rstrip(" .")
+        if not self.campus_id:
+            return
+
+        name_key = _course_name_key(self.course_name)
+        duplicates = Course.objects.filter(campus_id=self.campus_id).exclude(pk=self.pk)
+        if any(_course_name_key(name) == name_key for name in duplicates.values_list("course_name", flat=True)):
+            raise ValidationError({
+                "course_name": (
+                    "This course already exists on this campus. Add its branches as "
+                    "departments under the existing course."
+                )
+            })
 
 
 class InstituteMembership(models.Model):

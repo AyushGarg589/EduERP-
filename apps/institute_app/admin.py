@@ -56,10 +56,17 @@ class CampusAdmin(PlatformAdmin):
 @admin.register(Department)
 class DepartmentAdmin(PlatformAdmin):
 
+    @admin.display(description="Campus")
+    def campus_name(self, obj):
+        if obj.course_id:
+            return obj.course.campus.campus_name
+        return "—"
+
     list_display = (
         "department_code",
         "department_name",
-        "campus",
+        "course",
+        "campus_name",
         "department_type",
         "status",
         "created_at",
@@ -69,10 +76,14 @@ class DepartmentAdmin(PlatformAdmin):
 @admin.register(Course)
 class CourseAdmin(PlatformAdmin):
 
+    @admin.display(description="Departments")
+    def department_list(self, obj):
+        return ", ".join(obj.departments.values_list("department_name", flat=True))
+
     list_display = (
         "course_code",
         "course_name",
-        "department",
+        "department_list",
         "campus",
         "course_type",
         "duration",
