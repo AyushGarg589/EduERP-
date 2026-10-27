@@ -98,8 +98,8 @@
         <div class="admin-action-list">
             <a href="{% url 'students:student_list' %}"><i class="fa-solid fa-user"></i><span>Student List</span></a>
             <a href="{% url 'faculty_list' %}"><i class="fa-solid fa-user-tie"></i><span>Faculties</span></a>
-            <a href="{% url 'institute:courses' as courses_url %}{{ courses_url|default:'#' }}"><i class="fa-solid fa-book-medical"></i><span>Courses</span></a>
-            <a href="{% url 'institute:campus' as campus_url %}{{ campus_url|default:'#' }}"><i class="fa-solid fa-school"></i><span>Campuses</span></a>
+            <a href="{% url 'institute:course_list' %}"><i class="fa-solid fa-book-medical"></i><span>Courses</span></a>
+            <a href="{% url 'institute:campus_list' %}"><i class="fa-solid fa-school"></i><span>Campuses</span></a>
         </div>
     </section>
 </div>
